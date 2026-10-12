@@ -1,0 +1,1265 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Kelw1n Promo</title>
+<link rel="stylesheet" href="fonts.css">
+<style>
+/* ============ TOKENS (как на сайте) ============ */
+:root{
+  --bg:#F4EFE6; --bg2:#EDE5D8; --ink:#1C1A17; --ink2:#5E5850; --ink3:#8E877C;
+  --clay:#D97757; --clay2:#C2603F; --peach:#F2BFA0; --lav:#CBC3F0; --sage:#BFD3B6; --sky:#BCD6EC; --strain:#FF5A1F; --bfv:#8E80E0;
+  --glass:rgba(255,255,255,.44); --glass2:rgba(255,255,255,.14); --glass-solid:rgba(255,255,255,.72);
+  --border:rgba(255,255,255,.78); --rim:rgba(255,255,255,.98); --hair:rgba(28,26,23,.08);
+  --shadow:0 24px 60px -24px rgba(90,55,25,.28), 0 2px 6px -2px rgba(90,55,25,.08);
+  --pill:#1C1A17; --pill-ink:#FAF7F2; --seg:rgba(255,255,255,.95); --scan-a:rgba(255,255,255,.72); --scan-b:rgba(255,255,255,.5);
+  --ring:rgba(28,26,23,.3); --nav-a:rgba(255,255,255,.66); --nav-b:rgba(255,255,255,.46);
+  --font:"Inter", system-ui, sans-serif;
+  --serif:"Instrument Serif", Georgia, serif;
+  --mono:"JetBrains Mono", ui-monospace, monospace;
+}
+.dark{
+  --bg:#141210; --bg2:#1C1916; --ink:#F3EEE6; --ink2:#B7AFA3; --ink3:#7E776D;
+  --glass:rgba(255,255,255,.075); --glass2:rgba(255,255,255,.02); --glass-solid:rgba(40,36,32,.8);
+  --border:rgba(255,255,255,.14); --rim:rgba(255,255,255,.4); --hair:rgba(255,255,255,.08);
+  --shadow:0 30px 70px -25px rgba(0,0,0,.7), 0 2px 6px -2px rgba(0,0,0,.4);
+  --pill:#F3EEE6; --pill-ink:#141210; --seg:rgba(255,255,255,.16); --scan-a:rgba(40,36,32,.86); --scan-b:rgba(28,25,22,.78);
+  --ring:rgba(255,255,255,.5); --nav-a:rgba(38,34,30,.82); --nav-b:rgba(24,21,18,.72);
+  color:var(--ink);
+}
+
+/* ============ BASE ============ */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#F4EFE6}
+body{font-family:var(--font);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased}
+em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:0}
+svg{overflow:visible}
+#stage{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;background:var(--bg)}
+.scene{position:absolute;inset:0;display:none;overflow:hidden}
+.cam{position:absolute;inset:0;transform-origin:50% 50%}
+.abs{position:absolute}
+.mk{display:inline-block;overflow:hidden;vertical-align:top}
+.mk > span{display:inline-block}
+
+/* ============ BACKGROUND ============ */
+.bg{position:absolute;inset:0;overflow:hidden}
+.blob{position:absolute;border-radius:50%;opacity:.8}
+.b1{width:1200px;height:1200px;left:-350px;top:-420px;background:radial-gradient(circle,var(--peach) 0%,rgba(242,191,160,0) 65%)}
+.b2{width:1060px;height:1060px;left:1240px;top:100px;background:radial-gradient(circle,var(--lav) 0%,rgba(203,195,240,0) 65%)}
+.b3{width:960px;height:960px;left:190px;top:600px;background:radial-gradient(circle,var(--sage) 0%,rgba(191,211,182,0) 65%)}
+.b4{width:770px;height:770px;left:1050px;top:500px;background:radial-gradient(circle,var(--sky) 0%,rgba(188,214,236,0) 65%)}
+.grain{position:absolute;inset:0;opacity:.035;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* ============ LIQUID GLASS ============ */
+.glass{
+  position:relative;isolation:isolate;
+  background:linear-gradient(140deg,var(--glass) 0%,var(--glass2) 100%);
+  -webkit-backdrop-filter:blur(24px) saturate(185%);backdrop-filter:blur(24px) saturate(185%);
+  border:1px solid var(--border);border-radius:28px;
+  box-shadow:inset 0 1px 0 var(--rim), inset 0 -10px 30px -18px rgba(255,255,255,.35), inset 0 0 0 .5px rgba(255,255,255,.15), var(--shadow);
+}
+.glass::before{
+  content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1.2px;pointer-events:none;z-index:2;
+  background:linear-gradient(135deg,var(--rim) 0%,rgba(255,255,255,0) 32%,rgba(255,255,255,0) 64%,rgba(255,255,255,.55) 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
+}
+.glass > *{position:relative;z-index:3}
+
+/* ============ COMMON ============ */
+.eyebrow{display:inline-flex;align-items:center;gap:12px;font-size:20px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}
+.eyebrow::before{content:"";width:28px;height:2px;background:currentColor}
+.badge{display:inline-flex;align-items:center;gap:12px;padding:11px 22px 11px 16px;border-radius:999px;font-size:19px;font-weight:600;color:var(--ink2)}
+.dot{width:10px;height:10px;border-radius:50%;background:#3DBE6B}
+.chip{display:flex;align-items:center;gap:13px;padding:15px 22px 15px 15px;border-radius:24px;font-size:18px;font-weight:600;white-space:nowrap;background:linear-gradient(140deg,var(--scan-a),var(--scan-b));line-height:1.3}
+.chip-ic{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;font-size:21px;color:#fff;flex:none}
+.chip small{display:block;font-weight:500;color:var(--ink3);font-size:14px}
+.orb{border-radius:50%;
+  background:radial-gradient(circle at 30% 25%,rgba(255,255,255,.95) 0 6%,rgba(255,255,255,.25) 18%,rgba(255,255,255,.05) 45%,rgba(255,255,255,.18) 75%,rgba(255,255,255,.55) 100%);
+  box-shadow:inset -6px -10px 20px rgba(255,255,255,.35),inset 4px 6px 12px rgba(255,255,255,.6),0 20px 40px -15px rgba(90,55,25,.35);border:1px solid rgba(255,255,255,.6)}
+.btn{display:inline-flex;align-items:center;gap:12px;padding:21px 34px;border-radius:999px;font-weight:600;font-size:21px}
+.btn svg{width:22px;height:22px}
+.btn-dark{background:var(--pill);color:var(--pill-ink);box-shadow:0 14px 30px -12px rgba(28,26,23,.55),inset 0 1px 0 rgba(255,255,255,.25)}
+.btn-glass{border-radius:999px}
+.tag{padding:10px 20px;border-radius:999px;font-size:19px;font-weight:600;color:var(--ink2);display:inline-block}
+
+/* ============ PHONE ============ */
+.phone{--pw:260px;position:relative;width:var(--pw);aspect-ratio:1178/2560;border-radius:calc(var(--pw)*.165);padding:calc(var(--pw)*.034);
+  background:linear-gradient(150deg,#4a4642 0%,#151311 30%,#0b0a09 70%,#3b3733 100%);
+  box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.12),inset 0 0 0 4px rgba(0,0,0,.6),0 50px 90px -35px rgba(60,30,5,.55),0 18px 36px -18px rgba(0,0,0,.45)}
+.phone::after{content:"";position:absolute;left:50%;top:calc(var(--pw)*.058);width:30%;height:calc(var(--pw)*.085);transform:translateX(-50%);border-radius:99px;background:#000;z-index:3}
+.screen{position:relative;width:100%;height:100%;border-radius:calc(var(--pw)*.135);overflow:hidden;background:#000}
+.screen::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(120deg,rgba(255,255,255,.14) 0%,rgba(255,255,255,0) 28%);z-index:4}
+.screen img{width:100%;height:100%;object-fit:cover;display:block}
+.shade{position:absolute;inset:0;background:#000;opacity:0;z-index:5;pointer-events:none}
+
+/* ============ BUTTERFLY SCREEN (как на сайте) ============ */
+.bfs{position:absolute;inset:0;background:linear-gradient(180deg,#FBF9F4,#F1ECFA);color:#1C1A17;font-size:calc(var(--pw)*.044);padding:3.6em 1.25em 1em;display:flex;flex-direction:column;gap:.85em;font-family:var(--font);line-height:1.5}
+.bfs-top{display:flex;justify-content:space-between;align-items:flex-end}
+.bfs-top b{font-size:2.1em;letter-spacing:-.04em;line-height:1}
+.bfs-top small{display:block;color:#8E877C;font-size:.85em;font-weight:500;margin-bottom:.2em;text-transform:uppercase;letter-spacing:.06em}
+.bfs-logo{width:2.6em;height:2.6em;border-radius:.8em;display:grid;place-items:center;background:linear-gradient(150deg,#E9E3FF,#9F92E8);color:#fff}
+.bfs-logo svg{width:1.7em;height:1.7em}
+.bfs-card{background:rgba(255,255,255,.85);border-radius:1.4em;padding:1em;box-shadow:0 .6em 1.6em -1em rgba(80,60,140,.35),inset 0 1px 0 #fff}
+.ringrow{display:flex;align-items:center;gap:1em}
+.ring{width:7.4em;height:7.4em;position:relative;flex:none}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:9;stroke-linecap:round}
+.ring .trk{stroke:#EEE9F8}
+.ring .val{stroke:url(#ringGrad);stroke-dasharray:289.03;stroke-dashoffset:289.03}
+.ring-c{position:absolute;inset:0;display:grid;place-content:center;text-align:center;line-height:1.2}
+.ring-c b{font-size:1.5em;letter-spacing:-.04em;line-height:1}
+.ring-c small{font-size:.72em;color:#8E877C}
+.kv{display:flex;flex-direction:column;gap:.45em;font-size:.92em}
+.kv div{display:flex;justify-content:space-between;gap:1em;color:#5E5850}
+.kv b{color:#1C1A17}
+.macros{display:grid;grid-template-columns:repeat(3,1fr);gap:.7em}
+.mac small{font-size:.75em;color:#8E877C;font-weight:600}
+.mac .bar{height:.42em;border-radius:9px;background:#EEE9F8;margin-top:.35em;overflow:hidden}
+.mac .bar i{display:block;height:100%;width:0;border-radius:9px}
+.mac:nth-child(1) .bar i{background:#8E80E0}.mac:nth-child(2) .bar i{background:#F2A65A}.mac:nth-child(3) .bar i{background:#6CC3A0}
+.mac b{font-size:.85em}
+.meal{display:flex;align-items:center;gap:.75em;padding:.55em .4em;margin:0 -.4em;border-bottom:1px solid #F0ECF6;border-radius:.8em}
+.meal:last-child{border:0}
+.meal .em{width:2.2em;height:2.2em;border-radius:.7em;background:#F4F0FD;display:grid;place-items:center;font-size:1.05em}
+.meal span{flex:1;font-weight:600;font-size:.95em}
+.meal b{font-size:.92em}
+.bfs-tab{margin-top:auto;display:flex;justify-content:space-around;align-items:center;padding:.6em;border-radius:2em;background:rgba(255,255,255,.75);box-shadow:0 .5em 1.4em -.8em rgba(80,60,140,.4),inset 0 1px 0 #fff}
+.bfs-tab i{width:1.4em;height:1.4em;border-radius:.45em;background:#DDD6F3;display:block}
+.bfs-tab .cam{width:3em;height:3em;border-radius:50%;background:linear-gradient(150deg,#B9AEF0,#7D6EDB);display:grid;place-items:center;color:#fff;box-shadow:0 .5em 1em -.4em rgba(125,110,219,.8)}
+.bfs-tab .cam svg{width:1.4em;height:1.4em}
+
+/* ============ LOADER ============ */
+#loader{position:absolute;inset:0;z-index:50;display:none;background:var(--bg)}
+#loader .bgl{position:absolute;inset:0}
+#ldInner{position:absolute;inset:0;display:grid;place-items:center}
+.ld-word{font-size:190px;font-weight:700;letter-spacing:-.05em;display:flex;line-height:1.1}
+.ld-word .mk{padding:0 .02em .04em}
+.ld-bar{width:300px;height:6px;border-radius:9px;background:var(--hair);overflow:hidden;margin:30px auto 0}
+.ld-bar i{display:block;height:100%;width:100%;background:var(--clay);transform-origin:left;transform:scaleX(0)}
+.ld-cap{text-align:center;margin-top:22px;font-family:var(--mono);font-size:20px;color:var(--ink3);letter-spacing:.08em}
+.ld-edge{position:absolute;left:0;right:0;height:6px;background:linear-gradient(90deg,var(--clay),var(--peach),var(--lav))}
+
+/* ============ HERO ============ */
+.hero-left{position:absolute;left:150px;top:200px;width:1000px}
+.hello{margin-top:34px;font-size:36px;color:var(--ink2);font-weight:500}
+.hero-name{font-size:300px;line-height:.88;font-weight:800;letter-spacing:-.065em;margin:4px 0 0 -12px;display:flex;padding-bottom:.08em;white-space:nowrap}
+.ch{display:inline-block;transform-origin:50% 90%;
+  background:linear-gradient(100deg,var(--ink) 0%,var(--ink) 35%,var(--clay) 50%,var(--ink) 65%,var(--ink) 100%);
+  background-size:600% 100%;-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-lead{margin-top:26px;font-size:46px;line-height:1.25;max-width:900px;letter-spacing:-.015em;font-weight:500}
+.hero-lead em{color:var(--clay);font-size:1.12em}
+.hero-sub{margin-top:18px;color:var(--ink3);font-family:var(--mono);font-size:21px;letter-spacing:.02em}
+.hero-cta{display:flex;gap:16px;margin-top:40px}
+.hero-visual{position:absolute;left:1150px;top:110px;width:700px;height:860px}
+.layer{position:absolute}
+
+/* ============ MARQUEE ============ */
+.mq-wrap{position:absolute;left:-400px;right:-400px;top:50%;transform:translateY(-50%) rotate(-7deg);display:flex;flex-direction:column;gap:6px}
+.mq{display:flex;width:max-content;white-space:nowrap}
+.mq span{font-size:170px;font-weight:800;letter-spacing:-.05em;padding:0 34px;display:flex;align-items:center;gap:68px;line-height:1.08}
+.mq span::after{content:"✦";font-size:.42em;color:var(--clay)}
+.mq.serif span{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--ink3);letter-spacing:-.01em}
+.mq.outline span{color:transparent;-webkit-text-stroke:2.5px var(--ink)}
+.mq.clay span{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--clay);letter-spacing:-.01em}
+#star{position:absolute;left:50%;top:50%;width:260px;height:260px;margin:-130px 0 0 -130px}
+
+/* ============ STRAIN ============ */
+#strain{background:#0D0B0A}
+.dbg{position:absolute;inset:0;overflow:hidden}
+.oglow{position:absolute;border-radius:50%}
+.og1{width:1300px;height:1300px;left:-300px;top:-500px;background:radial-gradient(circle,rgba(255,90,31,.32),rgba(255,90,31,0) 62%)}
+.og2{width:1100px;height:1100px;left:1100px;top:350px;background:radial-gradient(circle,rgba(255,138,80,.22),rgba(255,138,80,0) 62%)}
+.og3{width:900px;height:900px;left:500px;top:500px;background:radial-gradient(circle,rgba(203,195,240,.08),rgba(203,195,240,0) 62%)}
+.dgrid{position:absolute;inset:-200px;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:80px 80px;-webkit-mask:radial-gradient(circle at 50% 50%,#000,transparent 70%);mask:radial-gradient(circle at 50% 50%,#000,transparent 70%)}
+.s-title{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.app-icon{width:150px;height:150px;border-radius:40px;display:grid;place-items:center;position:relative;overflow:hidden}
+.app-icon svg{width:76px;height:76px;position:relative;z-index:3}
+.app-icon::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,rgba(255,255,255,.45),rgba(255,255,255,0) 45%);z-index:2}
+.icon-strain{background:linear-gradient(150deg,#FF8A50,var(--strain) 45%,#C83A08);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.55),inset 0 -6px 14px rgba(0,0,0,.18),0 30px 60px -18px rgba(255,90,31,.7)}
+.icon-bf{background:linear-gradient(150deg,#E9E3FF,#B9AEF0 50%,#8E80E0);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.7),inset 0 -6px 14px rgba(0,0,0,.12),0 30px 60px -18px rgba(142,128,224,.65)}
+.title-xl{font-size:300px;line-height:.9;font-weight:800;letter-spacing:-.06em;display:flex;white-space:nowrap}
+.title-xl .mk{padding:0 .03em .06em}
+.title-xl.strain .mk > span{background:linear-gradient(180deg,#F3EEE6 35%,var(--strain) 135%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tagline{font-size:54px;letter-spacing:-.03em;font-weight:600;line-height:1.15;margin-top:22px}
+.tagline .w{display:inline-block;margin-right:.24em}
+#strain .tagline em{color:var(--strain)}
+.tags{display:flex;gap:12px;margin-top:34px;justify-content:center}
+
+.car-left{position:absolute;left:150px;top:290px;width:600px}
+.car-num{font-family:var(--mono);font-size:24px;color:var(--strain);font-weight:500;height:36px;position:relative}
+.car-cap{position:relative;height:330px;margin-top:10px;overflow:hidden}
+.car-cap .cc{position:absolute;left:0;top:0;width:100%}
+.car-cap h3{font-size:96px;letter-spacing:-.045em;line-height:1.02;font-weight:800}
+.car-cap p{margin-top:22px;color:var(--ink2);font-size:31px;line-height:1.4;max-width:560px}
+.car-num span{position:absolute;left:0;top:0}
+.car-segs{display:flex;gap:10px;margin-top:34px;width:520px}
+.car-segs i{flex:1;height:6px;border-radius:9px;background:var(--hair);overflow:hidden;position:relative}
+.car-segs i b{position:absolute;inset:0;background:linear-gradient(90deg,var(--strain),#FFB38A);transform-origin:left;transform:scaleX(0)}
+.car-label{margin-top:26px;display:flex;align-items:center;gap:14px;font-size:22px;font-weight:700;letter-spacing:-.01em}
+.car-label .mini{width:44px;height:44px;border-radius:13px}
+.car-label .mini svg{width:24px;height:24px}
+#track{position:absolute;inset:0}
+.cphone{position:absolute;left:0;top:0}
+.cphone .phone{--pw:400px}
+.cchip{position:absolute;z-index:40}
+
+/* ============ BUTTERFLY ============ */
+#bf{background:linear-gradient(160deg,#FBF9F4 0%,#F3EEFB 55%,#E9E3FA 100%)}
+.lblob{position:absolute;border-radius:50%}
+.lb1{width:1100px;height:1100px;left:-300px;top:-450px;background:radial-gradient(circle,rgba(203,195,240,.9),rgba(203,195,240,0) 65%)}
+.lb2{width:900px;height:900px;left:1200px;top:450px;background:radial-gradient(circle,rgba(242,191,160,.55),rgba(242,191,160,0) 65%)}
+.lb3{width:800px;height:800px;left:700px;top:-300px;background:radial-gradient(circle,rgba(188,214,236,.6),rgba(188,214,236,0) 65%)}
+.bf-left{position:absolute;left:150px;top:150px;width:860px}
+.bf-head{display:flex;align-items:center;gap:26px}
+.bf-head .app-icon{width:120px;height:120px;border-radius:32px}
+.bf-head .app-icon svg{width:64px;height:64px}
+.title-xl.bf{font-size:210px;margin-top:22px}
+.title-xl.bf .mk > span{background:linear-gradient(180deg,var(--ink) 35%,#8E80E0 135%);-webkit-background-clip:text;background-clip:text;color:transparent}
+#bf .tagline{font-size:50px;margin-top:18px}
+#bf .tagline em{color:#8E80E0}
+.steps{list-style:none;margin-top:44px;display:flex;flex-direction:column;gap:24px}
+.steps li{display:grid;grid-template-columns:56px 1fr;gap:20px;align-items:center}
+.sn{width:56px;height:56px;border-radius:17px;display:grid;place-items:center;font-weight:700;font-size:21px;color:#7D6EDB}
+.steps h4{font-size:27px;letter-spacing:-.02em;line-height:1.2}
+.steps p{color:var(--ink2);font-size:20px;margin-top:2px;line-height:1.35}
+.bf-phone{position:absolute;left:1080px;top:110px}
+.bf-phone .phone{--pw:395px}
+.scan{position:absolute;left:1380px;top:400px;width:440px;padding:18px;border-radius:36px;z-index:4;background:linear-gradient(140deg,var(--scan-a),var(--scan-b))}
+.scan-head{display:flex;justify-content:space-between;align-items:center;padding:4px 8px 14px;font-size:19px;font-weight:700}
+.scan-head .ai{font-family:var(--mono);font-size:15px;padding:5px 10px;border-radius:9px;background:linear-gradient(135deg,#B9AEF0,#7D6EDB);color:#fff}
+.photo{position:relative;height:270px;border-radius:24px;overflow:hidden;background:radial-gradient(circle at 30% 20%,#8A6A52,#5B4332 70%)}
+.photo::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(95deg,rgba(255,255,255,.03) 0 6px,rgba(0,0,0,.04) 6px 14px)}
+.plate{position:absolute;left:50%;top:50%;width:226px;height:226px;margin:-113px 0 0 -113px;border-radius:50%;background:radial-gradient(circle,#FFFFFF 0 52%,#ECE8E2 53% 60%,#FAF8F5 61% 100%);box-shadow:0 14px 30px -8px rgba(0,0,0,.5)}
+.food{position:absolute;font-size:60px;line-height:1;filter:drop-shadow(0 4px 4px rgba(0,0,0,.25))}
+.f1{left:calc(50% - 84px);top:calc(50% - 68px)}
+.f2{left:calc(50% + 16px);top:calc(50% - 52px);font-size:54px}
+.f3{left:calc(50% - 35px);top:calc(50% + 8px);font-size:54px}
+.box{position:absolute;border:2.5px solid #fff;border-radius:14px;opacity:0;box-shadow:0 0 0 1px rgba(0,0,0,.1),0 0 22px rgba(185,174,240,.9)}
+.box span{position:absolute;left:-2px;top:-31px;font-size:14px;font-weight:700;padding:4px 9px;border-radius:8px;background:#fff;color:#1C1A17;white-space:nowrap;line-height:1.3}
+.bx1{left:calc(50% - 92px);top:calc(50% - 76px);width:78px;height:76px}
+.bx2{left:calc(50% + 8px);top:calc(50% - 60px);width:74px;height:72px}
+.bx3{left:calc(50% - 43px);top:calc(50% + 0px);width:74px;height:72px}
+.bx2 span{left:auto;right:-2px}
+.bx3 span{top:auto;bottom:-31px}
+.scanline{position:absolute;left:0;right:0;height:80px;top:-80px;background:linear-gradient(180deg,rgba(185,174,240,0),rgba(185,174,240,.55) 85%,#fff 100%);opacity:0}
+.corners{position:absolute;inset:14px;pointer-events:none}
+.corners i{position:absolute;width:26px;height:26px;border:3px solid #fff;opacity:.9}
+.corners i:nth-child(1){left:0;top:0;border-right:0;border-bottom:0;border-radius:9px 0 0 0}
+.corners i:nth-child(2){right:0;top:0;border-left:0;border-bottom:0;border-radius:0 9px 0 0}
+.corners i:nth-child(3){left:0;bottom:0;border-right:0;border-top:0;border-radius:0 0 0 9px}
+.corners i:nth-child(4){right:0;bottom:0;border-left:0;border-top:0;border-radius:0 0 9px 0}
+.status{display:flex;align-items:center;gap:10px;padding:16px 8px 8px;font-size:18px;font-weight:600;line-height:1.3}
+.spin{width:21px;height:21px;border-radius:50%;border:2.5px solid var(--hair);border-top-color:#8E80E0;position:relative;flex:none}
+.spin.found{border-color:#8E80E0;background:#8E80E0}
+.spin.done{border-color:#3DBE6B;background:#3DBE6B}
+.spin.done::after{content:"";position:absolute;left:5px;top:1.5px;width:5px;height:10px;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg)}
+.items{padding:2px 8px}
+.it{display:flex;justify-content:space-between;gap:10px;font-size:18px;padding:9px 0;border-bottom:1px solid var(--hair);opacity:0;line-height:1.3}
+.it span{color:var(--ink2)} .it span b{color:var(--ink);font-weight:600}
+.total{display:flex;justify-content:space-between;padding:13px 8px 5px;font-weight:700;font-size:21px}
+.total b{color:#8E80E0}
+
+/* ============ SKILLS ============ */
+.sk-head{position:absolute;left:150px;top:70px}
+.h2{font-size:76px;line-height:1;letter-spacing:-.045em;font-weight:700;margin-top:16px;white-space:nowrap}
+.h2 em{font-size:1.06em;color:var(--clay)}
+.h2 .w{display:inline-block;margin-right:.22em}
+.h2 .mk{padding-bottom:.16em;margin-bottom:-.16em}
+.bento{position:absolute;left:150px;top:268px;width:1620px;height:760px;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(3,1fr);gap:18px}
+.cell{padding:30px;border-radius:34px;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between}
+.cell h3{font-size:31px;letter-spacing:-.035em;line-height:1.1}
+.cell p{color:var(--ink2);font-size:18px;margin-top:8px;max-width:420px;line-height:1.4}
+.c-py{grid-column:span 2}
+.c-bl{grid-row:span 2}
+.c-cpp{grid-column:span 2}
+.c-cta{grid-column:span 2;background:linear-gradient(140deg,rgba(217,119,87,.94),rgba(194,96,63,.9))!important;color:#fff;border-color:rgba(255,255,255,.4)!important}
+.c-cta p{color:rgba(255,255,255,.88)}
+.code{font-family:var(--mono);font-size:17px;line-height:1.7;padding:16px 20px;border-radius:18px;background:rgba(28,26,23,.88);color:#E8E2D8;white-space:pre;overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,.08);min-height:2.7em}
+.code .k{color:#E99A7C}.code .f{color:#B9AEF0}.code .s{color:#A8D5A0}.code .c{color:#7E776D}
+.caret{display:inline-block;width:9px;height:19px;background:#E99A7C;vertical-align:-3px}
+.row-top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
+.gl{width:64px;height:64px;border-radius:19px;display:grid;place-items:center;font-family:var(--mono);font-weight:600;font-size:19px;flex:none}
+.gl svg{width:30px;height:30px}
+.ai-viz{position:relative;width:120px;height:120px;flex:none;align-self:flex-start}
+.ai-viz .core{position:absolute;inset:37px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#D97757 55%,#8E80E0);box-shadow:0 0 30px rgba(217,119,87,.6)}
+.ai-viz .orbit{position:absolute;inset:0;border:1.5px dashed var(--ink3);border-radius:50%;opacity:.5}
+.ai-viz .orbit::after{content:"";position:absolute;top:-6px;left:50%;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:var(--clay)}
+.ai-viz .orbit.o2{inset:18px}
+.ai-viz .orbit.o2::after{background:#8E80E0}
+.cube-wrap{flex:1;display:grid;place-items:center;perspective:800px}
+.cube{--h:75px;width:150px;height:150px;position:relative;transform-style:preserve-3d}
+.cube i{position:absolute;inset:0;border-radius:24px;border:1px solid rgba(255,255,255,.7);
+  background:linear-gradient(140deg,rgba(255,255,255,.55),rgba(255,255,255,.08));box-shadow:inset 0 0 30px rgba(255,255,255,.35)}
+.cube i:nth-child(1){transform:translateZ(var(--h));background-color:rgba(242,191,160,.45)}
+.cube i:nth-child(2){transform:rotateY(180deg) translateZ(var(--h));background-color:rgba(203,195,240,.45)}
+.cube i:nth-child(3){transform:rotateY(90deg) translateZ(var(--h));background-color:rgba(191,211,182,.5)}
+.cube i:nth-child(4){transform:rotateY(-90deg) translateZ(var(--h));background-color:rgba(188,214,236,.5)}
+.cube i:nth-child(5){transform:rotateX(90deg) translateZ(var(--h));background-color:rgba(217,119,87,.45)}
+.cube i:nth-child(6){transform:rotateX(-90deg) translateZ(var(--h));background-color:rgba(255,255,255,.35)}
+.browser{border-radius:16px;overflow:hidden;background:var(--glass-solid);box-shadow:0 10px 24px -14px rgba(0,0,0,.4);border:1px solid var(--border)}
+.browser .bar{display:flex;gap:6px;padding:10px 12px;border-bottom:1px solid var(--hair)}
+.browser .bar i{width:10px;height:10px;border-radius:50%;background:#E97B6B}.browser .bar i:nth-child(2){background:#EEC15A}.browser .bar i:nth-child(3){background:#6CC37A}
+.browser .bd{padding:12px;display:grid;grid-template-columns:2fr 1fr;gap:7px}
+.browser .bd span{height:16px;border-radius:6px;background:var(--hair)}
+.browser .bd span:first-child{grid-column:span 2;height:26px;background:linear-gradient(90deg,var(--peach),var(--lav))}
+.palette{display:flex;margin-top:4px}
+.palette i{width:54px;height:54px;border-radius:50%;border:2.5px solid var(--bg)}
+.palette i:nth-child(1){background:var(--clay)}.palette i:nth-child(2){background:var(--peach)}.palette i:nth-child(3){background:var(--lav)}.palette i:nth-child(4){background:var(--sage)}.palette i:nth-child(5){background:var(--ink)}
+.cta-arrow{width:66px;height:66px;border-radius:50%;background:#fff;color:var(--clay2);display:grid;place-items:center}
+.cta-arrow svg{width:26px;height:26px}
+
+/* ============ SITE (браузер) ============ */
+.site-cap{position:absolute;left:0;right:0;top:44px;text-align:center}
+.site-cap .t{font-size:40px;font-weight:700;letter-spacing:-.03em;margin-top:8px}
+.site-cap .t em{color:var(--clay);font-size:1.1em}
+#win{position:absolute;left:200px;top:150px;width:1520px;height:900px;border-radius:26px;overflow:hidden;transform-origin:50% 50%;
+  box-shadow:0 60px 120px -40px rgba(60,35,15,.45),0 0 0 1px rgba(28,26,23,.08)}
+.wbar{position:absolute;left:0;right:0;top:0;height:44px;display:flex;align-items:center;gap:8px;padding:0 18px;background:linear-gradient(180deg,#FBF8F3,#F1EBE1);border-bottom:1px solid rgba(28,26,23,.08);z-index:5}
+.wbar i{width:13px;height:13px;border-radius:50%;background:#EC6A5E}.wbar i:nth-child(2){background:#F4BF4F}.wbar i:nth-child(3){background:#61C554}
+.url{position:absolute;left:50%;top:8px;transform:translateX(-50%);height:28px;width:420px;border-radius:9px;background:rgba(28,26,23,.06);display:flex;align-items:center;justify-content:center;gap:8px;font-size:15px;font-weight:500;color:#5E5850}
+.url svg{width:12px;height:12px}
+.view{position:absolute;left:0;top:44px;width:1520px;height:856px;overflow:hidden}
+.vlayer{position:absolute;inset:0;overflow:hidden;background:var(--bg)}
+.vlayer .blob{opacity:.8}
+.vlayer.dark .blob{opacity:.38}
+.vb1{width:940px;height:940px;left:-270px;top:-330px;background:radial-gradient(circle,var(--peach) 0%,rgba(242,191,160,0) 65%)}
+.vb2{width:830px;height:830px;left:980px;top:80px;background:radial-gradient(circle,var(--lav) 0%,rgba(203,195,240,0) 65%)}
+.vb3{width:760px;height:760px;left:150px;top:480px;background:radial-gradient(circle,var(--sage) 0%,rgba(191,211,182,0) 65%)}
+.vb4{width:610px;height:610px;left:830px;top:400px;background:radial-gradient(circle,var(--sky) 0%,rgba(188,214,236,0) 65%)}
+.vimg{position:absolute;left:0;top:0;width:1520px;display:block}
+.vprog{position:absolute;left:0;top:0;height:3px;width:100%;transform-origin:left;transform:scaleX(0);background:linear-gradient(90deg,var(--clay),var(--peach),var(--lav));z-index:20}
+.snav{position:absolute;top:16px;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 8px 8px 18px;border-radius:999px;background:linear-gradient(140deg,var(--nav-a),var(--nav-b))}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-.02em;font-size:17px}
+.brand-mark{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;color:#fff;font-size:15px;font-weight:700;
+  background:linear-gradient(145deg,#E99A7C,var(--clay) 50%,var(--clay2));box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 4px 12px -4px rgba(217,119,87,.7)}
+.links{display:flex;gap:2px}
+.links a{padding:8px 14px;border-radius:999px;font-size:14px;font-weight:500;color:var(--ink2);text-decoration:none}
+.links a.active{color:var(--ink);background:var(--seg)}
+.nav-actions{display:flex;align-items:center;gap:6px;position:relative}
+.seg{position:relative;display:flex;padding:3px;border-radius:999px;background:var(--hair)}
+.seg-pill{position:absolute;top:3px;bottom:3px;left:3px;width:calc((100% - 6px)/2);border-radius:999px;background:var(--seg);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 3px 10px -3px rgba(0,0,0,.2)}
+.seg b{position:relative;z-index:1;flex:1;padding:6px 12px;border-radius:999px;font-size:13px;font-weight:600;color:var(--ink2)}
+.seg b.on{color:var(--ink)}
+.icon-btn{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;position:relative;color:var(--ink)}
+.icon-btn svg{width:18px;height:18px}
+.cursor{position:absolute;left:0;top:0;z-index:60;pointer-events:none}
+.cursor .rg{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;border:1.5px solid var(--ring);background:rgba(255,255,255,.1);
+  -webkit-backdrop-filter:blur(2px) saturate(180%);backdrop-filter:blur(2px) saturate(180%);box-shadow:inset 0 1px 1px rgba(255,255,255,.8),0 6px 20px -6px rgba(0,0,0,.25)}
+.cursor .ar{position:absolute;left:-3px;top:-2px;width:30px;height:30px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.3))}
+.cursor .pulse{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;border:2px solid var(--clay);opacity:0}
+
+/* ============ CONTACT ============ */
+.contact-card{position:absolute;left:260px;top:170px;width:1400px;height:740px;padding:84px 80px;border-radius:56px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.contact-card .h2{font-size:136px;line-height:1;margin-top:20px;white-space:normal}
+.contact-card .h2 .mk{padding-bottom:.12em;margin-bottom:-.12em}
+.contact-card .h2 em{font-size:1.06em}
+.c-sub{font-size:31px;color:var(--ink2);margin-top:26px;line-height:1.4}
+.cbtns{display:flex;justify-content:center;gap:18px;margin-top:52px}
+.cbtn{display:flex;align-items:center;gap:15px;padding:16px 30px 16px 16px;border-radius:999px;font-weight:600;font-size:22px;line-height:1.25}
+.cbtn .ci{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;color:#fff;flex:none}
+.cbtn .ci svg{width:25px;height:25px}
+.cbtn small{display:block;font-size:16px;color:var(--ink3);font-weight:500}
+.cbtn .txt{text-align:left}
+
+/* ============ END ============ */
+.end-row{position:absolute;left:0;right:0;top:330px;height:240px}
+#endMark{position:absolute;left:50%;top:30px;width:190px;height:190px;margin-left:-95px;border-radius:56px;display:grid;place-items:center;color:#fff;font-size:116px;font-weight:800;letter-spacing:-.05em;
+  background:linear-gradient(145deg,#E99A7C,var(--clay) 50%,var(--clay2));box-shadow:inset 0 2px 0 rgba(255,255,255,.6),0 30px 60px -20px rgba(217,119,87,.75)}
+#endShock{position:absolute;left:50%;top:125px;width:190px;height:190px;margin:-95px 0 0 -95px;border-radius:50%;border:3px solid var(--clay);opacity:0}
+#endWord{position:absolute;top:0;font-size:230px;font-weight:800;letter-spacing:-.065em;line-height:1;display:flex;padding-bottom:.08em}
+#endWord .mk{padding:0 .01em .06em}
+.end-sub{position:absolute;left:0;right:0;top:640px;display:flex;flex-direction:column;align-items:center;gap:22px}
+.end-url{font-family:var(--mono);font-size:30px;padding:14px 30px;border-radius:999px;font-weight:500}
+.end-url b{color:var(--clay);font-weight:500}
+.end-tags{font-size:28px;color:var(--ink2);font-weight:500;letter-spacing:-.01em}
+
+/* ============ OVERLAYS ============ */
+.slab{position:absolute;inset:0;z-index:90;display:none}
+#topProg{position:absolute;left:0;top:0;height:5px;width:100%;transform-origin:left;transform:scaleX(0);z-index:95;background:linear-gradient(90deg,var(--clay),var(--peach),var(--lav))}
+#fade{position:absolute;inset:0;z-index:99;background:var(--bg);opacity:0;pointer-events:none}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#B9AEF0"/><stop offset="1" stop-color="#7D6EDB"/></linearGradient>
+    <symbol id="i-bfly" viewBox="0 0 64 64">
+      <g class="wl" fill="currentColor"><path d="M31 30C26 18 14 8 8 11 2 14 6 27 24 31Z"/><path d="M31 33C22 34 12 40 14 48c2 7 12 4 17-10Z"/></g>
+      <g class="wr" fill="currentColor"><path d="M33 30C38 18 50 8 56 11c6 3 2 16-16 20Z"/><path d="M33 33c9 1 19 7 17 15-2 7-12 4-17-10Z"/></g>
+      <rect x="30.6" y="24" width="2.8" height="22" rx="1.4" fill="currentColor"/>
+      <path d="M32 25c-1-5-3-8-6-10M32 25c1-5 3-8 6-10" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-tg" viewBox="0 0 24 24"><path fill="currentColor" d="M21.4 4.2 2.9 11.4c-1.3.5-1.2 1.4-.2 1.7l4.7 1.5 1.8 5.5c.2.7.5.9 1 .9.4 0 .6-.2.9-.4l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.5c.3-1.3-.5-1.8-1.5-1.4ZM9.6 14.3l8.6-5.4c.4-.3.8-.1.5.2l-7.1 6.4-.3 3.1-1.7-4.3Z"/></symbol>
+    <symbol id="i-gh" viewBox="0 0 24 24"><path fill="currentColor" d="M12 .5C5.65.5.5 5.65.5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.37-3.87-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></g></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-dumb" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6.5 7v10M17.5 7v10M3.5 9.5v5M20.5 9.5v5M6.5 12h11"/></g></symbol>
+    <symbol id="i-cam" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4Z"/><circle cx="12" cy="13" r="3.5"/></g></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.2M12 19.8V22M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M2 12h2.2M19.8 12H22M4.9 19.1l1.6-1.6M17.5 6.5l1.6-1.6"/></g></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></g></symbol>
+    <symbol id="i-cursor" viewBox="0 0 24 24"><path d="M5 2.5v17.2l4.6-4.3 2.9 6.6 3-1.3-2.9-6.5h6.3Z" fill="#111" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+  </defs>
+</svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" id="mbDefs"><defs></defs></svg>
+
+<div id="stage">
+  <div class="bg" id="bg"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div><div class="blob b4"></div></div>
+
+  <!-- ===== 0. LOADER ===== -->
+  <section class="scene" id="loader">
+    <div class="bgl"></div>
+    <div id="ldInner"><div>
+      <div class="ld-word" id="ldWord"></div>
+      <div class="ld-bar"><i id="ldBar"></i></div>
+      <div class="ld-cap" id="ldCap">portfolio · 2026</div>
+    </div></div>
+    <div class="ld-edge" id="ldEdge"></div>
+  </section>
+
+  <!-- ===== 1. HERO ===== -->
+  <section class="scene" id="hero"><div class="cam" id="heroCam">
+    <div class="hero-left">
+      <div class="badge glass" id="hBadge"><span class="dot" id="hDot"></span><span>Открыт к новым проектам</span></div>
+      <p class="hello" id="hHello">Привет, я</p>
+      <h1 class="hero-name" id="hName"></h1>
+      <p class="hero-lead" id="hLead">Создаю приложения, Telegram-ботов и&nbsp;сайты, которые <em>приятно</em> использовать.</p>
+      <p class="hero-sub" id="hSub">Python · C++ · AI · UI/UX · Blender 3D</p>
+      <div class="hero-cta" id="hCta">
+        <span class="btn btn-dark">Смотреть проекты<svg><use href="#i-arrow"/></svg></span>
+        <span class="btn btn-glass glass"><svg><use href="#i-tg"/></svg><span>Написать в Telegram</span></span>
+      </div>
+    </div>
+    <div class="hero-visual" id="hVis">
+      <div class="layer" data-l="orb1" style="left:330px;top:-10px"><div class="orb" style="width:84px;height:84px"></div></div>
+      <div class="layer" data-l="orb2" style="left:-40px;top:170px"><div class="orb" style="width:52px;height:52px"></div></div>
+      <div class="layer" data-l="ph1" style="left:10px;top:50px"><div class="phone" style="--pw:320px"><div class="screen"><img src="../assets/strain/1.jpg" alt=""></div></div></div>
+      <div class="layer" data-l="ph2" style="left:370px;top:150px"><div class="phone" style="--pw:300px"><div class="screen">
+        <div class="bfs" style="padding-top:3.4em">
+          <div class="bfs-top"><div><small>Сегодня</small><b>Butterfly</b></div><div class="bfs-logo"><svg><use href="#i-bfly"/></svg></div></div>
+          <div class="bfs-card"><div class="ringrow">
+            <div class="ring"><svg viewBox="0 0 110 110"><circle class="trk" cx="55" cy="55" r="46"/><circle class="val" cx="55" cy="55" r="46" style="stroke-dashoffset:139"/></svg><div class="ring-c"><b>1 247</b><small>ккал</small></div></div>
+            <div class="kv"><div><span>Цель</span><b>2 400</b></div><div><span>Осталось</span><b>1 153</b></div></div>
+          </div></div>
+          <div class="bfs-card" style="padding:.4em 1em">
+            <div class="meal"><div class="em">🍳</div><span>Завтрак</span><b>397</b></div>
+            <div class="meal"><div class="em">🍝</div><span>Обед</span><b>640</b></div>
+            <div class="meal"><div class="em">🍎</div><span>Перекус</span><b>210</b></div>
+          </div>
+          <div class="bfs-tab"><i></i><i></i><div class="cam"><svg><use href="#i-cam"/></svg></div><i></i><i></i></div>
+        </div>
+      </div></div></div>
+      <div class="layer" data-l="chip1" style="left:-90px;top:560px;z-index:5"><div class="chip glass"><span class="chip-ic" style="background:linear-gradient(150deg,#FF8A50,#FF5A1F)">🔥</span><span>Новый рекорд · 100 кг<small>STRAIN</small></span></div></div>
+      <div class="layer" data-l="chip2" style="left:420px;top:40px;z-index:5"><div class="chip glass"><span class="chip-ic" style="background:linear-gradient(150deg,#B9AEF0,#7D6EDB)">📸</span><span>+397 ккал · завтрак<small>Butterfly AI</small></span></div></div>
+      <div class="layer" data-l="chip3" style="left:250px;top:770px;z-index:5"><div class="chip glass"><span class="chip-ic" style="background:linear-gradient(150deg,#5BC8F5,#2AA3E0)"><svg style="width:20px;height:20px"><use href="#i-tg"/></svg></span><span>Бот отвечает 24/7<small>Telegram · Python</small></span></div></div>
+      <div class="layer" data-l="orb3" style="left:640px;top:720px"><div class="orb" style="width:64px;height:64px"></div></div>
+    </div>
+  </div></section>
+
+  <!-- ===== 2. MARQUEE ===== -->
+  <section class="scene" id="mq"><div class="cam" id="mqCam">
+    <div class="mq-wrap" id="mqWrap">
+      <div class="mq"><span>Python</span><span>C++</span><span>Telegram Bots</span><span>Web</span><span>AI</span><span>UI/UX</span><span>Blender 3D</span></div>
+      <div class="mq serif"><span>apps that feel alive</span><span>pixel-perfect</span><span>smooth motion</span><span>AI inside</span><span>made with care</span></div>
+      <div class="mq outline"><span>Liquid Glass</span><span>Telegram Bots</span><span>Python</span><span>Blender 3D</span><span>C++</span><span>UI/UX</span></div>
+      <div class="mq clay"><span>made with care</span><span>smooth motion</span><span>pixel-perfect</span><span>apps that feel alive</span></div>
+    </div>
+  </div>
+  <svg id="star" viewBox="0 0 100 100"><path id="starPath" d="M50 0C54 34 66 46 100 50C66 54 54 66 50 100C46 66 34 54 0 50C34 46 46 34 50 0Z" fill="#D97757"/></svg>
+  </section>
+
+  <!-- ===== 3. STRAIN ===== -->
+  <section class="scene dark" id="strain"><div class="cam" id="sCam">
+    <div class="dbg"><div class="oglow og1" id="og1"></div><div class="oglow og2" id="og2"></div><div class="oglow og3"></div><div class="dgrid" id="dgrid"></div></div>
+    <div class="s-title" id="sTitle">
+      <div class="app-icon icon-strain" id="sIcon"><svg style="color:#fff"><use href="#i-dumb"/></svg></div>
+      <div class="eyebrow" id="sEye" style="margin-top:34px">Проект 01 · Фитнес</div>
+      <h2 class="title-xl strain" id="sWord" style="margin-top:14px"></h2>
+      <p class="tagline" id="sTag"></p>
+      <div class="tags" id="sTags"><span class="tag glass"><span>Дневник тренировок</span></span><span class="tag glass"><span>Авто-рекорды</span></span><span class="tag glass"><span>Аналитика</span></span><span class="tag glass"><span>Друзья по QR</span></span></div>
+    </div>
+    <div id="sCar" style="position:absolute;inset:0">
+      <div class="car-left" id="carLeft">
+        <div class="car-num" id="carNum"></div>
+        <div class="car-cap" id="carCap"></div>
+        <div class="car-segs" id="carSegs"><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i></div>
+        <div class="car-label"><span class="app-icon icon-strain mini" style="width:44px;height:44px;border-radius:13px"><svg style="color:#fff;width:24px;height:24px"><use href="#i-dumb"/></svg></span>STRAIN · iOS</div>
+      </div>
+      <div id="track"></div>
+      <div id="carChips"></div>
+    </div>
+  </div></section>
+
+  <!-- ===== 4. BUTTERFLY ===== -->
+  <section class="scene" id="bf"><div class="cam" id="bCam">
+    <div class="lblob lb1" id="lb1"></div><div class="lblob lb2" id="lb2"></div><div class="lblob lb3" id="lb3"></div>
+    <div class="bf-left">
+      <div class="bf-head">
+        <div class="app-icon icon-bf" id="bIcon"><svg style="color:#fff" viewBox="0 0 64 64" id="bIconSvg"><use href="#i-bfly"/></svg></div>
+        <div class="eyebrow" id="bEye">Проект 02 · AI + питание</div>
+      </div>
+      <h2 class="title-xl bf" id="bWord"></h2>
+      <p class="tagline" id="bTag"></p>
+      <ol class="steps" id="bSteps">
+        <li><div class="sn glass"><span>1</span></div><div><h4>Твои параметры</h4><p>Рост, вес, возраст и активность → норма калорий</p></div></li>
+        <li><div class="sn glass"><span>2</span></div><div><h4>Твоя цель</h4><p>Набор, сушка или поддержание — план на месяцы</p></div></li>
+        <li><div class="sn glass"><span>3</span></div><div><h4>Фото вместо весов</h4><p>AI находит продукты и сам записывает приём пищи</p></div></li>
+      </ol>
+    </div>
+    <div class="bf-phone" id="bPhone"><div class="phone"><div class="screen">
+      <div class="bfs">
+        <div class="bfs-top"><div><small>Сегодня</small><b>Дневник</b></div><div class="bfs-logo"><svg><use href="#i-bfly"/></svg></div></div>
+        <div class="bfs-card"><div class="ringrow">
+          <div class="ring"><svg viewBox="0 0 110 110"><circle class="trk" cx="55" cy="55" r="46"/><circle class="val" id="ringVal" cx="55" cy="55" r="46"/></svg><div class="ring-c"><b id="eaten">850</b><small>ккал</small></div></div>
+          <div class="kv"><div><span>Цель</span><b>2 400</b></div><div><span>Осталось</span><b id="left">1 550</b></div></div>
+        </div></div>
+        <div class="bfs-card macros">
+          <div class="mac"><small>Белки</small><div class="bar"><i id="mp"></i></div><b id="mpv"></b></div>
+          <div class="mac"><small>Жиры</small><div class="bar"><i id="mf"></i></div><b id="mfv"></b></div>
+          <div class="mac"><small>Углеводы</small><div class="bar"><i id="mc"></i></div><b id="mcv"></b></div>
+        </div>
+        <div class="bfs-card" style="padding:.4em 1em">
+          <div class="meal" id="mealB"><div class="em">🍳</div><span>Завтрак</span><b id="bVal">—</b></div>
+          <div class="meal"><div class="em">🍝</div><span>Обед</span><b>640</b></div>
+          <div class="meal"><div class="em">🍎</div><span>Перекус</span><b>210</b></div>
+        </div>
+        <div class="bfs-tab"><i></i><i></i><div class="cam"><svg><use href="#i-cam"/></svg></div><i></i><i></i></div>
+      </div>
+    </div></div></div>
+    <div class="scan glass" id="scan">
+      <div class="scan-head"><span>AI-анализ фото</span><span class="ai">AI</span></div>
+      <div class="photo">
+        <div class="plate"></div>
+        <span class="food f1">🍳</span><span class="food f2">🥑</span><span class="food f3">🍞</span>
+        <div class="box bx1"><span>Яичница</span></div>
+        <div class="box bx2"><span>Авокадо</span></div>
+        <div class="box bx3"><span>Тост</span></div>
+        <div class="scanline" id="scanline"></div>
+        <div class="corners" id="corners"><i></i><i></i><i></i><i></i></div>
+      </div>
+      <div class="status"><span class="spin" id="spin"></span><span id="scanStatus">Сканирую тарелку…</span></div>
+      <div class="items">
+        <div class="it"><span><b>Яичница</b> · 2 шт</span><b>180</b></div>
+        <div class="it"><span><b>Авокадо</b> · 70 г</span><b>112</b></div>
+        <div class="it"><span><b>Тост</b> · 40 г</span><b>105</b></div>
+      </div>
+      <div class="total"><span>Итого</span><b><span id="scanTotal">0</span> ккал</b></div>
+    </div>
+  </div></section>
+
+  <!-- ===== 5. SKILLS ===== -->
+  <section class="scene" id="skills"><div class="cam" id="kCam">
+    <div class="sk-head">
+      <div class="eyebrow" id="kEye">Что я умею</div>
+      <h2 class="h2" id="kTitle"></h2>
+    </div>
+    <div class="bento" id="bento">
+      <div class="cell glass c-py">
+        <div class="row-top"><div><h3>Python</h3><p>Боты, автоматизация, бэкенд и AI-интеграции.</p></div><div class="gl glass"><span>Py</span></div></div>
+        <div class="code" id="codePy"></div>
+      </div>
+      <div class="cell glass">
+        <div class="ai-viz"><div class="orbit" id="orb1"></div><div class="orbit o2" id="orb2"></div><div class="core" id="aiCore"></div></div>
+        <div><h3>AI</h3><p>Нейросети внутри продуктов.</p></div>
+      </div>
+      <div class="cell glass c-bl">
+        <div><h3>Blender 3D</h3><p>3D-модели, рендеры и визуализация — от иконки до сцены.</p></div>
+        <div class="cube-wrap"><div class="cube" id="cube"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+      </div>
+      <div class="cell glass">
+        <div class="gl" id="plane" style="background:linear-gradient(160deg,#5BC8F5,#2AA3E0);color:#fff;box-shadow:0 12px 24px -10px rgba(42,163,224,.7)"><svg><use href="#i-tg"/></svg></div>
+        <div><h3>Telegram-боты</h3><p>От автоответчиков до ботов с оплатой и AI.</p></div>
+      </div>
+      <div class="cell glass" id="cellWeb">
+        <div class="browser"><div class="bar"><i></i><i></i><i></i></div><div class="bd"><span id="shim"></span><span></span><span></span></div></div>
+        <div><h3>Сайты</h3><p>Живые и анимированные — как этот.</p></div>
+      </div>
+      <div class="cell glass">
+        <div class="palette" id="palette"><i></i><i></i><i></i><i></i><i></i></div>
+        <div><h3>Дизайн</h3><p>UI/UX в духе Apple.</p></div>
+      </div>
+      <div class="cell glass c-cpp">
+        <div class="row-top"><div><h3>C++</h3><p>Алгоритмы, производительность и то, как всё работает под капотом.</p></div><div class="gl glass"><span>C++</span></div></div>
+        <div class="code" id="codeCpp"></div>
+      </div>
+      <div class="cell glass c-cta">
+        <div><h3 style="font-size:40px">Есть задача?</h3><p>Расскажи идею — предложу решение и сроки.</p></div>
+        <div class="cta-arrow" id="ctaArrow"><svg><use href="#i-arrow"/></svg></div>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- ===== 6. SITE ===== -->
+  <section class="scene" id="site"><div class="cam" id="wCam">
+    <div class="site-cap" id="siteCap"><div class="eyebrow" style="justify-content:center">Веб · Liquid Glass</div><div class="t">Этот сайт — дизайн, анимации и код <em>с нуля</em></div></div>
+    <div id="win">
+      <div class="wbar"><i></i><i></i><i></i><div class="url"><svg><use href="#i-lock"/></svg>kelw1n.github.io</div></div>
+      <div class="view" id="view">
+        <div class="vlayer" id="vLight"></div>
+        <div class="vlayer dark" id="vDark"></div>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- ===== 7. CONTACT ===== -->
+  <section class="scene" id="contact"><div class="cam" id="cCam">
+    <div class="contact-card glass" id="cCard">
+      <div class="eyebrow" id="cEye">Контакты</div>
+      <h2 class="h2" id="cTitle"></h2>
+      <p class="c-sub" id="cSub">Пиши в Telegram — отвечаю быстро. Или на почту, если так удобнее.</p>
+      <div class="cbtns" id="cBtns">
+        <span class="cbtn glass"><span class="ci" style="background:linear-gradient(160deg,#5BC8F5,#2AA3E0)"><svg><use href="#i-tg"/></svg></span><span class="txt">Telegram<small>@keIw1n</small></span></span>
+        <span class="cbtn glass"><span class="ci" style="background:#1C1A17"><svg><use href="#i-gh"/></svg></span><span class="txt">GitHub<small>Kelw1n</small></span></span>
+        <span class="cbtn glass"><span class="ci" style="background:linear-gradient(160deg,#E99A7C,#C2603F)"><svg><use href="#i-mail"/></svg></span><span class="txt">Email<small>Kelw1nnnx1@gmail.com</small></span></span>
+      </div>
+    </div>
+    <div class="cursor" id="cCursor"><div class="pulse"></div><div class="rg"></div><svg class="ar"><use href="#i-cursor"/></svg></div>
+  </div></section>
+
+  <!-- ===== 8. END ===== -->
+  <section class="scene" id="end"><div class="cam" id="eCam">
+    <div class="end-row">
+      <div id="endShock"></div>
+      <div id="endWord"></div>
+      <div id="endMark">K</div>
+    </div>
+    <div class="end-sub">
+      <div class="end-url glass" id="endUrl"><span>kelw1n<b>.github.io</b></span></div>
+      <div class="end-tags" id="endTags">Приложения · Telegram-боты · Сайты · AI</div>
+    </div>
+  </div></section>
+
+  <!-- overlays -->
+  <div class="slab" id="slab1" style="background:var(--clay)"></div>
+  <div class="slab" id="slab2" style="background:var(--lav)"></div>
+  <div class="slab" id="slab3" style="background:#1C1A17"></div>
+  <div class="bg" style="z-index:96;pointer-events:none"><div class="grain"></div></div>
+  <div id="topProg"></div>
+  <div id="fade"></div>
+</div>
+
+<script>
+(() => {
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const DUR = 41.0, FPS = 60, DT = 1 / FPS;
+window.PROMO = { DUR, FPS };
+
+/* ---------- math ---------- */
+const clamp = (x, a = 0, b = 1) => x < a ? a : x > b ? b : x;
+const P = (t, a, b) => clamp((t - a) / (b - a));
+const L = (a, b, k) => a + (b - a) * k;
+const E = {
+  lin: x => x,
+  outCubic: x => 1 - Math.pow(1 - x, 3),
+  inCubic: x => x * x * x,
+  inOutCubic: x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2,
+  outQuart: x => 1 - Math.pow(1 - x, 4),
+  inOutQuart: x => x < .5 ? 8 * x ** 4 : 1 - Math.pow(-2 * x + 2, 4) / 2,
+  inOutQuint: x => x < .5 ? 16 * x ** 5 : 1 - Math.pow(-2 * x + 2, 5) / 2,
+  outExpo: x => x >= 1 ? 1 : 1 - Math.pow(2, -10 * x),
+  inExpo: x => x <= 0 ? 0 : Math.pow(2, 10 * x - 10),
+  inOutExpo: x => x <= 0 ? 0 : x >= 1 ? 1 : x < .5 ? Math.pow(2, 20 * x - 10) / 2 : (2 - Math.pow(2, -20 * x + 10)) / 2,
+  outBack: x => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); },
+  spring: x => x >= 1 ? 1 : 1 - Math.exp(-6.5 * x) * Math.cos(x * Math.PI * 2.6),
+  softSpring: x => x >= 1 ? 1 : 1 - Math.exp(-7.5 * x) * Math.cos(x * Math.PI * 1.7),
+  // как cubic-bezier(.2,.8,.1,1) на сайте
+  site: x => x >= 1 ? 1 : 1 - Math.pow(1 - x, 4.2),
+};
+const tw = (t, a, d, e = E.outExpo) => e(P(t, a, a + d));
+const fmt = n => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+const px = v => v.toFixed(2) + 'px';
+// скорость (px за кадр) для motion blur
+const vel = (f, t) => f(t) - f(t - DT);
+
+/* ---------- motion blur (направленный, через SVG-фильтр) ---------- */
+const mbDefs = $('#mbDefs defs');
+let mbN = 0;
+function mbFilter(){
+  const id = 'mb' + (mbN++);
+  mbDefs.insertAdjacentHTML('beforeend', `<filter id="${id}" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="0 0"/></filter>`);
+  const g = mbDefs.lastElementChild.firstElementChild;
+  return (el, sx, sy) => {
+    sx = Math.min(Math.abs(sx), 140); sy = Math.min(Math.abs(sy), 140);
+    if (sx + sy < .6) { el.style.filter = ''; return; }
+    g.setAttribute('stdDeviation', `${sx.toFixed(1)} ${sy.toFixed(1)}`);
+    el.style.filter = `url(#${id})`;
+  };
+}
+const BLUR_K = .42;
+
+/* ---------- helpers for split text ---------- */
+function splitMask(el, text, cls = ''){
+  el.innerHTML = [...text].map(c => `<span class="mk ${cls}"><span>${c === ' ' ? '&nbsp;' : c}</span></span>`).join('');
+  return $$('.mk > span', el);
+}
+function splitWords(el, html){
+  // html: слова через пробел, <em> допускается целиком внутри
+  const tmp = document.createElement('div'); tmp.innerHTML = html;
+  const out = [];
+  tmp.childNodes.forEach(n => {
+    if (n.nodeType === 3) n.textContent.split(/\s+/).filter(Boolean).forEach(w => out.push(`<span class="w">${w}</span>`));
+    else n.textContent.split(/\s+/).filter(Boolean).forEach(w => out.push(`<span class="w"><em>${w}</em></span>`));
+  });
+  for (let i = out.length - 1; i > 0; i--) if (/^<span class="w">[.,!?:;]<\/span>$/.test(out[i])) { out[i - 1] = out[i - 1].replace(/<\/span>$/, out[i].slice(16, -7) + '</span>'); out.splice(i, 1); }
+  el.innerHTML = out.join('');
+  return $$('.w', el);
+}
+function maskWords(el, lines){
+  // lines: массив строк html; каждое слово — в маске
+  el.innerHTML = lines.map(line => {
+    const tmp = document.createElement('div'); tmp.innerHTML = line;
+    const ws = [];
+    tmp.childNodes.forEach(n => {
+      const words = n.textContent.split(/\s+/).filter(Boolean);
+      words.forEach(w => {
+        if (/^[.,!?:;]$/.test(w) && ws.length) ws[ws.length - 1] += w;
+        else ws.push(n.nodeType === 3 ? w : `<em>${w}</em>`);
+      });
+    });
+    return '<div>' + ws.map(w => `<span class="mk"><span>${w}</span></span>`).join('<span style="display:inline-block;width:.24em"></span>') + '</div>';
+  }).join('');
+  return $$('.mk > span', el);
+}
+
+/* ================= SCENES ================= */
+const SCENES = [];
+const scene = (sel, a, b, fn) => SCENES.push({ el: $(sel), a, b, fn });
+
+/* ---------- background ---------- */
+const blobs = $$('#bg .blob');
+function renderBg(t){
+  const d = [[110, 90, .21, .17], [-120, 100, .18, .23], [90, -110, .16, .2], [100, 80, .24, .15]];
+  blobs.forEach((b, i) => {
+    const [ax, ay, fx, fy] = d[i];
+    b.style.transform = `translate(${px(Math.sin(t * fx * 2 + i) * ax)},${px(Math.sin(t * fy * 2 + i * 2) * ay)}) scale(${(1 + .08 * Math.sin(t * .4 + i)).toFixed(3)})`;
+  });
+}
+
+/* ---------- 0. LOADER ---------- */
+const ldLetters = splitMask($('#ldWord'), 'Kelw1n');
+const ldMB = mbFilter();
+scene('#loader', 0, 2.32, t => {
+  ldLetters.forEach((el, k) => {
+    const p = tw(t, .12 + k * .06, .8, E.site);
+    el.style.transform = `translateY(${((1 - p) * 110).toFixed(2)}%)`;
+  });
+  $('#ldBar').style.transform = `scaleX(${tw(t, .45, 1.05, E.inOutCubic).toFixed(4)})`;
+  const cap = P(t, .9, 1.35);
+  $('#ldCap').style.opacity = cap; $('#ldCap').style.transform = `translateY(${px((1 - E.outCubic(cap)) * 14)})`;
+  const outF = x => E.inOutQuint(P(x, 1.72, 2.3));
+  const o = outF(t);
+  $('#loader').style.clipPath = `inset(0 0 ${(o * 100).toFixed(3)}% 0)`;
+  const inner = $('#ldInner');
+  inner.style.transform = `translateY(${px(-o * 340)})`;
+  ldMB(inner, 0, vel(x => -outF(x) * 340, t) * BLUR_K);
+  const edge = $('#ldEdge');
+  edge.style.top = px(1080 * (1 - o) - 6);
+  edge.style.opacity = o > 0 && o < 1 ? 1 : 0;
+});
+
+/* ---------- 1. HERO ---------- */
+const hn = $('#hName');
+hn.innerHTML = [...'Kelw1n'].map((c, i) => `<span class="ch">${c}</span>`).join('');
+const chs = $$('.ch', hn);
+const layers = Object.fromEntries($$('#hVis .layer').map(el => [el.dataset.l, el]));
+const pan1 = t => E.inOutExpo(P(t, 7.52, 8.22));
+const heroMB = mbFilter();
+const RUB = [[0, 1, 1, 0], [.3, 1.25, .75, 0], [.45, .8, 1.2, 0], [.6, 1.1, .9, -6], [.75, .97, 1.03, 0], [1, 1, 1, 0]];
+function rubber(p){
+  if (p <= 0 || p >= 1) return [1, 1, 0];
+  for (let i = 1; i < RUB.length; i++) if (p <= RUB[i][0]) {
+    const a = RUB[i - 1], b = RUB[i], k = (p - a[0]) / (b[0] - a[0]), s = k * k * (3 - 2 * k);
+    return [L(a[1], b[1], s), L(a[2], b[2], s), L(a[3], b[3], s)];
+  }
+  return [1, 1, 0];
+}
+const fadeUp = (el, t, a, d = 1.0, dist = 34) => {
+  const p = tw(t, a, d, E.site);
+  el.style.opacity = P(t, a, a + d * .6).toFixed(3);
+  el.style.transform = `translateY(${px((1 - p) * dist)})`;
+};
+scene('#hero', 1.7, 8.3, t => {
+  fadeUp($('#hBadge'), t, 1.95);
+  $('#hDot').style.boxShadow = `0 0 0 ${px(((t * .5) % 1) * 12)} rgba(61,190,107,${(.6 * (1 - ((t * .5) % 1))).toFixed(3)})`;
+  fadeUp($('#hHello'), t, 2.05);
+  const shim = L(-140, 240, E.inOutCubic(P(t, 3.3, 4.9)));
+  chs.forEach((el, k) => {
+    const s = 2.1 + k * .075;
+    const p = tw(t, s, 1.15, E.site);
+    const [sx, sy, ry] = rubber(P(t, 5.45 + k * .085, 5.45 + k * .085 + .8));
+    el.style.opacity = P(t, s, s + .55).toFixed(3);
+    el.style.transform = `translateY(${((1 - p) * 105).toFixed(2)}%) rotate(${((1 - p) * 6).toFixed(2)}deg) translateY(${ry.toFixed(2)}%) scale(${sx.toFixed(3)},${sy.toFixed(3)})`;
+    el.style.backgroundPosition = `${(k * 20 + shim).toFixed(2)}% 0`;
+  });
+  fadeUp($('#hLead'), t, 2.55);
+  fadeUp($('#hSub'), t, 2.7);
+  fadeUp($('#hCta'), t, 2.82);
+  // визуал справа
+  const bob = (per, ph) => Math.sin((t + ph) / per * Math.PI * 2) * 13;
+  const par = d => [Math.sin(t * .7) * d * .45, Math.cos(t * .55) * d * .3];
+  const lay = (key, inP, extra, d, per, ph) => {
+    const el = layers[key]; const [dx, dy] = par(d);
+    el.style.transform = `translate(${px(dx)},${px(dy + bob(per, ph))}) ${extra}`;
+    el.style.opacity = Math.min(1, inP * 2.5).toFixed(3);
+  };
+  const p1 = tw(t, 2.2, 1.3, E.outExpo), p2 = tw(t, 2.38, 1.3, E.outExpo);
+  lay('ph1', p1, `translate(${px((1 - p1) * -160)},${px((1 - p1) * 760)}) rotate(${(-7 - (1 - p1) * 18).toFixed(2)}deg)`, -18, 7, 0);
+  lay('ph2', p2, `translate(${px((1 - p2) * 520)},${px((1 - p2) * 560)}) rotate(${(6 + (1 - p2) * 20).toFixed(2)}deg)`, 26, 8.5, -3);
+  [['chip1', 3.15, 40, 6], ['chip2', 3.35, -30, 7], ['chip3', 3.55, 55, 8.5]].forEach(([k, a, d, per]) => {
+    const p = tw(t, a, .9, E.spring);
+    lay(k, P(t, a, a + .4), `scale(${(.4 + .6 * p).toFixed(4)})`, d, per, -a);
+  });
+  [['orb1', 2.9, 70, 6], ['orb2', 3.0, -60, 8.5], ['orb3', 3.1, 35, 7]].forEach(([k, a, d, per]) => {
+    const p = tw(t, a, 1, E.spring);
+    lay(k, P(t, a, a + .4), `scale(${p.toFixed(4)})`, d, per, a);
+  });
+  // камера + вжух влево
+  const cam = $('#heroCam');
+  const x = -pan1(t) * 2150;
+  cam.style.transform = `translateX(${px(x)}) scale(${(1 + .03 * E.inOutCubic(P(t, 2.4, 7.5))).toFixed(4)})`;
+  heroMB(cam, vel(q => -pan1(q) * 2150, t) * BLUR_K, 0);
+});
+
+/* ---------- 2. MARQUEE ---------- */
+const mqRows = $$('#mqWrap .mq');
+mqRows.forEach(r => { r.innerHTML += r.innerHTML + r.innerHTML; });
+const mqMB = mbFilter();
+const zoomF = t => E.inExpo(P(t, 9.42, 10.02));
+scene('#mq', 7.6, 10.56, t => {
+  const cam = $('#mqCam');
+  const x = (1 - pan1(t)) * 2150;
+  const z = zoomF(t);
+  cam.style.transform = `translateX(${px(x)}) scale(${(1 + z * 2.6).toFixed(4)})`;
+  cam.style.opacity = (1 - P(t, 9.75, 10.0)).toFixed(3);
+  cam.style.visibility = t > 10.02 ? 'hidden' : 'visible';
+  const bx = vel(q => (1 - pan1(q)) * 2150, t) * BLUR_K;
+  const bz = z * 30;
+  mqMB(cam, bx + bz, bz);
+  const speeds = [-520, 430, -610, 380];
+  mqRows.forEach((r, i) => {
+    const w = r.scrollWidth / 3;
+    const base = (t - 7.6) * speeds[i];
+    const off = ((base % w) + w) % w;
+    r.style.transform = `translateX(${px(-off - (i % 2 ? w * .5 : 0))})`;
+  });
+  // звезда
+  const star = $('#star');
+  const sp = tw(t, 8.45, .9, E.spring);
+  const sc = sp * (1 + z * 42);
+  star.style.display = t > 8.45 ? 'block' : 'none';
+  star.style.transform = `scale(${sc.toFixed(4)}) rotate(${((t - 8.45) * 140 + z * 120).toFixed(2)}deg)`;
+  const c = P(t, 9.45, 9.95);
+  $('#starPath').setAttribute('fill', `rgb(${Math.round(L(217, 255, c))},${Math.round(L(119, 90, c))},${Math.round(L(87, 31, c))})`);
+});
+
+/* ---------- 3. STRAIN ---------- */
+const sLetters = splitMask($('#sWord'), 'STRAIN');
+const sTagW = splitWords($('#sTag'), 'Дневник тренировок, который <em>считает</em> <em>за</em> <em>тебя</em>.');
+const sTags = $$('#sTags .tag');
+const SHOTS = [
+  { t: 'Сегодня', d: 'План на день: упражнения, подходы, рабочие веса и прогресс недели.', chip: ['📋', '7 упражнений', 'План на сегодня', 'r'] },
+  { t: 'Тренировка', d: 'Серия активностей, цели и свои программы. Старт — одно касание.', chip: ['🔥', 'Серия · 1 неделя', 'Не пропускай зал', 'l'] },
+  { t: 'Активность', d: 'Объём, время и рекорды считаются сами. Плюс баланс по группам мышц.', chip: ['🏆', 'Новый рекорд · 100 кг', 'Присед · жим · тяга', 'r'] },
+  { t: 'Бро-трекер', d: 'Добавляй друзей по QR-коду и смотри их тренировки в реальном времени.', chip: ['👥', 'Друг онлайн', 'Сканируй QR', 'l'] },
+  { t: 'Профиль', d: 'Достижения, статистика и подписчики — мотивация не пропускать зал.', chip: ['⚡', '4 достижения', 'Ударная сессия', 'r'] },
+];
+const S = [12.0, 13.5, 15.0, 16.5, 18.0];
+$('#track').innerHTML = SHOTS.map((s, i) => `<div class="cphone"><div class="phone"><div class="screen"><img src="../assets/strain/${i + 1}.jpg" alt=""><div class="shade"></div></div></div></div>`).join('');
+$('#carCap').innerHTML = SHOTS.map(s => `<div class="cc"><h3>${s.t}</h3><p>${s.d}</p></div>`).join('');
+$('#carNum').innerHTML = SHOTS.map((s, i) => `<span>0${i + 1} / 05</span>`).join('');
+$('#carChips').innerHTML = SHOTS.map(s => `<div class="cchip"><div class="chip glass"><span class="chip-ic" style="background:linear-gradient(150deg,#FF8A50,#FF5A1F)">${s.chip[0]}</span><span>${s.chip[1]}<small>${s.chip[2]}</small></span></div></div>`).join('');
+const cphones = $$('#track .cphone'), shades = $$('#track .shade'), ccs = $$('#carCap .cc'), cnums = $$('#carNum span'), segs = $$('#carSegs b'), cchips = $$('#carChips .cchip');
+const PW = 400, PH = PW * 2560 / 1178;
+const posF = t => { let p = 0; for (let i = 1; i < S.length; i++) p += E.inOutExpo(P(t, S[i] - .3, S[i] + .25)); return p; };
+const trackMB = mbFilter(), sTitleMB = mbFilter(), sCarMB = mbFilter();
+const titleOut = t => E.inExpo(P(t, 11.55, 12.02));
+const carIn = t => E.outExpo(P(t, 11.72, 12.45));
+const SX = 1250, STEP = 340;
+scene('#strain', 9.97, 20.32, t => {
+  const sc = $('#strain');
+  const r = E.outQuart(P(t, 9.98, 10.55)) * 1150;
+  sc.style.clipPath = t < 10.55 ? `circle(${px(r)} at 960px 540px)` : '';
+  // фон
+  $('#og1').style.transform = `translate(${px(Math.sin(t * .5) * 120)},${px(Math.cos(t * .4) * 80)})`;
+  $('#og2').style.transform = `translate(${px(Math.cos(t * .45) * 140)},${px(Math.sin(t * .35) * 90)})`;
+  $('#dgrid').style.transform = `translate(${px(-(posF(t) * 60 + t * 6) % 80)},0)`;
+  // заголовок
+  const ti = $('#sTitle');
+  if (t < 12.05) {
+    ti.style.display = 'flex';
+    const ip = tw(t, 10.12, .85, E.spring);
+    $('#sIcon').style.transform = `scale(${ip.toFixed(4)}) rotate(${((1 - ip) * -50).toFixed(2)}deg)`;
+    fadeUp($('#sEye'), t, 10.3, .8, 20);
+    const ls = L(.1, -.06, tw(t, 10.25, 1.1, E.outExpo));
+    $('#sWord').style.letterSpacing = ls.toFixed(4) + 'em';
+    sLetters.forEach((el, k) => {
+      const p = tw(t, 10.25 + k * .05, .85, E.outExpo);
+      el.style.transform = `translateY(${((1 - p) * 115).toFixed(2)}%)`;
+    });
+    sTagW.forEach((el, k) => fadeUp(el, t, 10.62 + k * .045, .8, 26));
+    sTags.forEach((el, k) => {
+      const p = tw(t, 10.95 + k * .08, .8, E.spring);
+      el.style.opacity = P(t, 10.95 + k * .08, 11.2 + k * .08).toFixed(3);
+      el.style.transform = `scale(${(.5 + .5 * p).toFixed(4)})`;
+    });
+    ti.style.transform = `translateY(${px(-titleOut(t) * 1150)})`;
+    sTitleMB(ti, 0, vel(q => -titleOut(q) * 1150, t) * BLUR_K);
+  } else ti.style.display = 'none';
+  // карусель
+  const car = $('#sCar');
+  if (t > 11.7) {
+    car.style.display = 'block';
+    const ci = carIn(t);
+    const out = E.inOutCubic(P(t, 19.5, 20.3));
+    car.style.transform = `translateY(${px((1 - ci) * 1100)}) scale(${(1 - out * .08).toFixed(4)})`;
+    car.style.opacity = (1 - out * .5).toFixed(3);
+    sCarMB(car, 0, vel(q => (1 - carIn(q)) * 1100, t) * BLUR_K);
+    const pos = posF(t);
+    cphones.forEach((el, i) => {
+      const d = i - pos, a = Math.abs(d), sg = Math.sign(d);
+      const x = SX + sg * (STEP * Math.min(a, 1) + (sg < 0 ? 120 : 250) * Math.max(a - 1, 0));
+      const s = 1 - .24 * Math.min(a, 1.4);
+      el.style.transform = `translate(${px(x - PW / 2)},${px(540 - PH / 2)}) perspective(1400px) rotateY(${(clamp(-d * 32, -42, 42)).toFixed(2)}deg) scale(${s.toFixed(4)})`;
+      el.style.zIndex = String(20 - Math.round(a * 4));
+      shades[i].style.opacity = Math.min(a * .55, .78).toFixed(3);
+      el.style.opacity = sg < 0 ? clamp(1 - (a - 1) * 1.6).toFixed(3) : '1';
+      el.style.display = a > 2.6 || (sg < 0 && a > 1.65) ? 'none' : 'block';
+    });
+    trackMB($('#track'), vel(q => posF(q) * STEP, t) * BLUR_K * 1.2, 0);
+    ccs.forEach((el, i) => {
+      const rel = pos - i; const a = Math.abs(rel);
+      el.style.opacity = clamp(1 - a * 2.2).toFixed(3);
+      el.style.transform = `translateY(${px(-rel * 120)})`;
+      cnums[i].style.opacity = clamp(1 - a * 2.2).toFixed(3);
+      cnums[i].style.transform = `translateY(${px(-rel * 40)})`;
+    });
+    const fillT = q => { // заполнение сегментов по времени показа
+      let f = []; for (let i = 0; i < 5; i++) { const a = i === 0 ? 11.9 : S[i] - .05, b = i < 4 ? S[i + 1] - .3 : 19.4; f.push(P(q, a, b)); } return f; };
+    fillT(t).forEach((f, i) => segs[i].style.transform = `scaleX(${f.toFixed(4)})`);
+    const cl = $('#carLeft'); const lp = tw(t, 11.85, .9, E.outExpo);
+    cl.style.opacity = P(t, 11.85, 12.2).toFixed(3);
+    cl.style.transform = `translateX(${px((1 - lp) * -120)})`;
+    cchips.forEach((el, i) => {
+      const a = (i === 0 ? 12.15 : S[i] + .12), b = i < 4 ? S[i + 1] - .32 : 19.55;
+      const pin = tw(t, a, .8, E.spring), pout = E.inCubic(P(t, b, b + .18));
+      const vis = t > a && t < b + .2;
+      el.style.display = vis ? 'block' : 'none';
+      if (!vis) return;
+      const right = SHOTS[i].chip[3] === 'r';
+      const x = right ? SX + 120 : SX - 420, y = right ? 250 : 700;
+      el.style.left = px(x); el.style.top = px(y + Math.sin(t * 2.2 + i) * 8);
+      el.style.opacity = (Math.min(1, P(t, a, a + .25)) * (1 - pout)).toFixed(3);
+      el.style.transform = `scale(${(.5 + .5 * pin - pout * .3).toFixed(4)}) translateX(${px(pout * (right ? 200 : -200))})`;
+    });
+  } else car.style.display = 'none';
+});
+
+/* ---------- 4. BUTTERFLY ---------- */
+const bLetters = splitMask($('#bWord'), 'Butterfly');
+const bTagW = splitWords($('#bTag'), 'Сфоткай еду — <em>AI</em> <em>посчитает</em> остальное.');
+const bSteps = $$('#bSteps li');
+const boxes = $$('#scan .box'), items = $$('#scan .it');
+const C = 289.03;
+const G = { kcal: 2400, p: 150, f: 75, c: 290 }, BASE = { kcal: 850, p: 52, f: 30, c: 95 }, BRK = { kcal: 397, p: 22, f: 26, c: 20 };
+scene('#bf', 19.55, 26.05, t => {
+  const sc = $('#bf');
+  const r = E.inOutCubic(P(t, 19.55, 20.28)) * 1750;
+  sc.style.clipPath = t < 20.28 ? `circle(${px(r)} at 1560px 560px)` : '';
+  $('#bCam').style.transform = `scale(${(1 + .035 * E.inOutCubic(P(t, 20, 26))).toFixed(4)})`;
+  $('#lb1').style.transform = `translate(${px(Math.sin(t * .5) * 90)},${px(Math.cos(t * .4) * 70)})`;
+  $('#lb2').style.transform = `translate(${px(Math.cos(t * .45) * 110)},${px(Math.sin(t * .35) * 80)})`;
+  $('#lb3').style.transform = `translate(${px(Math.sin(t * .3) * 80)},${px(Math.cos(t * .5) * 60)})`;
+  const ip = tw(t, 19.95, .9, E.spring);
+  $('#bIcon').style.transform = `scale(${ip.toFixed(4)}) rotate(${((1 - ip) * 40).toFixed(2)}deg)`;
+  // взмахи крыльев
+  const flap = .55 + .45 * Math.abs(Math.cos(t * Math.PI / 1.6 * 2));
+  $$('#bf .wl, #bf .wr').forEach(g => g.setAttribute('transform', `translate(32 32) scale(${flap.toFixed(3)} 1) translate(-32 -32)`));
+  fadeUp($('#bEye'), t, 20.05, .8, 18);
+  bLetters.forEach((el, k) => {
+    const p = tw(t, 20.1 + k * .04, .85, E.outExpo);
+    el.style.transform = `translateY(${((1 - p) * 115).toFixed(2)}%)`;
+  });
+  bTagW.forEach((el, k) => fadeUp(el, t, 20.45 + k * .05, .8, 24));
+  bSteps.forEach((el, k) => {
+    const a = 20.85 + k * .16, p = tw(t, a, .9, E.outExpo);
+    el.style.opacity = P(t, a, a + .4).toFixed(3);
+    el.style.transform = `translateX(${px((1 - p) * -60)})`;
+  });
+  // телефон и скан
+  const pp = tw(t, 20.15, 1.0, E.outExpo);
+  $('#bPhone').style.transform = `translateY(${px((1 - pp) * 820 + Math.sin(t * 1.1) * 8)}) rotate(${((1 - pp) * 12).toFixed(2)}deg)`;
+  const sp = tw(t, 20.65, .95, E.softSpring);
+  const scan = $('#scan');
+  scan.style.transform = `translate(${px((1 - sp) * 760)},${px(Math.cos(t * 1.3) * 7)}) rotate(${((1 - sp) * 10).toFixed(2)}deg)`;
+  scan.style.opacity = P(t, 20.65, 20.9).toFixed(3);
+  const scanning = t > 21.0 && t < 22.5;
+  const sl = $('#scanline');
+  sl.style.opacity = scanning ? 1 : 0;
+  sl.style.top = px(-80 + (((t - 21.0) % .95) / .95) * 350);
+  $('#corners').style.inset = px(14 + (scanning ? 6 * (.5 - .5 * Math.cos((t - 21) / 1.2 * Math.PI * 2)) : 0));
+  const spin = $('#spin');
+  spin.className = 'spin' + (t >= 24.1 ? ' done' : t >= 22.5 ? ' found' : '');
+  spin.style.transform = t < 22.5 ? `rotate(${(t * 450).toFixed(1)}deg)` : '';
+  const st = $('#scanStatus');
+  const stTxt = t < 22.5 ? 'Сканирую тарелку…' : t < 24.1 ? 'Найдено 3 продукта' : 'Добавлено в завтрак';
+  if (st.textContent !== stTxt) st.textContent = stTxt;
+  const sa = t < 22.5 ? 20.9 : t < 24.1 ? 22.5 : 24.1;
+  st.style.opacity = P(t, sa, sa + .2).toFixed(3);
+  st.style.transform = `translateY(${px((1 - tw(t, sa, .5)) * 10)})`;
+  boxes.forEach((b, i) => {
+    const a = 22.5 + i * .15, p = tw(t, a, .7, E.spring);
+    b.style.opacity = P(t, a, a + .2).toFixed(3);
+    b.style.transform = `scale(${(1.35 - .35 * p).toFixed(4)})`;
+  });
+  items.forEach((it, i) => {
+    const a = 23.1 + i * .15, p = tw(t, a, .7, E.spring);
+    it.style.opacity = P(t, a, a + .25).toFixed(3);
+    it.style.transform = `translateX(${px((1 - p) * -16)})`;
+  });
+  $('#scanTotal').textContent = fmt(397 * E.outCubic(P(t, 23.1, 24.0)));
+  // телефон: дневник
+  const k = E.outCubic(P(t, 24.15, 25.15));
+  const cur = { kcal: BASE.kcal + BRK.kcal * k, p: BASE.p + BRK.p * k, f: BASE.f + BRK.f * k, c: BASE.c + BRK.c * k };
+  $('#ringVal').style.strokeDashoffset = (C * (1 - Math.min(cur.kcal / G.kcal, 1))).toFixed(2);
+  $('#eaten').textContent = fmt(cur.kcal);
+  $('#left').textContent = fmt(G.kcal - cur.kcal);
+  $('#mp').style.width = (cur.p / G.p * 100).toFixed(2) + '%';
+  $('#mf').style.width = (cur.f / G.f * 100).toFixed(2) + '%';
+  $('#mc').style.width = (cur.c / G.c * 100).toFixed(2) + '%';
+  $('#mpv').textContent = `${Math.round(cur.p)}/${G.p} г`;
+  $('#mfv').textContent = `${Math.round(cur.f)}/${G.f} г`;
+  $('#mcv').textContent = `${Math.round(cur.c)}/${G.c} г`;
+  $('#bVal').textContent = t >= 24.15 ? fmt(BRK.kcal * k) : '—';
+  const fl = P(t, 24.15, 25.6);
+  const fa = fl < .2 ? fl / .2 : 1 - (fl - .2) / .8;
+  $('#mealB').style.background = `rgba(237,232,253,${(fa * (fl > 0 && fl < 1 ? 1 : 0)).toFixed(3)})`;
+});
+
+/* ---------- slab-вжух (Butterfly → Навыки) ---------- */
+const slabs = [$('#slab1'), $('#slab2'), $('#slab3')];
+const SK = 300; // скос
+function renderSlabs(t){
+  const lead = [25.38, 25.46, 25.54], trail = [26.14, 26.07, 26.0], D = .44;
+  slabs.forEach((s, i) => {
+    const l = E.inOutCubic(P(t, lead[i], lead[i] + D)), r = E.inOutCubic(P(t, trail[i], trail[i] + D));
+    if (l <= 0 || r >= 1) { s.style.display = 'none'; return; }
+    s.style.display = 'block';
+    const X = v => L(-SK - 20, 1920 + SK + 20, v);
+    const lx = X(l), rx = X(r);
+    s.style.clipPath = `polygon(${px(rx + SK)} 0, ${px(lx + SK)} 0, ${px(lx)} 1080px, ${px(rx)} 1080px)`;
+  });
+}
+
+/* ---------- 5. SKILLS ---------- */
+const kTitleW = maskWords($('#kTitle'), ['Навыки, из которых <em>собираются продукты</em>.']);
+const cells = $$('#bento .cell');
+const DIRS = [[-1, -.6], [0, -1], [1, -.4], [-1, .2], [0, 1], [1, .5], [-.8, 1], [.9, 1]];
+const PY = [['k', 'async def'], ['', ' '], ['f', 'handle'], ['', '(msg):\n    reply = '], ['k', 'await'], ['', ' ai.'], ['f', 'answer'], ['', '(msg.text)\n    '], ['k', 'await'], ['', ' msg.'], ['f', 'answer'], ['', '(reply)  '], ['c', '# ✨']];
+const CPP = [['k', 'auto'], ['', ' '], ['f', 'best'], ['', ' = std::'], ['f', 'max_element'], ['', '(sets.'], ['f', 'begin'], ['', '(), sets.'], ['f', 'end'], ['', '()); '], ['c', '// PR 🏆']];
+const typed = (tokens, n, caret) => {
+  let out = '', left = n;
+  for (const [c, s] of tokens) {
+    if (left <= 0) break;
+    const ch = [...s].slice(0, left).join(''); left -= [...s].length;
+    const esc = ch.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+    out += c ? `<span class="${c}">${esc}</span>` : esc;
+  }
+  return out + (caret ? '<span class="caret"></span>' : '');
+};
+const lenOf = tk => tk.reduce((a, [, s]) => a + [...s].length, 0);
+const kMB = mbFilter();
+const zoomOut = t => E.inExpo(P(t, 29.55, 30.12));
+let webC = null;
+scene('#skills', 25.98, 30.15, t => {
+  if (!webC) { const c = $('#cellWeb'); const b = $('#bento'); webC = [b.offsetLeft + c.offsetLeft + c.offsetWidth / 2, b.offsetTop + c.offsetTop + c.offsetHeight / 2]; }
+  fadeUp($('#kEye'), t, 26.05, .8, 16);
+  kTitleW.forEach((el, k) => { const p = tw(t, 26.08 + k * .05, .8, E.outExpo); el.style.transform = `translateY(${((1 - p) * 115).toFixed(2)}%)`; });
+  cells.forEach((el, i) => {
+    const a = 26.12 + i * .065, p = tw(t, a, .95, E.spring);
+    const [dx, dy] = DIRS[i];
+    el.style.opacity = P(t, a, a + .25).toFixed(3);
+    el.style.transform = `translate(${px((1 - p) * dx * 420)},${px((1 - p) * dy * 300)}) rotate(${((1 - p) * dx * 8).toFixed(2)}deg) scale(${(.82 + .18 * p).toFixed(4)})`;
+  });
+  const caretOn = Math.floor(t * 2.4) % 2 === 0;
+  const nPy = Math.floor(lenOf(PY) * P(t, 26.65, 28.3));
+  $('#codePy').innerHTML = typed(PY, nPy, caretOn || nPy < lenOf(PY));
+  const nC = Math.floor(lenOf(CPP) * P(t, 27.1, 28.6));
+  $('#codeCpp').innerHTML = typed(CPP, nC, (caretOn || nC < lenOf(CPP)) && t > 27.1);
+  $('#orb1').style.transform = `rotate(${(t * 40).toFixed(2)}deg)`;
+  $('#orb2').style.transform = `rotate(${(-t * 70).toFixed(2)}deg)`;
+  $('#aiCore').style.transform = `scale(${(1 + .14 * Math.sin(t * 2.1)).toFixed(4)})`;
+  $('#cube').style.transform = `rotateX(-22deg) rotateY(${(t * 48).toFixed(2)}deg)`;
+  $('#plane').style.transform = `translate(${px(Math.sin(t * 1.85) * 6)},${px(-Math.abs(Math.sin(t * 1.85)) * 6)}) rotate(${(-Math.sin(t * 1.85) * 6).toFixed(2)}deg)`;
+  $('#shim').style.filter = `hue-rotate(${(Math.sin(t * 1.2) * 40 + 20).toFixed(1)}deg)`;
+  const pal = tw(t, 27.6, .9, E.spring);
+  $$('#palette i').forEach(i => i.style.marginRight = px(L(-16, 6, pal)));
+  const ar = tw(t, 28.5, .8, E.spring);
+  $('#ctaArrow').style.transform = `rotate(${(-45 * ar).toFixed(2)}deg) scale(${(1 + .08 * ar).toFixed(3)})`;
+  // зум в «Сайты»
+  const z = zoomOut(t);
+  const cam = $('#kCam');
+  cam.style.transformOrigin = `${px(webC[0])} ${px(webC[1])}`;
+  cam.style.transform = `scale(${(1 + z * 7).toFixed(4)})`;
+  cam.style.opacity = (1 - P(t, 29.95, 30.12)).toFixed(3);
+  kMB(cam, z * 22, z * 22);
+});
+
+/* ---------- 6. SITE ---------- */
+const SITE = { h: 8569, strain: 1116, butterfly: 2956 };
+const mkLayer = (el, theme) => {
+  el.innerHTML = `<div class="blob vb1"></div><div class="blob vb2"></div><div class="blob vb3"></div><div class="blob vb4"></div>
+    <img class="vimg" src="shots/site-${theme}.png" alt="">
+    <div class="snav glass">
+      <span class="brand"><span class="brand-mark">K</span><span>Kelw1n</span></span>
+      <nav class="links"><a>STRAIN</a><a>Butterfly</a><a>Навыки</a><a>Портфолио</a><a>Контакты</a></nav>
+      <div class="nav-actions"><div class="seg"><span class="seg-pill"></span><b class="on">RU</b><b>EN</b></div>
+      <span class="icon-btn"><svg><use href="#${theme === 'dark' ? 'i-sun' : 'i-moon'}"/></svg></span></div>
+    </div>
+    <div class="vprog"></div>
+    <div class="cursor"><div class="pulse"></div><div class="rg"></div><svg class="ar"><use href="#i-cursor"/></svg></div>`;
+};
+mkLayer($('#vLight'), 'light'); mkLayer($('#vDark'), 'dark');
+const VL = [$('#vLight'), $('#vDark')];
+const scrollF = t => L(0, SITE.strain - 92, E.inOutCubic(P(t, 30.85, 31.6))) + L(0, SITE.butterfly - SITE.strain, E.inOutCubic(P(t, 32.85, 33.55)));
+const wMB = mbFilter(), cMB = mbFilter();
+const pan2 = t => E.inOutExpo(P(t, 33.62, 34.3));
+const offIn = (el, anc) => { let x = 0, y = 0; while (el && el !== anc) { x += el.offsetLeft; y += el.offsetTop; el = el.offsetParent; } return [x, y]; };
+scene('#site', 29.85, 34.32, t => {
+  const ep = tw(t, 29.88, .75, E.outExpo);
+  const win = $('#win');
+  const tilt = 1 - E.inOutCubic(P(t, 30.2, 31.4));
+  win.style.transform = `perspective(2200px) rotateX(${((1 - ep) * 14 + tilt * 6).toFixed(3)}deg) rotateY(${((1 - ep) * -10 + tilt * -5).toFixed(3)}deg) scale(${(.9 * (.5 + .5 * ep)).toFixed(4)})`;
+  win.style.opacity = P(t, 29.88, 30.05).toFixed(3);
+  fadeUp($('#siteCap'), t, 30.15, .9, 22);
+  const sc = scrollF(t);
+  const navK = clamp(sc / 200);
+  const navW = L(1120, 900, E.inOutCubic(navK));
+  const active = sc > SITE.butterfly - 500 ? 1 : sc > SITE.strain - 500 ? 0 : -1;
+  // курсор: появляется, едет к кнопке темы, клик, уезжает
+  let btnXY = [0, 0];
+  VL.forEach((v, li) => {
+    $('.vimg', v).style.transform = `translateY(${px(-sc)})`;
+    const nav = $('.snav', v);
+    nav.style.width = px(navW); nav.style.left = px((1520 - navW) / 2);
+    $$('.links a', v).forEach((a, i) => a.classList.toggle('active', i === active));
+    $('.vprog', v).style.transform = `scaleX(${(sc / (SITE.h - 856)).toFixed(4)})`;
+    $$('.blob', v).forEach((b, i) => b.style.transform = `translate(${px(Math.sin(t * .4 + i) * 60)},${px(Math.cos(t * .33 + i * 2) * 50)})`);
+    if (li === 0) { const [x, y] = offIn($('.icon-btn', v), v); btnXY = [x + 19, y + 19]; }
+  });
+  const start = [1000, 640], tgt = btnXY, after = [880, 560];
+  const m1 = E.inOutCubic(P(t, 31.55, 32.1)), m2 = E.inOutCubic(P(t, 32.45, 33.0));
+  const cx = L(L(start[0], tgt[0], m1), after[0], m2), cy = L(L(start[1], tgt[1], m1), after[1], m2);
+  const hover = P(t, 31.95, 32.1) * (1 - P(t, 32.45, 32.6));
+  const click = P(t, 32.12, 32.22) * (1 - P(t, 32.22, 32.36));
+  const pulse = P(t, 32.18, 32.75);
+  VL.forEach(v => {
+    const cur = $('.cursor', v);
+    cur.style.transform = `translate(${px(cx)},${px(cy)})`;
+    cur.style.opacity = (P(t, 31.4, 31.6) * (1 - P(t, 33.3, 33.5))).toFixed(3);
+    const rg = $('.rg', cur);
+    const rs = (1 + .45 * hover) * (1 - .25 * click);
+    rg.style.transform = `scale(${rs.toFixed(4)})`;
+    rg.style.background = `rgba(217,119,87,${(.04 + .12 * hover).toFixed(3)})`;
+    const pu = $('.pulse', cur);
+    pu.style.opacity = (pulse > 0 && pulse < 1 ? 1 - pulse : 0).toFixed(3);
+    pu.style.transform = `scale(${(1 + pulse * 2.4).toFixed(3)})`;
+    $('.icon-btn', v).style.background = `rgba(255,255,255,${(.6 * hover).toFixed(3)})`;
+  });
+  // смена темы — круглое раскрытие из кнопки
+  const rv = E.inOutCubic(P(t, 32.2, 32.9));
+  const dark = $('#vDark');
+  dark.style.display = rv > 0 ? 'block' : 'none';
+  dark.style.clipPath = `circle(${px(rv * 1800)} at ${px(tgt[0])} ${px(tgt[1])})`;
+  // выход: вертикальный вжух вверх
+  const cam = $('#wCam');
+  cam.style.transform = `translateY(${px(-pan2(t) * 1250)})`;
+  wMB(cam, 0, vel(q => -pan2(q) * 1250, t) * BLUR_K);
+});
+
+/* ---------- 7. CONTACT ---------- */
+const cTitleW = maskWords($('#cTitle'), ['Есть идея?', '<em>Давай сделаем.</em>']);
+const cBtns = $$('#cBtns .cbtn');
+const collapse = t => E.inExpo(P(t, 37.3, 37.9));
+scene('#contact', 33.62, 37.95, t => {
+  const cam = $('#cCam');
+  const z = collapse(t);
+  cam.style.transform = `translateY(${px((1 - pan2(t)) * 1250)}) scale(${(1 - z * .96).toFixed(4)}) rotate(${(z * -14).toFixed(2)}deg)`;
+  cam.style.opacity = (1 - P(t, 37.75, 37.92)).toFixed(3);
+  cMB(cam, z * 18, vel(q => (1 - pan2(q)) * 1250, t) * BLUR_K + z * 18);
+  fadeUp($('#cEye'), t, 33.98, .8, 16);
+  cTitleW.forEach((el, k) => { const p = tw(t, 34.0 + k * .08, .9, E.outExpo); el.style.transform = `translateY(${((1 - p) * 115).toFixed(2)}%)`; });
+  fadeUp($('#cSub'), t, 34.45, .9, 22);
+  // курсор → Telegram, магнит, клик
+  const tb = cBtns[0];
+  const [bx, by] = offIn(tb, $('#cCam'));
+  const bc = [bx + 42, by + tb.offsetHeight / 2];
+  const m = E.inOutCubic(P(t, 35.45, 36.15));
+  const cx = L(1500, bc[0] + 4, m), cy = L(1000, bc[1] + 4, m);
+  const hov = P(t, 36.0, 36.15);
+  const pull = E.outCubic(hov);
+  cBtns.forEach((el, i) => {
+    const a = 34.85 + i * .12, p = tw(t, a, .9, E.spring);
+    el.style.opacity = P(t, a, a + .25).toFixed(3);
+    const mx = i === 0 ? pull * 10 : 0, my = i === 0 ? pull * 3 : 0;
+    const press = i === 0 ? P(t, 36.55, 36.62) * (1 - P(t, 36.62, 36.8)) : 0;
+    el.style.transform = `translate(${px(mx)},${px((1 - p) * 60 + my)}) scale(${((.6 + .4 * p) * (1 - .05 * press)).toFixed(4)})`;
+  });
+  const cur = $('#cCursor');
+  cur.style.transform = `translate(${px(cx)},${px(cy)})`;
+  cur.style.opacity = (P(t, 35.35, 35.55) * (1 - P(t, 37.1, 37.3))).toFixed(3);
+  const rg = $('.rg', cur);
+  rg.style.transform = `scale(${(1 + .45 * hov).toFixed(4)})`;
+  rg.style.background = `rgba(217,119,87,${(.04 + .12 * hov).toFixed(3)})`;
+  const pu = P(t, 36.6, 37.15);
+  $('.pulse', cur).style.opacity = (pu > 0 && pu < 1 ? 1 - pu : 0).toFixed(3);
+  $('.pulse', cur).style.transform = `scale(${(1 + pu * 2.4).toFixed(3)})`;
+});
+
+/* ---------- 8. END ---------- */
+const eLetters = splitMask($('#endWord'), 'Kelw1n');
+let endLayout = null;
+scene('#end', 37.7, DUR + 1, t => {
+  if (!endLayout) {
+    const w = $('#endWord').offsetWidth, mw = 190, gap = 46, total = mw + gap + w, x0 = (1920 - total) / 2;
+    endLayout = { markX: x0 + mw / 2, wordX: x0 + mw + gap };
+    $('#endWord').style.left = px(endLayout.wordX);
+  }
+  const mp = tw(t, 37.82, .95, E.spring);
+  const shift = E.inOutQuart(P(t, 38.3, 38.95));
+  const mark = $('#endMark');
+  mark.style.transform = `translateX(${px(L(0, endLayout.markX - 960, shift))}) scale(${mp.toFixed(4)}) rotate(${((1 - mp) * -120).toFixed(2)}deg)`;
+  const sh = P(t, 37.9, 38.75);
+  const shock = $('#endShock');
+  shock.style.opacity = (sh > 0 && sh < 1 ? (1 - sh) * .9 : 0).toFixed(3);
+  shock.style.transform = `scale(${(.6 + E.outCubic(sh) * 5).toFixed(3)})`;
+  eLetters.forEach((el, k) => {
+    const p = tw(t, 38.42 + k * .055, .9, E.outExpo);
+    el.style.transform = `translateY(${((1 - p) * 115).toFixed(2)}%)`;
+  });
+  fadeUp($('#endUrl'), t, 38.85, .9, 24);
+  fadeUp($('#endTags'), t, 39.0, .9, 24);
+  $('#eCam').style.transform = `scale(${(1 + .025 * E.inOutCubic(P(t, 38, DUR))).toFixed(4)})`;
+});
+
+/* ================= RENDER ================= */
+window.renderAt = t => {
+  renderBg(t);
+  for (const s of SCENES) {
+    const on = t >= s.a && t < s.b;
+    s.el.style.display = on ? 'block' : 'none';
+    if (on) s.fn(t);
+  }
+  renderSlabs(t);
+  $('#topProg').style.transform = `scaleX(${(t / DUR).toFixed(4)})`;
+  $('#fade').style.opacity = (E.inCubic(P(t, DUR - .55, DUR - .05))).toFixed(3);
+};
+window.promoReady = Promise.all([document.fonts.ready, ...[...document.images].map(i => i.decode().catch(() => {}))]);
+const q = new URLSearchParams(location.search);
+if (q.has('t')) promoReady.then(() => renderAt(parseFloat(q.get('t'))));
+else if (q.has('play')) promoReady.then(() => { const t0 = performance.now(); const f = () => { const t = ((performance.now() - t0) / 1000) % DUR; renderAt(t); requestAnimationFrame(f); }; f(); });
+else promoReady.then(() => renderAt(0));
+})();
+</script>
+</body>
+</html>
