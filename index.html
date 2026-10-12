@@ -1,0 +1,1418 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kelw1n Portfolio</title>
+<meta name="description" content="Kelw1n — разработчик приложений, Telegram-ботов и сайтов. STRAIN, Butterfly и другие проекты.">
+<meta name="theme-color" content="#F4EFE6">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23D97757'/%3E%3Ctext x='32' y='44' font-family='Arial' font-weight='700' font-size='34' text-anchor='middle' fill='white'%3EK%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --bg:#F4EFE6; --bg2:#EDE5D8; --ink:#1C1A17; --ink2:#5E5850; --ink3:#8E877C;
+  --clay:#D97757; --clay2:#C2603F; --peach:#F2BFA0; --lav:#CBC3F0; --sage:#BFD3B6; --sky:#BCD6EC; --strain:#FF5A1F;
+  --glass:rgba(255,255,255,.44); --glass2:rgba(255,255,255,.14); --glass-solid:rgba(255,255,255,.72);
+  --border:rgba(255,255,255,.78); --rim:rgba(255,255,255,.98); --hair:rgba(28,26,23,.08);
+  --shadow:0 24px 60px -24px rgba(90,55,25,.28), 0 2px 6px -2px rgba(90,55,25,.08);
+  --blob:.8; --grain:.06; --pill:#1C1A17; --pill-ink:#FAF7F2; --seg:rgba(255,255,255,.95); --scan-a:rgba(255,255,255,.72); --scan-b:rgba(255,255,255,.5); --ring:rgba(28,26,23,.3);
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", system-ui, "Segoe UI", sans-serif;
+  --serif: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  --ease: cubic-bezier(.2,.8,.1,1);
+  --spring: cubic-bezier(.5,1.7,.4,1);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#141210; --bg2:#1C1916; --ink:#F3EEE6; --ink2:#B7AFA3; --ink3:#7E776D;
+    --glass:rgba(255,255,255,.075); --glass2:rgba(255,255,255,.02); --glass-solid:rgba(40,36,32,.8);
+    --border:rgba(255,255,255,.14); --rim:rgba(255,255,255,.4); --hair:rgba(255,255,255,.08);
+    --shadow:0 30px 70px -25px rgba(0,0,0,.7), 0 2px 6px -2px rgba(0,0,0,.4);
+    --blob:.38; --grain:.08; --pill:#F3EEE6; --pill-ink:#141210; --seg:rgba(255,255,255,.16); --scan-a:rgba(40,36,32,.86); --scan-b:rgba(28,25,22,.78); --ring:rgba(255,255,255,.5);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#141210; --bg2:#1C1916; --ink:#F3EEE6; --ink2:#B7AFA3; --ink3:#7E776D;
+  --glass:rgba(255,255,255,.075); --glass2:rgba(255,255,255,.02); --glass-solid:rgba(40,36,32,.8);
+  --border:rgba(255,255,255,.14); --rim:rgba(255,255,255,.4); --hair:rgba(255,255,255,.08);
+  --shadow:0 30px 70px -25px rgba(0,0,0,.7), 0 2px 6px -2px rgba(0,0,0,.4);
+  --blob:.38; --grain:.08; --pill:#F3EEE6; --pill-ink:#141210; --seg:rgba(255,255,255,.16); --scan-a:rgba(40,36,32,.86); --scan-b:rgba(28,25,22,.78); --ring:rgba(255,255,255,.5);
+  color-scheme: dark;
+}
+
+/* ============ BASE ============ */
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.5;overflow-x:hidden;-webkit-font-smoothing:antialiased;transition:background .6s var(--ease),color .6s var(--ease)}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+img{display:block;max-width:100%}
+em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:0}
+::selection{background:var(--clay);color:#fff}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* ============ BACKGROUND ============ */
+.bg{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.blob{position:absolute;border-radius:50%;opacity:var(--blob);will-change:transform;transition:opacity .6s}
+.b1{width:62vmax;height:62vmax;left:-18vmax;top:-22vmax;background:radial-gradient(circle,var(--peach) 0%,rgba(242,191,160,0) 65%);animation:drift1 26s ease-in-out infinite alternate}
+.b2{width:55vmax;height:55vmax;right:-20vmax;top:5vmax;background:radial-gradient(circle,var(--lav) 0%,rgba(203,195,240,0) 65%);animation:drift2 30s ease-in-out infinite alternate}
+.b3{width:50vmax;height:50vmax;left:10vmax;bottom:-25vmax;background:radial-gradient(circle,var(--sage) 0%,rgba(191,211,182,0) 65%);animation:drift3 34s ease-in-out infinite alternate}
+.b4{width:40vmax;height:40vmax;right:5vmax;bottom:-10vmax;background:radial-gradient(circle,var(--sky) 0%,rgba(188,214,236,0) 65%);animation:drift1 28s ease-in-out infinite alternate-reverse}
+@keyframes drift1{to{transform:translate(12vmax,10vmax) scale(1.15)}}
+@keyframes drift2{to{transform:translate(-14vmax,12vmax) scale(.9)}}
+@keyframes drift3{to{transform:translate(10vmax,-12vmax) scale(1.1)}}
+.grain{position:absolute;inset:0;opacity:calc(var(--grain)*.5);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* ============ LIQUID GLASS ============ */
+.glass{
+  position:relative;isolation:isolate;
+  background:linear-gradient(140deg,var(--glass) 0%,var(--glass2) 100%);
+  -webkit-backdrop-filter:blur(24px) saturate(185%);backdrop-filter:blur(24px) saturate(185%);
+  border:1px solid var(--border);border-radius:28px;
+  box-shadow:inset 0 1px 0 var(--rim), inset 0 -10px 30px -18px rgba(255,255,255,.35), inset 0 0 0 .5px rgba(255,255,255,.15), var(--shadow);
+}
+.glass::before{ /* specular rim */
+  content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1.2px;pointer-events:none;z-index:2;
+  background:linear-gradient(135deg,var(--rim) 0%,rgba(255,255,255,0) 32%,rgba(255,255,255,0) 64%,rgba(255,255,255,.55) 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
+}
+.glass::after{ /* cursor caustic */
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:1;opacity:0;transition:opacity .5s;
+  background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.2),rgba(255,255,255,0) 45%);
+}
+.glass:hover::after{opacity:1}
+
+/* ============ CURSOR ============ */
+.cursor-ring{position:fixed;left:0;top:0;pointer-events:none;z-index:9999;border-radius:50%;opacity:0;will-change:transform}
+.cursor-ring{width:40px;height:40px;margin:-20px 0 0 -20px;border:1px solid var(--ring);
+  background:rgba(255,255,255,.08);-webkit-backdrop-filter:blur(2px) saturate(180%) contrast(1.1);backdrop-filter:blur(2px) saturate(180%) contrast(1.1);
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.8),0 6px 20px -6px rgba(0,0,0,.25);transition:width .45s var(--spring),height .45s var(--spring),margin .45s var(--spring),opacity .3s}
+.cursor-ring.hover{width:64px;height:64px;margin:-32px 0 0 -32px;background:rgba(217,119,87,.12)}
+body.has-cursor .cursor-ring{opacity:1}
+
+/* ============ LOADER ============ */
+.loader{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;background:var(--bg);transition:clip-path 1.1s cubic-bezier(.8,0,.2,1);clip-path:inset(0 0 0 0)}
+.loader.out{clip-path:inset(0 0 100% 0)}
+.loader-word{font-size:clamp(40px,8vw,88px);font-weight:700;letter-spacing:-.05em;display:flex;overflow:hidden}
+.loader-word span{display:inline-block;transform:translateY(110%);animation:ldup .8s var(--ease) forwards}
+.loader-bar{width:160px;height:4px;border-radius:9px;background:var(--hair);overflow:hidden;margin:22px auto 0}
+.loader-bar i{display:block;height:100%;width:100%;background:var(--clay);transform-origin:left;transform:scaleX(0);animation:ldbar 1s var(--ease) .2s forwards}
+@keyframes ldup{to{transform:none}}
+@keyframes ldbar{to{transform:scaleX(1)}}
+
+/* ============ PROGRESS + NAV ============ */
+.progress{position:fixed;left:0;top:0;height:3px;width:100%;z-index:200;transform-origin:left;transform:scaleX(0);background:linear-gradient(90deg,var(--clay),var(--peach),var(--lav))}
+.nav{position:fixed;z-index:100;top:16px;left:50%;transform:translateX(-50%);width:min(1120px,calc(100% - 32px));
+  display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 8px 8px 18px;border-radius:999px;transition:top .5s var(--ease),width .6s var(--ease),padding .5s}
+.nav.scrolled{width:min(900px,calc(100% - 32px))}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-.02em;font-size:17px;position:relative;z-index:3}
+.brand-mark{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;color:#fff;font-size:15px;
+  background:linear-gradient(145deg,#E99A7C,var(--clay) 50%,var(--clay2));box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 4px 12px -4px rgba(217,119,87,.7)}
+.links{display:flex;gap:2px;position:relative;z-index:3}
+.links a{padding:8px 14px;border-radius:999px;font-size:14px;font-weight:500;color:var(--ink2);transition:color .3s,background .3s}
+.links a:hover,.links a.active{color:var(--ink);background:var(--seg)}
+.nav-actions{display:flex;align-items:center;gap:6px;position:relative;z-index:3}
+.icon-btn{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;transition:background .3s,transform .4s var(--spring)}
+.icon-btn:hover{background:var(--seg);transform:scale(1.08)}
+.icon-btn svg{width:18px;height:18px}
+.i-sun{display:none}
+:root[data-theme="dark"] .i-sun{display:block} :root[data-theme="dark"] .i-moon{display:none}
+.menu-btn{display:none}
+
+/* segmented control (liquid pill) */
+.seg{position:relative;display:flex;padding:3px;border-radius:999px;background:var(--hair)}
+.seg-pill{position:absolute;top:3px;bottom:3px;left:3px;width:calc((100% - 6px)/var(--n,2));border-radius:999px;background:var(--seg);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 3px 10px -3px rgba(0,0,0,.2);transform:translateX(calc(var(--i,0)*100%));transition:transform .6s var(--spring)}
+.seg-pill.wobble{animation:wobble .6s var(--ease)}
+@keyframes wobble{30%{scale:1.18 .86}60%{scale:.94 1.06}100%{scale:1 1}}
+.seg button{position:relative;z-index:1;flex:1;padding:6px 12px;border-radius:999px;font-size:13px;font-weight:600;color:var(--ink2);transition:color .3s}
+.seg button.on{color:var(--ink)}
+.mnav{position:fixed;z-index:99;top:76px;left:16px;right:16px;padding:10px;display:none;flex-direction:column;gap:2px;border-radius:24px;
+  opacity:0;transform:translateY(-10px) scale(.97);transition:opacity .35s,transform .45s var(--spring);pointer-events:none}
+.mnav.open{opacity:1;transform:none;pointer-events:auto}
+.mnav a{padding:14px 16px;border-radius:16px;font-weight:600;font-size:17px;position:relative;z-index:3}
+.mnav a:active{background:var(--seg)}
+
+/* ============ BUTTONS ============ */
+.btn{position:relative;display:inline-flex;align-items:center;gap:10px;padding:16px 26px;border-radius:999px;font-weight:600;font-size:15px;
+  transition:transform .5s var(--spring),box-shadow .4s;will-change:transform}
+.btn-dark{background:var(--pill);color:var(--pill-ink);box-shadow:0 14px 30px -12px rgba(28,26,23,.55),inset 0 1px 0 rgba(255,255,255,.25)}
+.btn-dark:hover{box-shadow:0 20px 40px -14px rgba(28,26,23,.6),inset 0 1px 0 rgba(255,255,255,.25)}
+.btn-glass{border-radius:999px}
+.btn-glass > *{position:relative;z-index:3}
+.btn svg{width:18px;height:18px;transition:transform .4s var(--spring)}
+.btn:hover svg{transform:translateX(3px)}
+.btn .lbl{position:relative;z-index:3}
+
+/* ============ HERO ============ */
+.hero{min-height:100vh;min-height:100svh;display:grid;align-items:center;padding:130px 0 80px;position:relative}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center}
+.badge{display:inline-flex;align-items:center;gap:10px;padding:8px 16px 8px 12px;border-radius:999px;font-size:13px;font-weight:600;color:var(--ink2)}
+.badge > *{position:relative;z-index:3}
+.dot{width:8px;height:8px;border-radius:50%;background:#3DBE6B;box-shadow:0 0 0 0 rgba(61,190,107,.6);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 10px rgba(61,190,107,0)}100%{box-shadow:0 0 0 0 rgba(61,190,107,0)}}
+.hello{margin-top:28px;font-size:clamp(20px,2.2vw,28px);color:var(--ink2);font-weight:500;overflow:hidden}
+.hello span{display:inline-block}
+.hero-name{font-size:clamp(76px,13.5vw,210px);line-height:.88;font-weight:800;letter-spacing:-.065em;margin:6px 0 0 -.04em;display:flex;padding-bottom:.08em;user-select:none}
+.ch{display:inline-block;--k:0;
+  background:linear-gradient(100deg,var(--ink) 0%,var(--ink) 35%,var(--clay) 50%,var(--ink) 65%,var(--ink) 100%);
+  background-size:600% 100%;background-position:calc(var(--k)*20%) 0;-webkit-background-clip:text;background-clip:text;color:transparent;
+  transform:translateY(105%) rotate(6deg);opacity:0;
+  transition:transform 1.2s var(--ease) calc(var(--k)*70ms + .15s),opacity .8s calc(var(--k)*70ms + .15s)}
+body.ready .ch{transform:none;opacity:1}
+.ch.rubber{animation:rubber .8s var(--ease)}
+@keyframes rubber{30%{transform:scale(1.25,.75)}45%{transform:scale(.8,1.2)}60%{transform:scale(1.1,.9) translateY(-6%)}75%{transform:scale(.97,1.03)}100%{transform:none}}
+.hero-lead{margin-top:26px;font-size:clamp(20px,2.3vw,30px);line-height:1.3;max-width:620px;letter-spacing:-.015em;font-weight:500}
+.hero-lead em{color:var(--clay);font-size:1.12em}
+.hero-sub{margin-top:14px;color:var(--ink3);font-family:var(--mono);font-size:13px;letter-spacing:.02em}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:36px}
+.fade-up{opacity:0;transform:translateY(28px);transition:opacity 1s var(--ease),transform 1.2s var(--ease)}
+body.ready .fade-up{opacity:1;transform:none}
+
+.hero-visual{position:relative;height:min(640px,78vh);--px:0;--py:0}
+.layer{position:absolute;will-change:transform}
+.bob{animation:bob 7s ease-in-out infinite}
+.bob.bv2{animation-duration:8.5s;animation-delay:-3s}
+.bob.bv3{animation-duration:6s;animation-delay:-1.5s}
+@keyframes bob{50%{transform:translateY(-16px)}}
+.l-phone1{left:4%;top:4%;--d:-18}
+.l-phone2{right:0;top:16%;--d:26}
+.l-chip1{left:-6%;top:58%;--d:40;z-index:5}
+.l-chip2{right:-4%;top:6%;--d:-30;z-index:5}
+.l-chip3{left:44%;bottom:-2%;--d:55;z-index:5}
+.l-orb1{left:52%;top:0;--d:70}
+.l-orb2{left:-2%;top:18%;--d:-60}
+.l-orb3{right:6%;bottom:6%;--d:35}
+.l-phone1 .phone{--pw:clamp(200px,19vw,268px);transform:rotate(-7deg)}
+.l-phone2 .phone{--pw:clamp(190px,17.5vw,248px);transform:rotate(6deg)}
+.chip{display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:20px;font-size:13px;font-weight:600;white-space:nowrap;background:linear-gradient(140deg,var(--scan-a),var(--scan-b))}
+.chip > *{position:relative;z-index:3}
+.chip-ic{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;font-size:15px;color:#fff}
+.chip small{display:block;font-weight:500;color:var(--ink3);font-size:11px}
+.orb{border-radius:50%;
+  background:radial-gradient(circle at 30% 25%,rgba(255,255,255,.95) 0 6%,rgba(255,255,255,.25) 18%,rgba(255,255,255,.05) 45%,rgba(255,255,255,.18) 75%,rgba(255,255,255,.55) 100%);
+  -webkit-backdrop-filter:blur(6px) saturate(200%);backdrop-filter:blur(6px) saturate(200%);
+  box-shadow:inset -6px -10px 20px rgba(255,255,255,.35),inset 4px 6px 12px rgba(255,255,255,.6),0 20px 40px -15px rgba(90,55,25,.35);border:1px solid rgba(255,255,255,.6)}
+.scroll-hint{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;font-size:12px;color:var(--ink3);font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+.mouse{width:24px;height:38px;border-radius:14px;border:1.5px solid var(--ink3);position:relative}
+.mouse::after{content:"";position:absolute;left:50%;top:7px;width:3px;height:7px;margin-left:-1.5px;border-radius:3px;background:var(--ink3);animation:wheel 1.8s infinite}
+@keyframes wheel{0%{opacity:0;transform:translateY(-3px)}30%{opacity:1}100%{opacity:0;transform:translateY(10px)}}
+
+/* ============ PHONE ============ */
+.phone{--pw:260px;position:relative;width:var(--pw);aspect-ratio:1178/2560;border-radius:calc(var(--pw)*.165);padding:calc(var(--pw)*.034);
+  background:linear-gradient(150deg,#4a4642 0%,#151311 30%,#0b0a09 70%,#3b3733 100%);
+  box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.12),inset 0 0 0 4px rgba(0,0,0,.6),0 50px 90px -35px rgba(60,30,5,.55),0 18px 36px -18px rgba(0,0,0,.45);
+  will-change:transform}
+.phone::after{content:"";position:absolute;left:50%;top:calc(var(--pw)*.058);width:30%;height:calc(var(--pw)*.085);transform:translateX(-50%);border-radius:99px;background:#000;z-index:3}
+.screen{position:relative;width:100%;height:100%;border-radius:calc(var(--pw)*.135);overflow:hidden;background:#000}
+.screen::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(120deg,rgba(255,255,255,.14) 0%,rgba(255,255,255,0) 28%);z-index:4}
+.screen img{width:100%;height:100%;object-fit:cover}
+
+/* ============ SECTIONS ============ */
+section{position:relative}
+.sec{padding:150px 0}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3)}
+.eyebrow::before{content:"";width:22px;height:1.5px;background:currentColor}
+.h2{font-size:clamp(40px,6.4vw,88px);line-height:.98;letter-spacing:-.045em;font-weight:700;margin-top:18px}
+.h2 em{font-size:1.06em;color:var(--clay)}
+.lead{font-size:clamp(17px,1.6vw,20px);color:var(--ink2);max-width:600px;margin-top:22px;line-height:1.55}
+.reveal{opacity:0;transform:translateY(50px);transition:opacity 1s var(--ease),transform 1.2s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+
+/* marquee */
+.marquee{padding:30px 0;overflow:hidden;-webkit-mask:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.mq{display:flex;width:max-content;animation:mq 42s linear infinite}
+.mq.rev{animation-direction:reverse;animation-duration:50s;margin-top:8px}
+.mq span{font-size:clamp(34px,5vw,64px);font-weight:700;letter-spacing:-.04em;padding:0 22px;white-space:nowrap;display:flex;align-items:center;gap:44px}
+.mq span::after{content:"✦";font-size:.45em;color:var(--clay)}
+.mq.rev span{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--ink3);letter-spacing:-.01em}
+@keyframes mq{to{transform:translateX(-50%)}}
+.marquee:hover .mq{animation-play-state:paused}
+
+/* ============ PROJECT HEAD ============ */
+.proj-head{display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:start}
+.app-icon{width:92px;height:92px;border-radius:24px;display:grid;place-items:center;position:relative;overflow:hidden}
+.app-icon svg{width:46px;height:46px;position:relative;z-index:3}
+.icon-strain{background:linear-gradient(150deg,#FF8A50,var(--strain) 45%,#C83A08);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.55),inset 0 -6px 14px rgba(0,0,0,.18),0 20px 40px -14px rgba(255,90,31,.6)}
+.icon-bf{background:linear-gradient(150deg,#E9E3FF,#B9AEF0 50%,#8E80E0);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.7),inset 0 -6px 14px rgba(0,0,0,.12),0 20px 40px -14px rgba(142,128,224,.65)}
+.app-icon::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,rgba(255,255,255,.45),rgba(255,255,255,0) 45%);z-index:2}
+.title-xl{font-size:clamp(64px,11vw,160px);line-height:.85;font-weight:800;letter-spacing:-.06em}
+.title-xl.strain{background:linear-gradient(180deg,var(--ink) 30%,var(--strain) 140%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.title-xl.bf{background:linear-gradient(180deg,var(--ink) 30%,#8E80E0 140%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tagline{font-size:clamp(24px,3vw,40px);letter-spacing:-.03em;font-weight:600;line-height:1.15;margin-top:18px;max-width:760px}
+.strain .tagline em,#strain .tagline em{color:var(--strain)}
+#butterfly .tagline em{color:#8E80E0}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.tag{padding:7px 14px;border-radius:999px;font-size:13px;font-weight:600;color:var(--ink2)}
+.tag > *{position:relative;z-index:3}
+
+/* ============ STRAIN HORIZONTAL ============ */
+.hscroll{position:relative;margin-top:40px}
+.hsticky{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:flex;flex-direction:column;justify-content:center}
+.htrack{display:flex;gap:70px;width:max-content;padding:40px max(24px,calc((100vw - 1200px)/2 + 24px));will-change:transform;align-items:center}
+.slide{display:flex;align-items:center;gap:36px;flex:0 0 auto;transition:opacity .3s}
+.slide .phone{--pw:clamp(220px,20vw,280px)}
+.cap{width:300px;padding:28px;border-radius:28px}
+.cap > *{position:relative;z-index:3}
+.cap .num{font-family:var(--mono);font-size:12px;color:var(--strain);font-weight:500}
+.cap h3{font-size:30px;letter-spacing:-.035em;margin-top:8px;line-height:1.05}
+.cap p{margin-top:12px;color:var(--ink2);font-size:15px}
+.hfoot{display:flex;align-items:center;gap:18px;width:min(1152px,calc(100% - 48px));margin:10px auto 0}
+.hbar{flex:1;height:4px;border-radius:9px;background:var(--hair);overflow:hidden}
+.hbar i{display:block;height:100%;background:linear-gradient(90deg,var(--strain),#FFB38A);transform-origin:left;transform:scaleX(0)}
+.hhint{font-size:13px;color:var(--ink3);font-weight:500;white-space:nowrap}
+.features{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:60px}
+.feat{padding:26px;border-radius:26px}
+.feat > *{position:relative;z-index:3}
+.feat-ic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:rgba(255,90,31,.13);color:var(--strain);margin-bottom:18px}
+.feat-ic svg{width:22px;height:22px}
+.feat h4{font-size:18px;letter-spacing:-.02em}
+.feat p{margin-top:6px;color:var(--ink2);font-size:14.5px}
+
+/* ============ BUTTERFLY ============ */
+.bf-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center;margin-top:70px}
+.bf-visual{position:relative;display:flex;justify-content:flex-start;padding-left:0;min-height:700px;align-items:center}
+.bf-visual .phone{--pw:clamp(260px,24vw,310px)}
+.bfs{position:absolute;inset:0;background:linear-gradient(180deg,#FBF9F4,#F1ECFA);color:#1C1A17;font-size:calc(var(--pw)*.044);padding:3.6em 1.25em 1em;display:flex;flex-direction:column;gap:.85em;font-family:var(--font)}
+.bfs-top{display:flex;justify-content:space-between;align-items:flex-end}
+.bfs-top b{font-size:2.1em;letter-spacing:-.04em;line-height:1}
+.bfs-top small{display:block;color:#8E877C;font-size:.85em;font-weight:500;margin-bottom:.2em;text-transform:uppercase;letter-spacing:.06em}
+.bfs-logo{width:2.6em;height:2.6em;border-radius:.8em;display:grid;place-items:center;background:linear-gradient(150deg,#E9E3FF,#9F92E8);color:#fff}
+.bfs-logo svg{width:1.7em;height:1.7em}
+.bfs-card{background:rgba(255,255,255,.85);border-radius:1.4em;padding:1em;box-shadow:0 .6em 1.6em -1em rgba(80,60,140,.35),inset 0 1px 0 #fff}
+.ringrow{display:flex;align-items:center;gap:1em}
+.ring{width:7.4em;height:7.4em;position:relative;flex:none}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:9;stroke-linecap:round}
+.ring .trk{stroke:#EEE9F8}
+.ring .val{stroke:url(#ringGrad);stroke-dasharray:289.03;stroke-dashoffset:289.03;transition:stroke-dashoffset 1.2s var(--ease)}
+.ring-c{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.ring-c b{font-size:1.5em;letter-spacing:-.04em;line-height:1}
+.ring-c small{font-size:.72em;color:#8E877C}
+.kv{display:flex;flex-direction:column;gap:.45em;font-size:.92em}
+.kv div{display:flex;justify-content:space-between;gap:1em;color:#5E5850}
+.kv b{color:#1C1A17}
+.macros{display:grid;grid-template-columns:repeat(3,1fr);gap:.7em}
+.mac small{font-size:.75em;color:#8E877C;font-weight:600}
+.mac .bar{height:.42em;border-radius:9px;background:#EEE9F8;margin-top:.35em;overflow:hidden}
+.mac .bar i{display:block;height:100%;width:0;border-radius:9px;transition:width 1.2s var(--ease)}
+.mac:nth-child(1) .bar i{background:#8E80E0}.mac:nth-child(2) .bar i{background:#F2A65A}.mac:nth-child(3) .bar i{background:#6CC3A0}
+.mac b{font-size:.85em}
+.meal{display:flex;align-items:center;gap:.75em;padding:.55em 0;border-bottom:1px solid #F0ECF6;transition:background .5s}
+.meal:last-child{border:0}
+.meal .em{width:2.2em;height:2.2em;border-radius:.7em;background:#F4F0FD;display:grid;place-items:center;font-size:1.05em}
+.meal span{flex:1;font-weight:600;font-size:.95em}
+.meal b{font-size:.92em}
+.meal.flash{animation:mealflash 1.6s var(--ease)}
+@keyframes mealflash{0%{background:transparent}20%{background:#EDE8FD;border-radius:.8em}100%{background:transparent}}
+.bfs-tab{margin-top:auto;display:flex;justify-content:space-around;align-items:center;padding:.6em;border-radius:2em;background:rgba(255,255,255,.75);box-shadow:0 .5em 1.4em -.8em rgba(80,60,140,.4),inset 0 1px 0 #fff}
+.bfs-tab i{width:1.4em;height:1.4em;border-radius:.45em;background:#DDD6F3;display:block}
+.bfs-tab .cam{width:3em;height:3em;border-radius:50%;background:linear-gradient(150deg,#B9AEF0,#7D6EDB);display:grid;place-items:center;color:#fff;box-shadow:0 .5em 1em -.4em rgba(125,110,219,.8)}
+.bfs-tab .cam svg{width:1.4em;height:1.4em}
+
+.scan{position:absolute;right:-24px;bottom:30px;width:min(320px,60%);padding:14px;border-radius:30px;z-index:4;background:linear-gradient(140deg,var(--scan-a),var(--scan-b))}
+.scan > *{position:relative;z-index:3}
+.scan-head{display:flex;justify-content:space-between;align-items:center;padding:4px 6px 12px;font-size:13px;font-weight:700}
+.scan-head .ai{font-family:var(--mono);font-size:11px;padding:4px 8px;border-radius:8px;background:linear-gradient(135deg,#B9AEF0,#7D6EDB);color:#fff}
+.photo{position:relative;height:200px;border-radius:20px;overflow:hidden;background:radial-gradient(circle at 30% 20%,#8A6A52,#5B4332 70%)}
+.photo::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(95deg,rgba(255,255,255,.03) 0 6px,rgba(0,0,0,.04) 6px 14px)}
+.plate{position:absolute;left:50%;top:50%;width:168px;height:168px;margin:-84px 0 0 -84px;border-radius:50%;background:radial-gradient(circle,#FFFFFF 0 52%,#ECE8E2 53% 60%,#FAF8F5 61% 100%);box-shadow:0 14px 30px -8px rgba(0,0,0,.5)}
+.food{position:absolute;font-size:44px;line-height:1;filter:drop-shadow(0 4px 4px rgba(0,0,0,.25))}
+.f1{left:calc(50% - 62px);top:calc(50% - 50px)}
+.f2{left:calc(50% + 12px);top:calc(50% - 38px);font-size:40px}
+.f3{left:calc(50% - 26px);top:calc(50% + 6px);font-size:40px}
+.box{position:absolute;border:2px solid #fff;border-radius:12px;opacity:0;transform:scale(1.3);transition:opacity .4s,transform .6s var(--spring);box-shadow:0 0 0 1px rgba(0,0,0,.1),0 0 18px rgba(185,174,240,.8)}
+.box.show{opacity:1;transform:none}
+.box span{position:absolute;left:-2px;top:-24px;font-size:10.5px;font-weight:700;padding:3px 7px;border-radius:7px;background:#fff;color:#1C1A17;white-space:nowrap}
+.bx1{left:calc(50% - 68px);top:calc(50% - 56px);width:58px;height:56px}
+.bx2{left:calc(50% + 6px);top:calc(50% - 44px);width:54px;height:52px}
+.bx3{left:calc(50% - 32px);top:calc(50% + 0px);width:54px;height:52px}
+.bx2 span{left:auto;right:-2px}
+.bx3 span{top:auto;bottom:-24px}
+.scanline{position:absolute;left:0;right:0;height:60px;top:-60px;background:linear-gradient(180deg,rgba(185,174,240,0),rgba(185,174,240,.55) 85%,#fff 100%);opacity:0}
+.scan.scanning .scanline{opacity:1;animation:scanl 1.3s ease-in-out infinite}
+@keyframes scanl{from{top:-60px}to{top:200px}}
+.corners{position:absolute;inset:12px;pointer-events:none}
+.corners i{position:absolute;width:20px;height:20px;border:2.5px solid #fff;opacity:.9}
+.corners i:nth-child(1){left:0;top:0;border-right:0;border-bottom:0;border-radius:8px 0 0 0}
+.corners i:nth-child(2){right:0;top:0;border-left:0;border-bottom:0;border-radius:0 8px 0 0}
+.corners i:nth-child(3){left:0;bottom:0;border-right:0;border-top:0;border-radius:0 0 0 8px}
+.corners i:nth-child(4){right:0;bottom:0;border-left:0;border-top:0;border-radius:0 0 8px 0}
+.scan.scanning .corners{animation:breathe 1.2s ease-in-out infinite}
+@keyframes breathe{50%{inset:18px}}
+.status{display:flex;align-items:center;gap:8px;padding:12px 6px 6px;font-size:13px;font-weight:600}
+.spin{width:16px;height:16px;border-radius:50%;border:2px solid var(--hair);border-top-color:#8E80E0;animation:sp .8s linear infinite}
+.scan.found .spin,.scan.done .spin{animation:none;border-color:#8E80E0;background:#8E80E0;position:relative}
+.scan.done .spin{border-color:#3DBE6B;background:#3DBE6B}
+.scan.done .spin::after{content:"";position:absolute;left:4px;top:1px;width:4px;height:8px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+@keyframes sp{to{transform:rotate(360deg)}}
+.items{padding:2px 6px}
+.it{display:flex;justify-content:space-between;gap:10px;font-size:13px;padding:7px 0;border-bottom:1px solid var(--hair);opacity:0;transform:translateX(-12px);transition:opacity .5s,transform .6s var(--spring)}
+.it.show{opacity:1;transform:none}
+.it span{color:var(--ink2)} .it span b{color:var(--ink);font-weight:600}
+.total{display:flex;justify-content:space-between;padding:10px 6px 4px;font-weight:700;font-size:15px}
+.total b{color:#8E80E0}
+
+.steps{list-style:none;margin-top:36px;display:flex;flex-direction:column;gap:22px}
+.steps li{display:grid;grid-template-columns:44px 1fr;gap:16px}
+.sn{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-weight:700;font-size:15px;color:#7D6EDB}
+.sn span{position:relative;z-index:3}
+.steps h4{font-size:19px;letter-spacing:-.02em}
+.steps p{color:var(--ink2);font-size:15px;margin-top:4px}
+.plan{margin-top:34px;padding:22px;border-radius:30px}
+.plan > *{position:relative;z-index:3}
+.plan .seg{--n:3}
+.plan .seg button{padding:10px 8px;font-size:14px}
+.plan-row{display:flex;justify-content:space-between;align-items:flex-end;margin-top:22px;gap:12px;flex-wrap:wrap}
+.big{font-size:52px;font-weight:800;letter-spacing:-.05em;line-height:1}
+.big small{font-size:15px;font-weight:600;color:var(--ink3);letter-spacing:0;margin-left:6px}
+.plan-meta{font-size:13px;color:var(--ink3);text-align:right}
+.mpills{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.mpill{font-size:12.5px;font-weight:600;padding:6px 11px;border-radius:999px;background:var(--hair)}
+.chart{position:relative;margin-top:18px}
+.chart svg{width:100%;height:130px;display:block;overflow:visible}
+.chart .line{fill:none;stroke:#8E80E0;stroke-width:3;stroke-linecap:round}
+.chart .area{fill:url(#areaGrad);transition:opacity .8s}
+.chart .grid line{stroke:var(--hair);stroke-dasharray:3 5}
+.chart-lbl{display:flex;justify-content:space-between;font-size:12px;color:var(--ink3);font-weight:600;margin-top:8px}
+.chart-lbl b{color:var(--ink)}
+.soon{display:inline-flex;align-items:center;gap:8px;margin-top:18px;font-size:12.5px;color:var(--ink3);font-weight:500}
+.soon::before{content:"";width:6px;height:6px;border-radius:50%;background:#8E80E0}
+
+/* ============ SKILLS BENTO ============ */
+.bento{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:240px;gap:16px;margin-top:60px}
+.cell{padding:26px;border-radius:30px;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between}
+.cell > *{position:relative;z-index:3}
+.cell h3{font-size:24px;letter-spacing:-.035em;line-height:1.1}
+.cell p{color:var(--ink2);font-size:14.5px;margin-top:6px;max-width:340px}
+.c-py{grid-column:span 2}
+.c-bl{grid-row:span 2}
+.c-cpp{grid-column:span 2}
+.c-cta{grid-column:span 2;background:linear-gradient(140deg,rgba(217,119,87,.92),rgba(194,96,63,.88));color:#fff;border-color:rgba(255,255,255,.4)}
+.c-cta p{color:rgba(255,255,255,.85)}
+.code{font-family:var(--mono);font-size:13px;line-height:1.7;padding:14px 16px;border-radius:16px;background:rgba(28,26,23,.86);color:#E8E2D8;white-space:pre;overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+.code .k{color:#E99A7C}.code .f{color:#B9AEF0}.code .s{color:#A8D5A0}.code .c{color:#7E776D}
+.caret{display:inline-block;width:7px;height:15px;background:#E99A7C;vertical-align:-2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.row-top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
+.gl{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-family:var(--mono);font-weight:600;font-size:16px;flex:none}
+.gl > *{position:relative;z-index:3}
+.gl svg{width:24px;height:24px}
+.ai-viz{position:relative;width:110px;height:110px;margin:0 auto;flex:none}
+.ai-viz .core{position:absolute;inset:34px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#D97757 55%,#8E80E0);box-shadow:0 0 30px rgba(217,119,87,.6);animation:breath 3s ease-in-out infinite}
+.ai-viz .orbit{position:absolute;inset:0;border:1px dashed var(--ink3);border-radius:50%;opacity:.5;animation:sp 12s linear infinite}
+.ai-viz .orbit::after{content:"";position:absolute;top:-5px;left:50%;width:10px;height:10px;margin-left:-5px;border-radius:50%;background:var(--clay)}
+.ai-viz .orbit.o2{inset:16px;animation-duration:7s;animation-direction:reverse}
+.ai-viz .orbit.o2::after{background:#8E80E0}
+@keyframes breath{50%{transform:scale(1.15)}}
+.cube-wrap{flex:1;display:grid;place-items:center;perspective:700px}
+.cube{width:110px;height:110px;position:relative;transform-style:preserve-3d;animation:cube 14s linear infinite}
+.cube i{position:absolute;inset:0;border-radius:18px;border:1px solid rgba(255,255,255,.7);
+  background:linear-gradient(140deg,rgba(255,255,255,.55),rgba(255,255,255,.08));box-shadow:inset 0 0 30px rgba(255,255,255,.35)}
+.cube i:nth-child(1){transform:translateZ(55px);background-color:rgba(242,191,160,.35)}
+.cube i:nth-child(2){transform:rotateY(180deg) translateZ(55px);background-color:rgba(203,195,240,.35)}
+.cube i:nth-child(3){transform:rotateY(90deg) translateZ(55px);background-color:rgba(191,211,182,.4)}
+.cube i:nth-child(4){transform:rotateY(-90deg) translateZ(55px);background-color:rgba(188,214,236,.4)}
+.cube i:nth-child(5){transform:rotateX(90deg) translateZ(55px);background-color:rgba(217,119,87,.35)}
+.cube i:nth-child(6){transform:rotateX(-90deg) translateZ(55px);background-color:rgba(255,255,255,.3)}
+@keyframes cube{from{transform:rotateX(-22deg) rotateY(0)}to{transform:rotateX(-22deg) rotateY(360deg)}}
+.plane{animation:fly 3.4s ease-in-out infinite}
+@keyframes fly{0%,100%{transform:translate(0,0) rotate(0)}50%{transform:translate(6px,-6px) rotate(-6deg)}}
+.browser{border-radius:14px;overflow:hidden;background:var(--glass-solid);box-shadow:0 10px 24px -14px rgba(0,0,0,.4);border:1px solid var(--border)}
+.browser .bar{display:flex;gap:5px;padding:8px 10px;border-bottom:1px solid var(--hair)}
+.browser .bar i{width:8px;height:8px;border-radius:50%;background:#E97B6B}.browser .bar i:nth-child(2){background:#EEC15A}.browser .bar i:nth-child(3){background:#6CC37A}
+.browser .bd{padding:10px;display:grid;grid-template-columns:2fr 1fr;gap:6px}
+.browser .bd span{height:14px;border-radius:5px;background:var(--hair)}
+.browser .bd span:first-child{grid-column:span 2;height:22px;background:linear-gradient(90deg,var(--peach),var(--lav));animation:shimmerw 3s ease-in-out infinite alternate}
+@keyframes shimmerw{to{filter:hue-rotate(40deg)}}
+.palette{display:flex;margin-top:4px}
+.palette i{width:46px;height:46px;border-radius:50%;margin-right:-14px;border:2px solid var(--bg);transition:transform .5s var(--spring),margin .5s var(--spring)}
+.cell:hover .palette i{margin-right:4px}
+.palette i:nth-child(1){background:var(--clay)}.palette i:nth-child(2){background:var(--peach)}.palette i:nth-child(3){background:var(--lav)}.palette i:nth-child(4){background:var(--sage)}.palette i:nth-child(5){background:var(--ink)}
+.cta-arrow{width:56px;height:56px;border-radius:50%;background:#fff;color:var(--clay2);display:grid;place-items:center;transition:transform .5s var(--spring)}
+.c-cta:hover .cta-arrow{transform:rotate(-45deg) scale(1.08)}
+.cta-arrow svg{width:22px;height:22px}
+
+/* ============ WORK CAROUSEL ============ */
+.work-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+.arrows{display:flex;gap:10px}
+.arrow{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;transition:transform .45s var(--spring)}
+.arrow > *{position:relative;z-index:3}
+.arrow:hover{transform:scale(1.08)}
+.arrow svg{width:20px;height:20px}
+.work-track{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;padding:50px max(24px,calc((100vw - 1200px)/2 + 24px)) 40px;scrollbar-width:none;cursor:grab;scroll-padding:0 max(24px,calc((100vw - 1200px)/2 + 24px))}
+.work-track::-webkit-scrollbar{display:none}
+.work-track.dragging{scroll-snap-type:none;cursor:grabbing}
+.work-track.dragging *{pointer-events:none}
+.wcard{flex:0 0 min(400px,82vw);scroll-snap-align:start;border-radius:34px;padding:12px;display:flex;flex-direction:column}
+.wcard > *{position:relative;z-index:3}
+.wcard:hover{transform:translateY(-8px)}
+.wvis{height:280px;border-radius:26px;overflow:hidden;position:relative}
+.wbody{padding:20px 14px 10px}
+.wmeta{font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3)}
+.wbody h3{font-size:28px;letter-spacing:-.04em;margin-top:6px}
+.wbody p{color:var(--ink2);font-size:15px;margin-top:8px}
+.wlink{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-weight:600;font-size:14px}
+.wlink svg{width:16px;height:16px;transition:transform .4s var(--spring)}
+.wcard:hover .wlink svg{transform:translateX(4px)}
+.v-strain{background:radial-gradient(circle at 70% 20%,#FFB38A,var(--strain) 45%,#9E2C04)}
+.v-strain .phone{--pw:190px;position:absolute;left:50%;top:34px;transform:translateX(-50%) rotate(-4deg);transition:transform .7s var(--ease)}
+.wcard:hover .v-strain .phone{transform:translateX(-50%) rotate(0) translateY(-14px)}
+.v-bf{background:radial-gradient(circle at 30% 20%,#F4F0FF,#C9BFF5 50%,#8E80E0);display:grid;place-items:center}
+.v-bf .bfly{width:150px;height:150px;color:#fff;filter:drop-shadow(0 14px 24px rgba(80,60,160,.45))}
+.bfly .wl{transform-origin:32px 32px;animation:flapL 1.6s ease-in-out infinite}
+.bfly .wr{transform-origin:32px 32px;animation:flapR 1.6s ease-in-out infinite}
+@keyframes flapL{50%{transform:scaleX(.55)}}
+@keyframes flapR{50%{transform:scaleX(.55)}}
+.v-ig{background:linear-gradient(135deg,#FCE3D3,#F6C7D6 45%,#C9DDF3);display:flex;align-items:center;justify-content:center;gap:70px}
+.appg{width:84px;height:84px;border-radius:24px;display:grid;place-items:center;color:#fff;box-shadow:0 18px 30px -12px rgba(0,0,0,.35),inset 0 1.5px 0 rgba(255,255,255,.5);position:relative;z-index:2}
+.appg svg{width:40px;height:40px}
+.appg.ig{background:linear-gradient(45deg,#F9A13A,#E4405F 45%,#9B3BD1)}
+.appg.tg{background:linear-gradient(160deg,#5BC8F5,#2AA3E0)}
+.flow{position:absolute;left:50%;top:50%;width:90px;height:2px;margin:-1px 0 0 -45px}
+.flow i{position:absolute;top:-4px;left:0;width:10px;height:10px;border-radius:50%;background:#fff;box-shadow:0 0 12px #fff;animation:flow 1.8s ease-in-out infinite}
+.flow i:nth-child(2){animation-delay:.6s}.flow i:nth-child(3){animation-delay:1.2s}
+@keyframes flow{0%{left:-10px;opacity:0}20%{opacity:1}80%{opacity:1}100%{left:90px;opacity:0}}
+.v-site{background:linear-gradient(140deg,var(--bg2),var(--bg));display:grid;place-items:center;overflow:hidden}
+.v-site .blobm{position:absolute;width:260px;height:260px;border-radius:50%}
+.v-site .bm1{background:radial-gradient(circle,var(--peach),rgba(242,191,160,0) 65%);left:-30px;top:-40px;animation:drift1 8s ease-in-out infinite alternate}
+.v-site .bm2{background:radial-gradient(circle,var(--lav),rgba(203,195,240,0) 65%);right:-40px;bottom:-50px;animation:drift2 9s ease-in-out infinite alternate}
+.mini-glass{width:72%;padding:18px;border-radius:22px}
+.mini-glass > *{position:relative;z-index:3}
+.mini-glass b{font-size:30px;letter-spacing:-.05em;display:block}
+.mini-glass span{display:block;height:9px;border-radius:9px;background:var(--hair);margin-top:8px}
+.mini-glass span:nth-of-type(2){width:70%}
+.here{position:absolute;top:16px;left:16px;z-index:5;font-size:12px;font-weight:700;padding:6px 11px;border-radius:999px;background:var(--pill);color:var(--pill-ink);display:flex;gap:6px;align-items:center}
+.here::before{content:"";width:7px;height:7px;border-radius:50%;background:#3DBE6B;animation:pulse 2s infinite}
+
+/* ============ PROCESS ============ */
+.process{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:70px;position:relative}
+.pline{position:absolute;left:4%;right:4%;top:35px;height:2px;background:var(--hair);border-radius:2px;overflow:hidden}
+.pline i{display:block;height:100%;background:linear-gradient(90deg,var(--clay),#8E80E0);transform-origin:left;transform:scaleX(0)}
+.pstep{position:relative}
+.pnum{width:70px;height:70px;border-radius:50%;display:grid;place-items:center;font-family:var(--serif);font-style:italic;font-size:30px;margin-bottom:22px}
+.pnum span{position:relative;z-index:3}
+.pstep h4{font-size:21px;letter-spacing:-.03em}
+.pstep p{color:var(--ink2);font-size:15px;margin-top:6px;max-width:250px}
+
+/* ============ CONTACT ============ */
+.contact-card{padding:clamp(32px,6vw,80px);border-radius:44px;text-align:center;overflow:hidden}
+.contact-card > *{position:relative;z-index:3}
+.contact-card .h2{margin-top:14px}
+.contact-card .lead{margin:20px auto 0}
+.cbtns{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:40px}
+.cbtn{display:flex;align-items:center;gap:12px;padding:14px 22px 14px 14px;border-radius:999px;font-weight:600;font-size:15px;transition:transform .5s var(--spring)}
+.cbtn > *{position:relative;z-index:3}
+.cbtn .ci{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:#fff}
+.cbtn .ci svg{width:19px;height:19px}
+.cbtn small{display:block;font-size:12px;color:var(--ink3);font-weight:500}
+.cbtn .txt{text-align:left;line-height:1.25}
+.copy{margin-top:18px;font-size:13px;color:var(--ink3);font-weight:600;text-decoration:underline;text-underline-offset:4px}
+.copy:hover{color:var(--ink)}
+.toast{position:fixed;left:50%;bottom:30px;z-index:300;padding:14px 22px;border-radius:999px;font-weight:600;font-size:14px;transform:translate(-50%,calc(100% + 60px));visibility:hidden;transition:transform .6s var(--spring),visibility 0s .6s}
+.toast > *{position:relative;z-index:3}
+.toast.show{transform:translate(-50%,0);visibility:visible;transition:transform .6s var(--spring),visibility 0s}
+
+/* ============ FOOTER ============ */
+footer{padding:40px 0 50px}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;padding-top:30px;border-top:1px solid var(--hair);font-size:14px;color:var(--ink2)}
+.foot b{color:var(--ink)}
+.foot-big{font-size:clamp(70px,17vw,260px);font-weight:800;letter-spacing:-.07em;line-height:.8;text-align:center;margin:20px 0 40px;
+  background:linear-gradient(180deg,var(--ink) 0%,rgba(0,0,0,0) 110%);-webkit-background-clip:text;background-clip:text;color:transparent;opacity:.9;user-select:none}
+.totop{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;font-weight:600}
+.totop > *{position:relative;z-index:3}
+.totop svg{width:16px;height:16px}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:1020px){
+  .links{display:none}
+  .menu-btn{display:grid}
+  .scroll-hint{display:none}
+  .mnav{display:flex}
+  .hero-grid{grid-template-columns:1fr}
+  .hero-visual{height:560px;margin-top:20px}
+  .l-phone1{left:8%} .l-phone2{right:8%}
+  .features{grid-template-columns:repeat(2,1fr)}
+  .bf-grid{grid-template-columns:1fr;gap:40px}
+  .bento{grid-template-columns:repeat(2,1fr)}
+  .c-bl{grid-row:span 1}
+  .process{grid-template-columns:repeat(2,1fr);row-gap:40px}
+  .pline{display:none}
+}
+@media (max-width:820px){
+  .hscroll{height:auto!important}
+  .hsticky{position:static;height:auto;overflow:visible}
+  .htrack{width:auto;overflow-x:auto;scroll-snap-type:x mandatory;padding:20px 16px 30px;gap:16px;transform:none!important;scrollbar-width:none}
+  .htrack::-webkit-scrollbar{display:none}
+  .slide{flex:0 0 86vw;flex-direction:column;scroll-snap-align:center;opacity:1!important;gap:18px}
+  .slide .phone{--pw:min(62vw,250px);transform:none!important}
+  .cap{width:100%}
+  .hfoot{width:calc(100% - 32px)}
+}
+@media (max-width:640px){
+  .wrap{padding:0 16px}
+  .sec{padding:100px 0}
+  .nav{padding:6px 6px 6px 14px;top:12px;width:calc(100% - 24px)!important}
+  .nav .seg button{padding:6px 9px}
+  .hero{padding-top:110px}
+  .hero-visual{height:470px}
+  .l-phone1{left:2%} .l-phone2{right:0}
+  .l-phone1 .phone{--pw:46vw} .l-phone2 .phone{--pw:42vw}
+  .l-chip1{left:0} .l-chip2{right:0;top:0} .l-chip3{left:20%}
+  .chip{padding:10px 12px;font-size:12px}
+  .proj-head{grid-template-columns:1fr;gap:18px}
+  .app-icon{width:72px;height:72px;border-radius:20px}
+  .app-icon svg{width:36px;height:36px}
+  .features{grid-template-columns:1fr}
+  .bf-visual{flex-direction:column;min-height:0;padding:0}
+  .scan{position:relative;right:auto;bottom:auto;width:100%;margin-top:-90px}
+  .bento{grid-template-columns:1fr;grid-auto-rows:auto}
+  .cell{min-height:220px}
+  .c-py,.c-cpp,.c-cta{grid-column:span 1}
+  .process{grid-template-columns:1fr}
+  .work-track{padding:40px 16px 30px;scroll-padding:0 16px}
+  .big{font-size:42px}
+  .foot{justify-content:center;text-align:center}
+}
+.reveal.done{transition:transform .5s var(--ease),opacity .3s}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+.lenis.lenis-stopped{overflow:hidden}
+</style>
+</head>
+<body>
+<noscript><style>.reveal,.fade-up,.ch{opacity:1!important;transform:none!important;filter:none!important}.loader{display:none}</style></noscript>
+
+<!-- SVG defs -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <filter id="lg-refract" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.006 0.014" numOctaves="2" seed="11" result="n"/>
+      <feGaussianBlur in="n" stdDeviation="2.5" result="s"/>
+      <feDisplacementMap in="SourceGraphic" in2="s" scale="38" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#B9AEF0"/><stop offset="1" stop-color="#7D6EDB"/></linearGradient>
+    <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8E80E0" stop-opacity=".35"/><stop offset="1" stop-color="#8E80E0" stop-opacity="0"/></linearGradient>
+    <symbol id="i-bfly" viewBox="0 0 64 64">
+      <g class="wl" fill="currentColor"><path d="M31 30C26 18 14 8 8 11 2 14 6 27 24 31Z"/><path d="M31 33C22 34 12 40 14 48c2 7 12 4 17-10Z"/></g>
+      <g class="wr" fill="currentColor"><path d="M33 30C38 18 50 8 56 11c6 3 2 16-16 20Z"/><path d="M33 33c9 1 19 7 17 15-2 7-12 4-17-10Z"/></g>
+      <rect x="30.6" y="24" width="2.8" height="22" rx="1.4" fill="currentColor"/>
+      <path d="M32 25c-1-5-3-8-6-10M32 25c1-5 3-8 6-10" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-tg" viewBox="0 0 24 24"><path fill="currentColor" d="M21.4 4.2 2.9 11.4c-1.3.5-1.2 1.4-.2 1.7l4.7 1.5 1.8 5.5c.2.7.5.9 1 .9.4 0 .6-.2.9-.4l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.5c.3-1.3-.5-1.8-1.5-1.4ZM9.6 14.3l8.6-5.4c.4-.3.8-.1.5.2l-7.1 6.4-.3 3.1-1.7-4.3Z"/></symbol>
+    <symbol id="i-gh" viewBox="0 0 24 24"><path fill="currentColor" d="M12 .5C5.65.5.5 5.65.5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.37-3.87-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></g></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-dumb" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6.5 7v10M17.5 7v10M3.5 9.5v5M20.5 9.5v5M6.5 12h11"/></g></symbol>
+    <symbol id="i-cam" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4Z"/><circle cx="12" cy="13" r="3.5"/></g></symbol>
+  </defs>
+</svg>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <div>
+    <div class="loader-word"><span style="animation-delay:0s">K</span><span style="animation-delay:.05s">e</span><span style="animation-delay:.1s">l</span><span style="animation-delay:.15s">w</span><span style="animation-delay:.2s">1</span><span style="animation-delay:.25s">n</span></div>
+    <div class="loader-bar"><i></i></div>
+  </div>
+</div>
+
+<div class="bg" aria-hidden="true">
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div><div class="blob b4"></div>
+  <div class="grain"></div>
+</div>
+<div class="cursor-ring" id="ring"></div>
+<div class="progress" id="progress"></div>
+
+<!-- NAV -->
+<header class="nav glass refract" id="nav">
+  <a class="brand" href="#top" data-magnetic><span class="brand-mark">K</span><span>Kelw1n</span></a>
+  <nav class="links" aria-label="Main">
+    <a href="#strain">STRAIN</a>
+    <a href="#butterfly">Butterfly</a>
+    <a href="#skills" data-i18n="nav.skills"></a>
+    <a href="#work" data-i18n="nav.work"></a>
+    <a href="#contact" data-i18n="nav.contact"></a>
+  </nav>
+  <div class="nav-actions">
+    <div class="seg" id="langSeg" role="group" aria-label="Language">
+      <span class="seg-pill"></span>
+      <button data-lang="ru">RU</button><button data-lang="en">EN</button>
+    </div>
+    <button class="icon-btn" id="themeBtn" aria-label="Toggle theme">
+      <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"/></svg>
+      <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.2M12 19.8V22M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M2 12h2.2M19.8 12H22M4.9 19.1l1.6-1.6M17.5 6.5l1.6-1.6"/></svg>
+    </button>
+    <button class="icon-btn menu-btn" id="menuBtn" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 8h16M4 16h16"/></svg>
+    </button>
+  </div>
+</header>
+<div class="mnav glass" id="mnav">
+  <a href="#strain">STRAIN</a><a href="#butterfly">Butterfly</a>
+  <a href="#skills" data-i18n="nav.skills"></a><a href="#work" data-i18n="nav.work"></a><a href="#contact" data-i18n="nav.contact"></a>
+</div>
+
+<main id="top">
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="badge glass refract fade-up"><span class="dot"></span><span data-i18n="hero.badge"></span></div>
+      <p class="hello fade-up" style="transition-delay:.25s"><span data-i18n="hero.hi"></span></p>
+      <h1 class="hero-name" id="heroName" aria-label="Kelw1n">Kelw1n</h1>
+      <p class="hero-lead fade-up" style="transition-delay:.6s" data-i18n="hero.lead"></p>
+      <p class="hero-sub fade-up" style="transition-delay:.7s">Python · C++ · AI · UI/UX · Blender 3D</p>
+      <div class="hero-cta fade-up" style="transition-delay:.8s">
+        <a class="btn btn-dark" href="#work" data-magnetic><span class="lbl" data-i18n="hero.cta1"></span><svg><use href="#i-arrow"/></svg></a>
+        <a class="btn btn-glass glass" href="https://t.me/keIw1n" target="_blank" rel="noopener" data-magnetic><svg style="width:18px;height:18px;position:relative;z-index:3"><use href="#i-tg"/></svg><span class="lbl" data-i18n="hero.cta2"></span></a>
+      </div>
+    </div>
+
+    <div class="hero-visual fade-up" id="heroVisual" style="transition-delay:.4s">
+      <div class="layer l-orb1"><div class="bob bv3"><div class="orb" style="width:70px;height:70px"></div></div></div>
+      <div class="layer l-orb2"><div class="bob bv2"><div class="orb" style="width:44px;height:44px"></div></div></div>
+      <div class="layer l-phone1"><div class="bob"><div class="phone"><div class="screen"><img src="assets/strain/1.jpg" alt="STRAIN"></div></div></div></div>
+      <div class="layer l-phone2"><div class="bob bv2"><div class="phone"><div class="screen">
+        <div class="bfs" style="padding-top:3.4em">
+          <div class="bfs-top"><div><small data-i18n="bf.today"></small><b>Butterfly</b></div><div class="bfs-logo"><svg class="bfly"><use href="#i-bfly"/></svg></div></div>
+          <div class="bfs-card"><div class="ringrow">
+            <div class="ring"><svg viewBox="0 0 110 110"><circle class="trk" cx="55" cy="55" r="46"/><circle class="val" cx="55" cy="55" r="46" style="stroke-dashoffset:139"/></svg><div class="ring-c"><b>1 247</b><small data-i18n="bf.kcal"></small></div></div>
+            <div class="kv"><div><span data-i18n="bf.goalw"></span><b>2 400</b></div><div><span data-i18n="bf.left"></span><b>1 153</b></div></div>
+          </div></div>
+          <div class="bfs-card" style="padding:.4em 1em">
+            <div class="meal"><div class="em">🍳</div><span data-i18n="bf.breakfast"></span><b>397</b></div>
+            <div class="meal"><div class="em">🍝</div><span data-i18n="bf.lunch"></span><b>640</b></div>
+            <div class="meal"><div class="em">🍎</div><span data-i18n="bf.snack"></span><b>210</b></div>
+          </div>
+          <div class="bfs-tab"><i></i><i></i><div class="cam"><svg><use href="#i-cam"/></svg></div><i></i><i></i></div>
+        </div>
+      </div></div></div></div>
+      <div class="layer l-chip1"><div class="bob bv3"><div class="chip glass"><span class="chip-ic" style="background:linear-gradient(150deg,#FF8A50,#FF5A1F)">🔥</span><span><span data-i18n="chip.pr"></span><small>STRAIN</small></span></div></div></div>
+      <div class="layer l-chip2"><div class="bob"><div class="chip glass"><span class="chip-ic" style="background:linear-gradient(150deg,#B9AEF0,#7D6EDB)">📸</span><span><span data-i18n="chip.ai"></span><small>Butterfly AI</small></span></div></div></div>
+      <div class="layer l-chip3"><div class="bob bv2"><div class="chip glass"><span class="chip-ic" style="background:linear-gradient(150deg,#5BC8F5,#2AA3E0)"><svg style="width:15px;height:15px"><use href="#i-tg"/></svg></span><span><span data-i18n="chip.bot"></span><small>Telegram · Python</small></span></div></div></div>
+      <div class="layer l-orb3"><div class="bob"><div class="orb" style="width:54px;height:54px"></div></div></div>
+    </div>
+  </div>
+  <div class="scroll-hint fade-up" style="transition-delay:1.1s"><div class="mouse"></div><span data-i18n="hero.scroll"></span></div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee" aria-hidden="true">
+  <div class="mq"><span>Python</span><span>C++</span><span>Telegram Bots</span><span>Web</span><span>AI</span><span>UI/UX</span><span>Blender 3D</span><span>Liquid Glass</span><span>Python</span><span>C++</span><span>Telegram Bots</span><span>Web</span><span>AI</span><span>UI/UX</span><span>Blender 3D</span><span>Liquid Glass</span></div>
+  <div class="mq rev"><span>apps that feel alive</span><span>pixel-perfect</span><span>smooth motion</span><span>AI inside</span><span>made with care</span><span>apps that feel alive</span><span>pixel-perfect</span><span>smooth motion</span><span>AI inside</span><span>made with care</span></div>
+</div>
+
+<!-- STRAIN -->
+<section class="sec" id="strain" style="padding-bottom:60px">
+  <div class="wrap">
+    <div class="proj-head reveal">
+      <div class="app-icon icon-strain"><svg style="color:#fff"><use href="#i-dumb"/></svg></div>
+      <div>
+        <span class="eyebrow" data-i18n="strain.label"></span>
+        <h2 class="title-xl strain" style="margin-top:12px">STRAIN</h2>
+        <p class="tagline" data-i18n="strain.tag"></p>
+        <p class="lead" data-i18n="strain.desc"></p>
+        <div class="tags"><span class="tag glass"><span data-i18n="strain.t1"></span></span><span class="tag glass"><span data-i18n="strain.t2"></span></span><span class="tag glass"><span data-i18n="strain.t3"></span></span><span class="tag glass"><span data-i18n="strain.t4"></span></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hscroll" id="hscroll">
+    <div class="hsticky">
+      <div class="htrack" id="htrack">
+        <article class="slide"><div class="phone"><div class="screen"><img src="assets/strain/1.jpg" alt="" loading="lazy"></div></div><div class="cap glass"><span class="num">01 / 05</span><h3 data-i18n="s1t"></h3><p data-i18n="s1d"></p></div></article>
+        <article class="slide"><div class="phone"><div class="screen"><img src="assets/strain/2.jpg" alt="" loading="lazy"></div></div><div class="cap glass"><span class="num">02 / 05</span><h3 data-i18n="s2t"></h3><p data-i18n="s2d"></p></div></article>
+        <article class="slide"><div class="phone"><div class="screen"><img src="assets/strain/3.jpg" alt="" loading="lazy"></div></div><div class="cap glass"><span class="num">03 / 05</span><h3 data-i18n="s3t"></h3><p data-i18n="s3d"></p></div></article>
+        <article class="slide"><div class="phone"><div class="screen"><img src="assets/strain/4.jpg" alt="" loading="lazy"></div></div><div class="cap glass"><span class="num">04 / 05</span><h3 data-i18n="s4t"></h3><p data-i18n="s4d"></p></div></article>
+        <article class="slide"><div class="phone"><div class="screen"><img src="assets/strain/5.jpg" alt="" loading="lazy"></div></div><div class="cap glass"><span class="num">05 / 05</span><h3 data-i18n="s5t"></h3><p data-i18n="s5d"></p></div></article>
+      </div>
+      <div class="hfoot"><div class="hbar"><i id="hbar"></i></div><span class="hhint" data-i18n="strain.hint"></span></div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="features">
+      <div class="feat glass reveal" data-tilt><div class="feat-ic"><svg><use href="#i-dumb"/></svg></div><h4 data-i18n="f1t"></h4><p data-i18n="f1d"></p></div>
+      <div class="feat glass reveal" data-tilt style="transition-delay:.08s"><div class="feat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4ZM7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4"/></svg></div><h4 data-i18n="f2t"></h4><p data-i18n="f2d"></p></div>
+      <div class="feat glass reveal" data-tilt style="transition-delay:.16s"><div class="feat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 20V10M12 20V4M19 20v-7"/></svg></div><h4 data-i18n="f3t"></h4><p data-i18n="f3d"></p></div>
+      <div class="feat glass reveal" data-tilt style="transition-delay:.24s"><div class="feat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M16 4.5a3.2 3.2 0 0 1 0 6.2M21 20c0-2.6-1.6-4.8-4-5.6"/></svg></div><h4 data-i18n="f4t"></h4><p data-i18n="f4d"></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- BUTTERFLY -->
+<section class="sec" id="butterfly">
+  <div class="wrap">
+    <div class="proj-head reveal">
+      <div class="app-icon icon-bf"><svg class="bfly" style="color:#fff"><use href="#i-bfly"/></svg></div>
+      <div>
+        <span class="eyebrow" data-i18n="bf.label"></span>
+        <h2 class="title-xl bf" style="margin-top:12px">Butterfly</h2>
+        <p class="tagline" data-i18n="bf.tag"></p>
+        <p class="lead" data-i18n="bf.desc"></p>
+      </div>
+    </div>
+
+    <div class="bf-grid">
+      <div class="bf-visual reveal">
+        <div class="phone"><div class="screen">
+          <div class="bfs">
+            <div class="bfs-top"><div><small data-i18n="bf.today"></small><b data-i18n="bf.diary"></b></div><div class="bfs-logo"><svg class="bfly"><use href="#i-bfly"/></svg></div></div>
+            <div class="bfs-card"><div class="ringrow">
+              <div class="ring"><svg viewBox="0 0 110 110"><circle class="trk" cx="55" cy="55" r="46"/><circle class="val" id="ringVal" cx="55" cy="55" r="46"/></svg><div class="ring-c"><b id="eaten">0</b><small data-i18n="bf.kcal"></small></div></div>
+              <div class="kv"><div><span data-i18n="bf.goalw"></span><b id="tgt">0</b></div><div><span data-i18n="bf.left"></span><b id="left">0</b></div></div>
+            </div></div>
+            <div class="bfs-card macros">
+              <div class="mac"><small data-i18n="bf.p"></small><div class="bar"><i id="mp"></i></div><b id="mpv">0</b></div>
+              <div class="mac"><small data-i18n="bf.f"></small><div class="bar"><i id="mf"></i></div><b id="mfv">0</b></div>
+              <div class="mac"><small data-i18n="bf.c"></small><div class="bar"><i id="mc"></i></div><b id="mcv">0</b></div>
+            </div>
+            <div class="bfs-card" style="padding:.4em 1em">
+              <div class="meal" id="mealB"><div class="em">🍳</div><span data-i18n="bf.breakfast"></span><b id="bVal">—</b></div>
+              <div class="meal"><div class="em">🍝</div><span data-i18n="bf.lunch"></span><b>640</b></div>
+              <div class="meal"><div class="em">🍎</div><span data-i18n="bf.snack"></span><b>210</b></div>
+            </div>
+            <div class="bfs-tab"><i></i><i></i><div class="cam"><svg><use href="#i-cam"/></svg></div><i></i><i></i></div>
+          </div>
+        </div></div>
+
+        <div class="scan glass" id="scan">
+          <div class="scan-head"><span data-i18n="bf.scan"></span><span class="ai">AI</span></div>
+          <div class="photo">
+            <div class="plate"></div>
+            <span class="food f1">🍳</span><span class="food f2">🥑</span><span class="food f3">🍞</span>
+            <div class="box bx1"><span data-i18n="food.egg"></span></div>
+            <div class="box bx2"><span data-i18n="food.avo"></span></div>
+            <div class="box bx3"><span data-i18n="food.toast"></span></div>
+            <div class="scanline"></div>
+            <div class="corners"><i></i><i></i><i></i><i></i></div>
+          </div>
+          <div class="status"><span class="spin"></span><span id="scanStatus" data-i18n="bf.scanning"></span></div>
+          <div class="items">
+            <div class="it"><span><b data-i18n="food.egg"></b> · <span data-i18n="food.egg.q"></span></span><b>180</b></div>
+            <div class="it"><span><b data-i18n="food.avo"></b> · <span data-i18n="food.avo.q"></span></span><b>112</b></div>
+            <div class="it"><span><b data-i18n="food.toast"></b> · <span data-i18n="food.toast.q"></span></span><b>105</b></div>
+          </div>
+          <div class="total"><span data-i18n="bf.total"></span><b><span id="scanTotal">0</span> <span data-i18n="bf.kcal"></span></b></div>
+        </div>
+      </div>
+
+      <div class="reveal" style="transition-delay:.1s">
+        <ol class="steps">
+          <li><div class="sn glass"><span>1</span></div><div><h4 data-i18n="bf.s1t"></h4><p data-i18n="bf.s1d"></p></div></li>
+          <li><div class="sn glass"><span>2</span></div><div><h4 data-i18n="bf.s2t"></h4><p data-i18n="bf.s2d"></p></div></li>
+          <li><div class="sn glass"><span>3</span></div><div><h4 data-i18n="bf.s3t"></h4><p data-i18n="bf.s3d"></p></div></li>
+        </ol>
+
+        <div class="plan glass">
+          <div class="seg" id="goalSeg" role="group" aria-label="Goal">
+            <span class="seg-pill"></span>
+            <button data-goal="bulk" data-i18n="goal.bulk"></button>
+            <button data-goal="keep" data-i18n="goal.keep"></button>
+            <button data-goal="cut" data-i18n="goal.cut"></button>
+          </div>
+          <div class="plan-row">
+            <div class="big"><span id="planKcal">0</span><small data-i18n="bf.perday"></small></div>
+            <div class="plan-meta"><div data-i18n="bf.plan"></div><div data-i18n="bf.example"></div></div>
+          </div>
+          <div class="mpills"><span class="mpill" id="pP"></span><span class="mpill" id="pF"></span><span class="mpill" id="pC"></span></div>
+          <div class="chart">
+            <svg viewBox="0 0 300 120" preserveAspectRatio="none">
+              <g class="grid"><line x1="0" y1="30" x2="300" y2="30"/><line x1="0" y1="60" x2="300" y2="60"/><line x1="0" y1="90" x2="300" y2="90"/></g>
+              <path class="area" id="chartArea" d=""/>
+              <path class="line" id="chartLine" d="" vector-effect="non-scaling-stroke"/>
+            </svg>
+            <div class="chart-lbl"><span data-i18n="bf.now"></span><span data-i18n="bf.w6"></span><span><span data-i18n="bf.w12"></span> · <b id="endW">75</b> <span data-i18n="bf.kg"></span></span></div>
+          </div>
+        </div>
+        <div class="soon" data-i18n="bf.soon"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="sec" id="skills">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="eyebrow" data-i18n="sk.label"></span>
+      <h2 class="h2" data-i18n="sk.title"></h2>
+    </div>
+    <div class="bento">
+      <div class="cell glass c-py reveal" data-tilt>
+        <div class="row-top"><div><h3>Python</h3><p data-i18n="sk.py"></p></div><div class="gl glass"><span>Py</span></div></div>
+        <div class="code"><span class="k">async def</span> <span class="f">handle</span>(msg):
+    reply = <span class="k">await</span> ai.<span class="f">answer</span>(msg.text)
+    <span class="k">await</span> msg.<span class="f">answer</span>(reply)  <span class="c"># ✨</span><span class="caret"></span></div>
+      </div>
+      <div class="cell glass reveal" data-tilt style="transition-delay:.06s">
+        <div class="ai-viz"><div class="orbit"></div><div class="orbit o2"></div><div class="core"></div></div>
+        <div><h3>AI</h3><p data-i18n="sk.ai"></p></div>
+      </div>
+      <div class="cell glass c-bl reveal" data-tilt style="transition-delay:.12s">
+        <div><h3>Blender 3D</h3><p data-i18n="sk.bl"></p></div>
+        <div class="cube-wrap"><div class="cube"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+      </div>
+      <div class="cell glass reveal" data-tilt>
+        <div class="gl" style="background:linear-gradient(160deg,#5BC8F5,#2AA3E0);color:#fff;box-shadow:0 12px 24px -10px rgba(42,163,224,.7)"><svg class="plane"><use href="#i-tg"/></svg></div>
+        <div><h3 data-i18n="sk.tgt"></h3><p data-i18n="sk.tg"></p></div>
+      </div>
+      <div class="cell glass reveal" data-tilt style="transition-delay:.06s">
+        <div class="browser"><div class="bar"><i></i><i></i><i></i></div><div class="bd"><span></span><span></span><span></span></div></div>
+        <div><h3 data-i18n="sk.webt"></h3><p data-i18n="sk.web"></p></div>
+      </div>
+      <div class="cell glass reveal" data-tilt style="transition-delay:.12s">
+        <div class="palette"><i></i><i></i><i></i><i></i><i></i></div>
+        <div><h3 data-i18n="sk.dzt"></h3><p data-i18n="sk.dz"></p></div>
+      </div>
+      <div class="cell glass c-cpp reveal" data-tilt>
+        <div class="row-top"><div><h3>C++</h3><p data-i18n="sk.cpp"></p></div><div class="gl glass"><span>C++</span></div></div>
+        <div class="code"><span class="k">auto</span> <span class="f">best</span> = std::<span class="f">max_element</span>(sets.<span class="f">begin</span>(), sets.<span class="f">end</span>()); <span class="c">// PR 🏆</span></div>
+      </div>
+      <a class="cell glass c-cta reveal" href="#contact" data-tilt style="transition-delay:.06s">
+        <div><h3 style="font-size:30px" data-i18n="sk.ctat"></h3><p data-i18n="sk.cta"></p></div>
+        <div class="cta-arrow"><svg><use href="#i-arrow"/></svg></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section class="sec" id="work" style="padding-bottom:90px">
+  <div class="wrap work-head reveal">
+    <div><span class="eyebrow" data-i18n="w.label"></span><h2 class="h2" data-i18n="w.title"></h2></div>
+    <div class="arrows">
+      <button class="arrow glass" id="wPrev" aria-label="Previous"><svg style="transform:scaleX(-1)"><use href="#i-arrow"/></svg></button>
+      <button class="arrow glass" id="wNext" aria-label="Next"><svg><use href="#i-arrow"/></svg></button>
+    </div>
+  </div>
+  <div class="work-track" id="wtrack">
+    <a class="wcard glass reveal" href="#strain">
+      <div class="wvis v-strain"><div class="phone"><div class="screen"><img src="assets/strain/3.jpg" alt="" loading="lazy" draggable="false"></div></div></div>
+      <div class="wbody"><div class="wmeta" data-i18n="w1m"></div><h3>STRAIN</h3><p data-i18n="w1d"></p><span class="wlink"><span data-i18n="w.more"></span><svg><use href="#i-arrow"/></svg></span></div>
+    </a>
+    <a class="wcard glass reveal" href="#butterfly" style="transition-delay:.08s">
+      <div class="wvis v-bf"><svg class="bfly" viewBox="0 0 64 64"><use href="#i-bfly"/></svg></div>
+      <div class="wbody"><div class="wmeta" data-i18n="w2m"></div><h3>Butterfly</h3><p data-i18n="w2d"></p><span class="wlink"><span data-i18n="w.more"></span><svg><use href="#i-arrow"/></svg></span></div>
+    </a>
+    <div class="wcard glass reveal" style="transition-delay:.16s">
+      <div class="wvis v-ig">
+        <div class="appg ig"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></div>
+        <div class="flow"><i></i><i></i><i></i></div>
+        <div class="appg tg"><svg><use href="#i-tg"/></svg></div>
+      </div>
+      <div class="wbody"><div class="wmeta" data-i18n="w3m"></div><h3>Instagram → Telegram</h3><p data-i18n="w3d"></p></div>
+    </div>
+    <a class="wcard glass reveal" href="#top" style="transition-delay:.24s">
+      <div class="wvis v-site"><span class="here" data-i18n="w.here"></span><div class="blobm bm1"></div><div class="blobm bm2"></div><div class="mini-glass glass"><b>Kelw1n</b><span></span><span></span></div></div>
+      <div class="wbody"><div class="wmeta" data-i18n="w4m"></div><h3 data-i18n="w4t"></h3><p data-i18n="w4d"></p></div>
+    </a>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="sec" id="process" style="padding-top:60px">
+  <div class="wrap">
+    <div class="reveal"><span class="eyebrow" data-i18n="p.label"></span><h2 class="h2" data-i18n="p.title"></h2></div>
+    <div class="process" id="processEl">
+      <div class="pline"><i id="pline"></i></div>
+      <div class="pstep reveal"><div class="pnum glass"><span>01</span></div><h4 data-i18n="p1t"></h4><p data-i18n="p1d"></p></div>
+      <div class="pstep reveal" style="transition-delay:.1s"><div class="pnum glass"><span>02</span></div><h4 data-i18n="p2t"></h4><p data-i18n="p2d"></p></div>
+      <div class="pstep reveal" style="transition-delay:.2s"><div class="pnum glass"><span>03</span></div><h4 data-i18n="p3t"></h4><p data-i18n="p3d"></p></div>
+      <div class="pstep reveal" style="transition-delay:.3s"><div class="pnum glass"><span>04</span></div><h4 data-i18n="p4t"></h4><p data-i18n="p4d"></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="sec" id="contact" style="padding-top:40px">
+  <div class="wrap">
+    <div class="contact-card glass refract reveal">
+      <span class="eyebrow" data-i18n="c.label"></span>
+      <h2 class="h2" data-i18n="c.title"></h2>
+      <p class="lead" data-i18n="c.sub"></p>
+      <div class="cbtns">
+        <a class="cbtn glass" href="https://t.me/keIw1n" target="_blank" rel="noopener" data-magnetic><span class="ci" style="background:linear-gradient(160deg,#5BC8F5,#2AA3E0)"><svg><use href="#i-tg"/></svg></span><span class="txt">Telegram<small>@keIw1n</small></span></a>
+        <a class="cbtn glass" href="https://github.com/Kelw1n" target="_blank" rel="noopener" data-magnetic><span class="ci" style="background:#1C1A17"><svg><use href="#i-gh"/></svg></span><span class="txt">GitHub<small>Kelw1n</small></span></a>
+        <a class="cbtn glass" href="mailto:Kelw1nnnx1@gmail.com" data-magnetic><span class="ci" style="background:linear-gradient(160deg,#E99A7C,#C2603F)"><svg><use href="#i-mail"/></svg></span><span class="txt">Email<small>Kelw1nnnx1@gmail.com</small></span></a>
+      </div>
+      <button class="copy" id="copyMail" data-i18n="c.copy"></button>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-big" aria-hidden="true">Kelw1n</div>
+    <div class="foot">
+      <span data-i18n="ft.made"></span>
+      <span>© 2026 Kelw1n</span>
+      <a class="totop glass" href="#top"><span data-i18n="ft.top"></span><svg style="transform:rotate(-90deg)"><use href="#i-arrow"/></svg></a>
+    </div>
+  </div>
+</footer>
+
+<div class="toast glass" id="toast"><span data-i18n="c.copied"></span></div>
+
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(() => {
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const fine = matchMedia('(pointer: fine)').matches;
+const store = {
+  get(k){ try { return localStorage.getItem(k); } catch(e) { return null; } },
+  set(k, v){ try { localStorage.setItem(k, v); } catch(e) {} }
+};
+
+/* ---------- I18N ---------- */
+const I18N = {
+ru: {
+  "nav.skills": `Навыки`, "nav.work": `Портфолио`, "nav.contact": `Контакты`,
+  "hero.badge": `Открыт к новым проектам`, "hero.hi": `Привет, я`,
+  "hero.lead": `Создаю приложения, Telegram-ботов и сайты, которые <em>приятно</em> использовать.`,
+  "hero.cta1": `Смотреть проекты`, "hero.cta2": `Написать в Telegram`, "hero.scroll": `Листай`,
+  "chip.pr": `Новый рекорд · 100 кг`, "chip.ai": `+397 ккал · завтрак`, "chip.bot": `Бот отвечает 24/7`,
+  "strain.label": `Проект 01 · Фитнес`,
+  "strain.tag": `Дневник тренировок, который <em>считает за тебя</em>.`,
+  "strain.desc": `Записывай подходы и веса — STRAIN сам посчитает рекорды, объём и прогресс. Создан для тех, кто ходит в зал и хочет видеть результат, а не таблицы.`,
+  "strain.t1": `Дневник тренировок`, "strain.t2": `Авто-рекорды`, "strain.t3": `Аналитика`, "strain.t4": `Друзья по QR`,
+  "strain.hint": `Листай — экраны перелистываются`,
+  "s1t": `Сегодня`, "s1d": `План на день: упражнения, подходы, рабочие веса и прогресс недели — в одном экране.`,
+  "s2t": `Тренировка`, "s2d": `Серия активностей, цели и свои программы. Начать тренировку — одно касание.`,
+  "s3t": `Активность`, "s3d": `Объём, время и рекорды считаются автоматически. Плюс баланс нагрузки по группам мышц.`,
+  "s4t": `Бро-трекер`, "s4d": `Добавляй друзей по QR-коду и смотри их тренировки в реальном времени.`,
+  "s5t": `Профиль`, "s5d": `Достижения, статистика и подписчики — мотивация не пропускать зал.`,
+  "f1t": `Подходы и веса`, "f1d": `Каждый подход за пару касаний: вес, повторы, RPE.`,
+  "f2t": `Авто-рекорды`, "f2d": `Личные максимумы в приседе, жиме и тяге обновляются сами.`,
+  "f3t": `Объём и графики`, "f3d": `Время, тоннаж и баланс нагрузки по группам мышц.`,
+  "f4t": `Бро-трекер`, "f4d": `Друзья по QR-коду и их тренировки в реальном времени.`,
+  "bf.label": `Проект 02 · AI + питание`,
+  "bf.tag": `Сфоткай еду — <em>AI посчитает</em> остальное.`,
+  "bf.desc": `Butterfly — счётчик калорий со встроенным AI-ассистентом. Он подбирает калораж под твои параметры и цель, строит план на несколько месяцев и распознаёт еду по фото.`,
+  "bf.s1t": `Твои параметры`, "bf.s1d": `Рост, вес, возраст и активность — ассистент рассчитает норму калорий на день.`,
+  "bf.s2t": `Твоя цель`, "bf.s2d": `Набор массы, сушка или поддержание — и план на месяцы вперёд под твои условия.`,
+  "bf.s3t": `Фото вместо весов`, "bf.s3d": `Сфоткай тарелку: AI определит продукты, оценит порции и сам запишет приём пищи в дневник.`,
+  "goal.bulk": `Набор`, "goal.keep": `Поддержание`, "goal.cut": `Сушка`,
+  "bf.perday": `ккал / день`, "bf.plan": `План на 12 недель`, "bf.example": `Пример: 178 см · 75 кг`,
+  "bf.now": `Сейчас · 75 кг`, "bf.w6": `6 нед.`, "bf.w12": `12 нед.`, "bf.kg": `кг`,
+  "bf.p": `Белки`, "bf.f": `Жиры`, "bf.c": `Углеводы`, "bf.g": `г`,
+  "bf.scan": `AI-анализ фото`, "bf.scanning": `Сканирую тарелку…`, "bf.found": `Найдено 3 продукта`, "bf.added": `Добавлено в завтрак`,
+  "bf.total": `Итого`, "bf.kcal": `ккал`, "bf.today": `Сегодня`, "bf.diary": `Дневник`, "bf.goalw": `Цель`, "bf.left": `Осталось`,
+  "bf.breakfast": `Завтрак`, "bf.lunch": `Обед`, "bf.snack": `Перекус`,
+  "food.egg": `Яичница`, "food.avo": `Авокадо`, "food.toast": `Тост`,
+  "food.egg.q": `2 шт`, "food.avo.q": `70 г`, "food.toast.q": `40 г`,
+  "bf.soon": `Интерактивное превью интерфейса · скриншоты скоро`,
+  "sk.label": `Что я умею`, "sk.title": `Навыки, из которых <em>собираются продукты</em>.`,
+  "sk.py": `Боты, автоматизация, бэкенд и AI-интеграции.`,
+  "sk.ai": `Нейросети внутри продуктов: распознавание, ассистенты, генерация.`,
+  "sk.bl": `3D-модели, рендеры и визуализация — от иконки до сцены.`,
+  "sk.tgt": `Telegram-боты`, "sk.tg": `От автоответчиков до ботов с оплатой и AI.`,
+  "sk.webt": `Сайты`, "sk.web": `Адаптивные, живые, анимированные — как этот.`,
+  "sk.dzt": `Дизайн`, "sk.dz": `UI/UX в духе Apple: чисто, понятно, красиво.`,
+  "sk.cpp": `Алгоритмы, производительность и понимание того, как всё работает под капотом.`,
+  "sk.ctat": `Есть задача?`, "sk.cta": `Расскажи идею — предложу решение и сроки.`,
+  "w.label": `Портфолио`, "w.title": `Избранные <em>проекты</em>`, "w.more": `Подробнее`, "w.here": `Ты здесь`,
+  "w1m": `Приложение · Фитнес`, "w1d": `Дневник тренировок с авто-рекордами, аналитикой и бро-трекером.`,
+  "w2m": `AI · Питание`, "w2d": `Счётчик калорий с AI-ассистентом и распознаванием еды по фото.`,
+  "w3m": `Автоматизация · Бизнес`, "w3d": `Заявки из Директа магазина ведут прямо в Telegram администратора — ни один лид не теряется.`,
+  "w4m": `Веб · Liquid Glass`, "w4t": `Этот сайт`, "w4d": `Дизайн, анимации и код — с нуля, без шаблонов.`,
+  "p.label": `Процесс`, "p.title": `Как я <em>работаю</em>`,
+  "p1t": `Идея`, "p1d": `Разбираемся в задаче, цели и аудитории.`,
+  "p2t": `Дизайн`, "p2d": `Прототип и визуал — чисто, современно, в стиле Apple.`,
+  "p3t": `Разработка`, "p3d": `Чистый код, плавные анимации, AI-фичи.`,
+  "p4t": `Запуск`, "p4d": `Публикация, поддержка и улучшения после релиза.`,
+  "c.label": `Контакты`, "c.title": `Есть идея? <em>Давай сделаем.</em>`,
+  "c.sub": `Пиши в Telegram — отвечаю быстро. Или на почту, если так удобнее.`,
+  "c.copy": `Скопировать почту`, "c.copied": `Почта скопирована ✓`,
+  "ft.made": `Дизайн и разработка — <b>Kelw1n</b>. Сайт сделан мной с нуля.`, "ft.top": `Наверх`
+},
+en: {
+  "nav.skills": `Skills`, "nav.work": `Work`, "nav.contact": `Contact`,
+  "hero.badge": `Open for new projects`, "hero.hi": `Hi, I'm`,
+  "hero.lead": `I build apps, Telegram bots and websites that feel <em>delightful</em> to use.`,
+  "hero.cta1": `See projects`, "hero.cta2": `Message on Telegram`, "hero.scroll": `Scroll`,
+  "chip.pr": `New PR · 100 kg`, "chip.ai": `+397 kcal · breakfast`, "chip.bot": `Bot replies 24/7`,
+  "strain.label": `Project 01 · Fitness`,
+  "strain.tag": `A workout journal that <em>does the math</em> for you.`,
+  "strain.desc": `Log your sets and weights — STRAIN calculates records, volume and progress on its own. Built for gym-goers who want results, not spreadsheets.`,
+  "strain.t1": `Workout log`, "strain.t2": `Auto PRs`, "strain.t3": `Analytics`, "strain.t4": `Friends via QR`,
+  "strain.hint": `Keep scrolling to flip through`,
+  "s1t": `Today`, "s1d": `Your daily plan: exercises, sets, working weights and weekly progress — on one screen.`,
+  "s2t": `Workout`, "s2d": `Activity streaks, goals and custom programs. Starting a workout takes one tap.`,
+  "s3t": `Activity`, "s3d": `Volume, time and records are calculated automatically — plus muscle-group load balance.`,
+  "s4t": `Bro-tracker`, "s4d": `Add friends via QR code and follow their workouts in real time.`,
+  "s5t": `Profile`, "s5d": `Achievements, stats and followers — motivation to never skip the gym.`,
+  "f1t": `Sets & weights`, "f1d": `Log every set in a couple of taps: weight, reps, RPE.`,
+  "f2t": `Auto PRs`, "f2d": `Personal bests in squat, bench and deadlift update themselves.`,
+  "f3t": `Volume & charts`, "f3d": `Time, tonnage and load balance across muscle groups.`,
+  "f4t": `Bro-tracker`, "f4d": `Friends via QR code and their workouts in real time.`,
+  "bf.label": `Project 02 · AI + nutrition`,
+  "bf.tag": `Snap your food — <em>AI counts</em> the rest.`,
+  "bf.desc": `Butterfly is a calorie counter with a built-in AI assistant. It sets your calorie target for your body and goal, plans months ahead and recognizes food from a photo.`,
+  "bf.s1t": `Your stats`, "bf.s1d": `Height, weight, age and activity — the assistant calculates your daily calorie target.`,
+  "bf.s2t": `Your goal`, "bf.s2d": `Bulk, cut or maintain — with a plan months ahead tailored to you.`,
+  "bf.s3t": `Photos, not scales`, "bf.s3d": `Snap your plate: AI detects the food, estimates portions and logs the meal for you.`,
+  "goal.bulk": `Bulk`, "goal.keep": `Maintain`, "goal.cut": `Cut`,
+  "bf.perday": `kcal / day`, "bf.plan": `12-week plan`, "bf.example": `Example: 178 cm · 75 kg`,
+  "bf.now": `Now · 75 kg`, "bf.w6": `6 wks`, "bf.w12": `12 wks`, "bf.kg": `kg`,
+  "bf.p": `Protein`, "bf.f": `Fat`, "bf.c": `Carbs`, "bf.g": `g`,
+  "bf.scan": `AI photo analysis`, "bf.scanning": `Scanning the plate…`, "bf.found": `3 items found`, "bf.added": `Added to breakfast`,
+  "bf.total": `Total`, "bf.kcal": `kcal`, "bf.today": `Today`, "bf.diary": `Diary`, "bf.goalw": `Goal`, "bf.left": `Left`,
+  "bf.breakfast": `Breakfast`, "bf.lunch": `Lunch`, "bf.snack": `Snack`,
+  "food.egg": `Fried eggs`, "food.avo": `Avocado`, "food.toast": `Toast`,
+  "food.egg.q": `2 pcs`, "food.avo.q": `70 g`, "food.toast.q": `40 g`,
+  "bf.soon": `Interactive interface preview · screenshots coming soon`,
+  "sk.label": `What I do`, "sk.title": `Skills that <em>turn into products</em>.`,
+  "sk.py": `Bots, automation, backend and AI integrations.`,
+  "sk.ai": `Neural networks inside products: recognition, assistants, generation.`,
+  "sk.bl": `3D models, renders and visualization — from an icon to a whole scene.`,
+  "sk.tgt": `Telegram bots`, "sk.tg": `From auto-responders to bots with payments and AI.`,
+  "sk.webt": `Websites`, "sk.web": `Responsive, alive and animated — like this one.`,
+  "sk.dzt": `Design`, "sk.dz": `Apple-inspired UI/UX: clean, clear and beautiful.`,
+  "sk.cpp": `Algorithms, performance and knowing how things work under the hood.`,
+  "sk.ctat": `Got a task?`, "sk.cta": `Tell me the idea — I'll suggest a solution and timeline.`,
+  "w.label": `Portfolio`, "w.title": `Selected <em>work</em>`, "w.more": `Details`, "w.here": `You are here`,
+  "w1m": `App · Fitness`, "w1d": `A workout journal with auto PRs, analytics and a bro-tracker.`,
+  "w2m": `AI · Nutrition`, "w2d": `A calorie counter with an AI assistant and food recognition from photos.`,
+  "w3m": `Automation · Business`, "w3d": `Leads from a shop's Instagram DMs go straight to the admin's Telegram — no lead gets lost.`,
+  "w4m": `Web · Liquid Glass`, "w4t": `This website`, "w4d": `Design, motion and code — from scratch, no templates.`,
+  "p.label": `Process`, "p.title": `How I <em>work</em>`,
+  "p1t": `Idea`, "p1d": `We dig into the task, the goal and the audience.`,
+  "p2t": `Design`, "p2d": `Prototype and visuals — clean, modern, Apple-style.`,
+  "p3t": `Build`, "p3d": `Clean code, smooth motion, AI features.`,
+  "p4t": `Launch`, "p4d": `Release, support and improvements after launch.`,
+  "c.label": `Contact`, "c.title": `Got an idea? <em>Let's build it.</em>`,
+  "c.sub": `Message me on Telegram — I reply fast. Or email, if you prefer.`,
+  "c.copy": `Copy email`, "c.copied": `Email copied ✓`,
+  "ft.made": `Designed & built by <b>Kelw1n</b> — from scratch.`, "ft.top": `Back to top`
+}};
+let lang = store.get('lang') || ((navigator.language || 'ru').toLowerCase().startsWith('ru') ? 'ru' : 'en');
+const t = k => (I18N[lang][k] ?? k);
+const fmt = n => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'ru' ? '\u202F' : ',');
+
+function setSeg(seg, idx){
+  const pill = seg.querySelector('.seg-pill');
+  seg.style.setProperty('--i', idx);
+  pill.classList.remove('wobble'); void pill.offsetWidth; pill.classList.add('wobble');
+}
+function applyLang(l){
+  lang = l; store.set('lang', l);
+  document.documentElement.lang = l;
+  $$('[data-i18n]').forEach(el => { el.innerHTML = t(el.dataset.i18n); });
+  const seg = $('#langSeg');
+  $$('button', seg).forEach((b, i) => { b.classList.toggle('on', b.dataset.lang === l); if (b.dataset.lang === l) setSeg(seg, i); });
+  if (window.__bfRender) window.__bfRender(false);
+}
+$$('#langSeg button').forEach(b => b.addEventListener('click', () => applyLang(b.dataset.lang)));
+applyLang(lang);
+
+/* ---------- THEME ---------- */
+const root = document.documentElement;
+const sysDark = matchMedia('(prefers-color-scheme: dark)');
+function setTheme(th, save){
+  root.dataset.theme = th;
+  $('meta[name=theme-color]').content = th === 'dark' ? '#141210' : '#F4EFE6';
+  if (save) store.set('theme', th);
+}
+setTheme(store.get('theme') || (sysDark.matches ? 'dark' : 'light'));
+$('#themeBtn').addEventListener('click', () => setTheme(root.dataset.theme === 'dark' ? 'light' : 'dark', true));
+
+
+/* ---------- HERO NAME ---------- */
+const hn = $('#heroName');
+const word = hn.textContent.trim();
+hn.innerHTML = [...word].map((c, i) => `<span class="ch" aria-hidden="true" style="--k:${i}">${c}</span>`).join('');
+$$('.ch', hn).forEach(ch => {
+  ch.addEventListener('mouseenter', () => { ch.classList.remove('rubber'); void ch.offsetWidth; ch.classList.add('rubber'); });
+  ch.addEventListener('animationend', e => { if (e.animationName === 'rubber') ch.classList.remove('rubber'); });
+});
+
+/* ---------- LOADER ---------- */
+const loader = $('#loader');
+let started = false;
+function start(){
+  if (started) return; started = true;
+  loader.classList.add('out');
+  document.body.classList.add('ready');
+  setTimeout(() => loader.remove(), 1200);
+}
+window.addEventListener('load', () => setTimeout(start, 500));
+setTimeout(start, 2600);
+
+/* ---------- CURSOR RING + HERO PARALLAX (one rAF loop) ---------- */
+const ring = $('#ring');
+let mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my, tpx = 0, tpy = 0, ppx = 0, ppy = 0;
+addEventListener('pointermove', e => {
+  mx = e.clientX; my = e.clientY;
+  tpx = mx / innerWidth - .5; tpy = my / innerHeight - .5;
+  if (fine && e.pointerType === 'mouse') document.body.classList.add('has-cursor');
+}, { passive: true });
+document.addEventListener('mouseleave', () => document.body.classList.remove('has-cursor'));
+document.addEventListener('pointerover', e => {
+  ring.classList.toggle('hover', !!e.target.closest('a,button,[data-tilt],.ch'));
+});
+const layers = $$('#heroVisual .layer').map(el => ({ el, d: parseFloat(getComputedStyle(el).getPropertyValue('--d')) || 0 }));
+let heroOn = true;
+new IntersectionObserver(es => { heroOn = es[0].isIntersecting; }).observe($('.hero'));
+function loop(){
+  rx += (mx - rx) * .22; ry += (my - ry) * .22;
+  ring.style.transform = `translate3d(${rx.toFixed(1)}px,${ry.toFixed(1)}px,0)`;
+  if (heroOn) {
+    ppx += (tpx - ppx) * .06; ppy += (tpy - ppy) * .06;
+    layers.forEach(l => { l.el.style.transform = `translate3d(${(ppx * l.d * 1.3).toFixed(2)}px,${(ppy * l.d * 1.3).toFixed(2)}px,0)`; });
+  }
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+/* ---------- GLASS CAUSTIC (cursor light) ---------- */
+document.addEventListener('pointermove', e => {
+  const g = e.target.closest && e.target.closest('.glass');
+  if (!g) return;
+  const r = g.getBoundingClientRect();
+  g.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+  g.style.setProperty('--my', (e.clientY - r.top) + 'px');
+}, { passive: true });
+
+/* ---------- TILT ---------- */
+if (fine) $$('[data-tilt]').forEach(el => {
+  el.addEventListener('pointermove', e => {
+    const r = el.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+    el.style.transform = `perspective(900px) rotateX(${-y * 7}deg) rotateY(${x * 9}deg) translateZ(0)`;
+  });
+  el.addEventListener('pointerleave', () => { el.style.transform = ''; });
+});
+
+/* ---------- MAGNETIC ---------- */
+if (fine) $$('[data-magnetic]').forEach(el => {
+  el.addEventListener('pointermove', e => {
+    const r = el.getBoundingClientRect();
+    el.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * .25}px,${(e.clientY - r.top - r.height / 2) * .35}px)`;
+  });
+  el.addEventListener('pointerleave', () => { el.style.transform = ''; });
+});
+
+/* ---------- SMOOTH SCROLL (Lenis) + anchors ---------- */
+let lenis = null;
+if (window.Lenis) {
+  lenis = new Lenis({ duration: 1.15, easing: x => Math.min(1, 1.001 - Math.pow(2, -10 * x)), smoothWheel: true });
+  const raf = time => { lenis.raf(time); requestAnimationFrame(raf); };
+  requestAnimationFrame(raf);
+}
+document.addEventListener('click', e => {
+  const a = e.target.closest('a[href^="#"]');
+  if (!a) return;
+  const id = a.getAttribute('href');
+  const el = id === '#top' ? null : document.querySelector(id);
+  if (id !== '#top' && !el) return;
+  e.preventDefault();
+  if (lenis) lenis.scrollTo(el || 0, { offset: el ? -70 : 0 });
+  else (el || document.body).scrollIntoView({ behavior: 'smooth' });
+});
+
+/* ---------- REVEAL ---------- */
+const io = new IntersectionObserver(es => es.forEach(en => {
+  if (en.isIntersecting) {
+    const el = en.target; el.classList.add('in'); io.unobserve(el);
+    setTimeout(() => { el.classList.add('done'); el.style.transitionDelay = ''; }, 1500);
+  }
+}), { threshold: .14, rootMargin: '0px 0px -40px 0px' });
+$$('.reveal').forEach(el => io.observe(el));
+
+/* ---------- NAV: active link, menu ---------- */
+const nav = $('#nav'), mnav = $('#mnav');
+$('#menuBtn').addEventListener('click', () => mnav.classList.toggle('open'));
+$$('a', mnav).forEach(a => a.addEventListener('click', () => mnav.classList.remove('open')));
+const navLinks = $$('.links a');
+const secIO = new IntersectionObserver(es => es.forEach(en => {
+  if (en.isIntersecting) navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + en.target.id));
+}), { rootMargin: '-45% 0px -50% 0px' });
+['strain','butterfly','skills','work','contact'].forEach(id => secIO.observe(document.getElementById(id)));
+
+/* ---------- STRAIN horizontal pinned scroll ---------- */
+const hs = $('#hscroll'), track = $('#htrack'), slides = $$('.slide', track), hbar = $('#hbar');
+const desk = matchMedia('(min-width: 821px)');
+const phones = slides.map(s => s.querySelector('.phone'));
+let centers = [];
+function sizeH(){
+  if (desk.matches) {
+    hs.style.height = (track.offsetWidth - innerWidth + innerHeight) + 'px';
+    const tl = track.getBoundingClientRect().left;
+    centers = slides.map(s => { const b = s.getBoundingClientRect(); return b.left - tl + b.width / 2; });
+  } else {
+    hs.style.height = ''; track.style.transform = '';
+    slides.forEach(s => { s.style.opacity = ''; s.querySelector('.phone').style.transform = ''; });
+  }
+}
+function updateH(){
+  if (!desk.matches) return;
+  const r = hs.getBoundingClientRect();
+  const max = hs.offsetHeight - innerHeight;
+  const p = Math.min(1, Math.max(0, -r.top / max));
+  const dist = track.offsetWidth - innerWidth;
+  track.style.transform = `translate3d(${-p * dist}px,0,0)`;
+  hbar.style.transform = `scaleX(${p})`;
+  const cx = innerWidth / 2;
+  slides.forEach((s, i) => {
+    const d = (centers[i] - p * dist - cx) / innerWidth;
+    const a = Math.min(Math.abs(d), 1);
+    phones[i].style.transform = `perspective(1200px) rotateY(${(d * -30).toFixed(2)}deg) scale(${(1 - a * .14).toFixed(3)})`;
+    s.style.opacity = (1 - Math.min(a * .9, .65)).toFixed(3);
+  });
+}
+track.addEventListener('scroll', () => {
+  if (desk.matches) return;
+  const m = track.scrollWidth - track.clientWidth;
+  hbar.style.transform = `scaleX(${m ? track.scrollLeft / m : 0})`;
+}, { passive: true });
+
+/* ---------- SCROLL TICK ---------- */
+const prog = $('#progress'), pline = $('#pline'), procEl = $('#processEl');
+let ticking = false;
+function onScroll(){
+  const h = document.documentElement.scrollHeight - innerHeight;
+  prog.style.transform = `scaleX(${h > 0 ? scrollY / h : 0})`;
+  nav.classList.toggle('scrolled', scrollY > 60);
+  updateH();
+  const pr = procEl.getBoundingClientRect();
+  const pp = Math.min(1, Math.max(0, (innerHeight * .85 - pr.top) / (innerHeight * .6)));
+  pline.style.transform = `scaleX(${pp})`;
+  ticking = false;
+}
+addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+addEventListener('resize', () => { sizeH(); onScroll(); });
+addEventListener('load', () => { sizeH(); onScroll(); });
+sizeH(); onScroll();
+
+/* ---------- WORK CAROUSEL ---------- */
+const wt = $('#wtrack');
+const step = () => { const c = $('.wcard', wt); return c.offsetWidth + 20; };
+$('#wPrev').addEventListener('click', () => wt.scrollBy({ left: -step(), behavior: 'smooth' }));
+$('#wNext').addEventListener('click', () => wt.scrollBy({ left: step(), behavior: 'smooth' }));
+let down = false, sx = 0, sl = 0, moved = 0;
+wt.addEventListener('pointerdown', e => {
+  if (e.pointerType !== 'mouse') return;
+  down = true; moved = 0; sx = e.clientX; sl = wt.scrollLeft;
+});
+addEventListener('pointermove', e => {
+  if (!down) return;
+  const dx = e.clientX - sx; moved = Math.max(moved, Math.abs(dx));
+  if (moved > 5) { wt.classList.add('dragging'); wt.scrollLeft = sl - dx; }
+});
+addEventListener('pointerup', () => {
+  if (!down) return; down = false;
+  if (wt.classList.contains('dragging')) {
+    const x = wt.scrollLeft; wt.classList.remove('dragging');
+    wt.scrollLeft = x;
+  }
+});
+wt.addEventListener('click', e => { if (moved > 5) { e.preventDefault(); e.stopPropagation(); moved = 0; } }, true);
+
+/* ---------- COPY EMAIL ---------- */
+const toast = $('#toast');
+$('#copyMail').addEventListener('click', () => {
+  const show = () => { toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 2200); };
+  if (navigator.clipboard) navigator.clipboard.writeText('Kelw1nnnx1@gmail.com').then(show, () => location.href = 'mailto:Kelw1nnnx1@gmail.com');
+  else location.href = 'mailto:Kelw1nnnx1@gmail.com';
+});
+
+/* ---------- BUTTERFLY demo ---------- */
+const GOALS = {
+  bulk: { kcal: 2800, p: 165, f: 85, c: 360, end: 78, d: 'M0,98 C70,96 120,80 180,62 S260,34 300,24' },
+  keep: { kcal: 2400, p: 150, f: 75, c: 290, end: 75, d: 'M0,60 C60,65 110,55 160,60 S250,64 300,59' },
+  cut:  { kcal: 1950, p: 160, f: 60, c: 200, end: 71, d: 'M0,22 C60,28 120,52 180,70 S260,94 300,100' }
+};
+const BASE = { kcal: 850, p: 52, f: 30, c: 95 }, BRK = { kcal: 397, p: 22, f: 26, c: 20 };
+let goal = 'keep', added = false;
+const C = 289.03;
+function animNum(el, to, dur = 900){
+  if (!el) return;
+  const from = parseFloat(el.dataset.v || 0);
+  el.dataset.v = to;
+  if (dur === 0) { el.textContent = fmt(to); return; }
+  const t0 = performance.now();
+  const tick = now => {
+    const k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+    el.textContent = fmt(from + (to - from) * e);
+    if (k < 1) requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+}
+function renderPhone(anim){
+  const g = GOALS[goal];
+  const c = added ? { kcal: BASE.kcal + BRK.kcal, p: BASE.p + BRK.p, f: BASE.f + BRK.f, c: BASE.c + BRK.c } : BASE;
+  const d = anim ? 900 : 0;
+  $('#ringVal').style.strokeDashoffset = (C * (1 - Math.min(c.kcal / g.kcal, 1))).toFixed(2);
+  animNum($('#eaten'), c.kcal, d); animNum($('#tgt'), g.kcal, d); animNum($('#left'), Math.max(g.kcal - c.kcal, 0), d);
+  $('#mp').style.width = Math.min(100, c.p / g.p * 100) + '%';
+  $('#mf').style.width = Math.min(100, c.f / g.f * 100) + '%';
+  $('#mc').style.width = Math.min(100, c.c / g.c * 100) + '%';
+  $('#mpv').textContent = `${c.p}/${g.p} ${t('bf.g')}`;
+  $('#mfv').textContent = `${c.f}/${g.f} ${t('bf.g')}`;
+  $('#mcv').textContent = `${c.c}/${g.c} ${t('bf.g')}`;
+  $('#bVal').textContent = added ? fmt(BRK.kcal) : '—';
+}
+const line = $('#chartLine'), area = $('#chartArea');
+function renderPlan(anim){
+  const g = GOALS[goal];
+  animNum($('#planKcal'), g.kcal, anim ? 800 : 0);
+  $('#pP').textContent = `${t('bf.p')} ${g.p} ${t('bf.g')}`;
+  $('#pF').textContent = `${t('bf.f')} ${g.f} ${t('bf.g')}`;
+  $('#pC').textContent = `${t('bf.c')} ${g.c} ${t('bf.g')}`;
+  $('#endW').textContent = g.end;
+  line.setAttribute('d', g.d);
+  area.setAttribute('d', g.d + ' L300,120 L0,120 Z');
+  if (anim) {
+    const len = line.getTotalLength();
+    line.style.transition = 'none';
+    line.style.strokeDasharray = len; line.style.strokeDashoffset = len;
+    area.style.opacity = 0;
+    void line.getBoundingClientRect();
+    line.style.transition = 'stroke-dashoffset 1.2s cubic-bezier(.2,.8,.1,1)';
+    line.style.strokeDashoffset = 0;
+    area.style.opacity = 1;
+  }
+}
+window.__bfRender = anim => { renderPhone(anim); renderPlan(anim); };
+const goalSeg = $('#goalSeg');
+function setGoal(gk, anim){
+  goal = gk;
+  $$('button', goalSeg).forEach((b, i) => { b.classList.toggle('on', b.dataset.goal === gk); if (b.dataset.goal === gk) setSeg(goalSeg, i); });
+  renderPlan(anim); renderPhone(anim);
+}
+$$('button', goalSeg).forEach(b => b.addEventListener('click', () => setGoal(b.dataset.goal, true)));
+setGoal('keep', false);
+
+// scan timeline
+const scan = $('#scan'), boxes = $$('.box', scan), items = $$('.it', scan), stat = $('#scanStatus'), stot = $('#scanTotal'), mealB = $('#mealB');
+let timers = [], running = false;
+const T = (ms, fn) => timers.push(setTimeout(fn, ms));
+const setStat = k => { stat.dataset.i18n = k; stat.innerHTML = t(k); };
+function cycle(){
+  timers.forEach(clearTimeout); timers = [];
+  scan.classList.remove('found', 'done'); scan.classList.add('scanning');
+  boxes.forEach(b => b.classList.remove('show')); items.forEach(i => i.classList.remove('show'));
+  setStat('bf.scanning'); animNum(stot, 0, 300);
+  added = false; renderPhone(true);
+  T(2000, () => { scan.classList.remove('scanning'); scan.classList.add('found'); setStat('bf.found'); boxes.forEach((b, i) => T(i * 180, () => b.classList.add('show'))); });
+  T(3000, () => { items.forEach((it, i) => T(i * 170, () => it.classList.add('show'))); animNum(stot, 397, 1000); });
+  T(4600, () => { scan.classList.add('done'); setStat('bf.added'); added = true; renderPhone(true); mealB.classList.remove('flash'); void mealB.offsetWidth; mealB.classList.add('flash'); });
+  T(9500, cycle);
+}
+new IntersectionObserver(es => es.forEach(en => {
+  if (en.isIntersecting && !running) { running = true; cycle(); }
+  else if (!en.isIntersecting && running) { running = false; timers.forEach(clearTimeout); timers = []; }
+}), { threshold: .3 }).observe(scan);
+
+})();
+</script>
+</body>
+</html>
