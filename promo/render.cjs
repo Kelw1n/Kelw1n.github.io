@@ -1,6 +1,7 @@
 // Покадровый рендер promo.html → MP4 (без звука).
 //   node render.cjs preview 2.5,8,12.4      — PNG-кадры для проверки в out/preview
 //   node render.cjs full [workers]           — весь ролик: out/video.mp4
+//   node render.cjs full 4 out/warp.json video_apple.mp4 — с картой времени (apple_mix.py)
 // Нужен локальный сервер: python3 -m http.server 8123 (из корня репозитория)
 const { chromium } = require('playwright');
 const { spawn } = require('child_process');
@@ -44,15 +45,22 @@ async function preview(times){
   await browser.close();
 }
 
-async function worker(id, from, to, fps){
+// время готового ролика → время таймлайна promo.html (кусочно-линейно)
+function interp(x, xs, ys){
+  if (x <= xs[0]) return ys[0];
+  for (let i = 1; i < xs.length; i++) if (x <= xs[i]) return ys[i - 1] + (ys[i] - ys[i - 1]) * (x - xs[i - 1]) / (xs[i] - xs[i - 1]);
+  return ys[ys.length - 1];
+}
+
+async function worker(id, from, to, fps, warp, tag){
   const browser = await chromium.launch();
   const { page, cdp } = await openPage(browser);
-  const file = path.join(OUT, `seg${id}.mp4`);
+  const file = path.join(OUT, `seg${tag}${id}.mp4`);
   const ff = spawn('ffmpeg', ['-v', 'error', '-y', '-f', 'image2pipe', '-framerate', String(fps), '-c:v', 'png', '-i', '-',
     '-c:v', 'libx264', '-preset', 'slow', '-crf', '15', '-pix_fmt', 'yuv420p', '-g', String(fps), '-r', String(fps), file], { stdio: ['pipe', 'inherit', 'inherit'] });
   const t0 = Date.now();
   for (let f = from; f < to; f++) {
-    await renderFrame(page, f / fps);
+    await renderFrame(page, warp ? interp(f / fps, warp.out, warp.video) : f / fps);
     const buf = await shot(cdp);
     if (!ff.stdin.write(buf)) await new Promise(r => ff.stdin.once('drain', r));
     if ((f - from) % 60 === 0) console.log(`[w${id}] frame ${f}/${to} ${((Date.now() - t0) / Math.max(1, f - from + 1)).toFixed(0)}ms/f`);
@@ -64,7 +72,9 @@ async function worker(id, from, to, fps){
 }
 
 (async () => {
-  const [mode, arg] = process.argv.slice(2);
+  const [mode, arg, warpFile, outName] = process.argv.slice(2);
+  const warp = warpFile ? JSON.parse(fs.readFileSync(warpFile, 'utf8')) : null;
+  const tag = warp ? 'w' : '';
   if (mode === 'preview') return preview(arg.split(',').map(Number));
   if (mode === 'full') {
     const W = parseInt(arg || '4', 10);
@@ -72,12 +82,13 @@ async function worker(id, from, to, fps){
     const { page } = await openPage(probe);
     const { DUR, FPS } = await page.evaluate(() => window.PROMO);
     await probe.close();
-    const N = Math.round(DUR * FPS);
+    const N = Math.round((warp ? warp.duration : DUR) * FPS);
     const per = Math.ceil(N / W);
     const t0 = Date.now();
-    const files = await Promise.all([...Array(W)].map((_, i) => worker(i, i * per, Math.min(N, (i + 1) * per), FPS)));
-    fs.writeFileSync(path.join(OUT, 'list.txt'), files.map(f => `file '${f}'`).join('\n'));
-    await new Promise(r => spawn('ffmpeg', ['-v', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', path.join(OUT, 'list.txt'), '-c', 'copy', path.join(OUT, 'video.mp4')], { stdio: 'inherit' }).on('close', r));
-    console.log(`done: ${N} frames in ${((Date.now() - t0) / 1000).toFixed(0)}s → out/video.mp4`);
+    const files = await Promise.all([...Array(W)].map((_, i) => worker(i, i * per, Math.min(N, (i + 1) * per), FPS, warp, tag)));
+    const list = path.join(OUT, `list${tag}.txt`), name = outName || 'video.mp4';
+    fs.writeFileSync(list, files.map(f => `file '${f}'`).join('\n'));
+    await new Promise(r => spawn('ffmpeg', ['-v', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', list, '-c', 'copy', path.join(OUT, name)], { stdio: 'inherit' }).on('close', r));
+    console.log(`done: ${N} frames in ${((Date.now() - t0) / 1000).toFixed(0)}s → out/${name}`);
   }
 })();
