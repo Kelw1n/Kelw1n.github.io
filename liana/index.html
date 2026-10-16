@@ -431,7 +431,6 @@
       no.hidden = true;
       letter.hidden = false;
       window.scrollTo(0, 0);
-      try { history.replaceState(null, '', '#zapiska'); } catch (err) {}
     }
 
     yes.addEventListener('click', function () {
@@ -444,8 +443,6 @@
       ask.classList.add('leaving');
       setTimeout(showLetter, 560);
     });
-
-    if (location.hash === '#zapiska') showLetter();
   })();
 </script>
 </body>
