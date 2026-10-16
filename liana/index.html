@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="У меня к тебе один очень серьёзный вопрос">
+<meta property="og:title" content="Лиана, у меня к тебе вопрос">
+<meta property="og:description" content="Один очень серьёзный вопрос">
+<meta name="theme-color" content="#1b212b">
+<style>
+  :root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; font: 14px/1.4 system-ui, sans-serif; -webkit-tap-highlight-color: transparent; }
+  img { max-width: 100%; }
+  [hidden] { display: none !important; }
+</style>
+<title>Записка для Лианы</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&display=swap">
+<style>
+  /* Layout: сначала маленькая записка с вопросом и убегающей кнопкой, после «Да» разворачивается тетрадный лист в клетку */
+  :root {
+    --desk: #2a3240;
+    --desk-deep: #1b212b;
+    --paper: #fdfdfa;
+    --grid: #cddbec;
+    --margin: #e79797;
+    --ink: #1e3a8a;
+    --red: #cf2f45;
+    --pink: #f08aa0;
+    --pencil: #7b8494;
+    --hint: #aab3c2;
+    --tape: rgba(236, 226, 196, 0.72);
+    --hand: "Caveat", "Segoe Print", "Bradley Hand", "Comic Sans MS", cursive;
+    --cell: 22px;
+    color-scheme: dark;
+  }
+
+  html, body { min-height: 100%; }
+  body {
+    background: radial-gradient(120% 80% at 50% 0%, var(--desk) 0%, var(--desk-deep) 100%);
+    background-color: var(--desk-deep);
+    background-attachment: fixed;
+    color: var(--ink);
+    font-family: var(--hand);
+    padding-inline: 16px;
+    padding-block: 56px 72px;
+    display: grid;
+    justify-items: center;
+    overflow-x: hidden;
+  }
+
+  .paper {
+    position: relative;
+    background-color: var(--paper);
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: var(--cell) var(--cell);
+    background-position: -1px -1px;
+    box-shadow:
+      0 1px 0 rgba(0,0,0,.04),
+      0 18px 40px -12px rgba(0,0,0,.55),
+      0 4px 10px rgba(0,0,0,.25);
+  }
+  .tape {
+    position: absolute;
+    top: -16px;
+    left: 50%;
+    width: 120px;
+    height: 32px;
+    transform: translateX(-50%) rotate(3deg);
+    background: var(--tape);
+    box-shadow: 0 1px 3px rgba(0,0,0,.15);
+    z-index: 2;
+  }
+  .pencil { color: var(--pencil); font-size: var(--cell); margin: 0; }
+
+  /* ---------- экран с вопросом ---------- */
+  .ask {
+    width: 100%;
+    min-height: 72vh;
+    display: grid;
+    place-items: center;
+  }
+  .ask.leaving .card { animation: fly 520ms cubic-bezier(.6,0,.8,.4) forwards; }
+  .card {
+    width: min(460px, 100%);
+    padding-block: calc(var(--cell) * 2) calc(var(--cell) * 1.5);
+    padding-inline: calc(var(--cell) * 1.5);
+    transform: rotate(1.5deg);
+    display: grid;
+    gap: calc(var(--cell) * 0.5);
+    text-align: center;
+    animation: drop 700ms cubic-bezier(.2,.8,.2,1) both;
+  }
+  .card p, .card h1 { margin: 0; }
+  .ask-to { font-size: calc(var(--cell) * 1.9); font-weight: 700; line-height: 1.1; }
+  .ask-lead { font-size: calc(var(--cell) * 1.25); line-height: 1.25; text-wrap: balance; }
+  .ask-q {
+    font-size: calc(var(--cell) * 2.4);
+    font-weight: 700;
+    color: var(--red);
+    line-height: 1.1;
+    margin-block: calc(var(--cell) * 0.5);
+    text-wrap: balance;
+  }
+  .btns {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: calc(var(--cell) * 1.5);
+    min-height: calc(var(--cell) * 4.5);
+  }
+  .btn {
+    font-family: var(--hand);
+    font-weight: 700;
+    font-size: calc(var(--cell) * 1.5);
+    line-height: 1;
+    padding: 10px 26px 12px;
+    cursor: pointer;
+    background: var(--paper);
+    color: var(--ink);
+    border: 2.5px solid var(--ink);
+    border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+    touch-action: manipulation;
+    white-space: nowrap;
+  }
+  .btn:focus-visible { outline: 2px dashed var(--red); outline-offset: 4px; }
+  .yes {
+    --grow: 1;
+    color: var(--paper);
+    background: var(--red);
+    border-color: var(--red);
+    transform: scale(var(--grow)) rotate(-2deg);
+    transition: transform 300ms cubic-bezier(.3,1.5,.5,1);
+  }
+  .yes:hover { transform: scale(calc(var(--grow) * 1.06)) rotate(-4deg); }
+  .no { transform: rotate(2deg); }
+  .no.loose {
+    position: fixed;
+    z-index: 50;
+    margin: 0;
+    transition: left 260ms cubic-bezier(.3,1.3,.5,1), top 260ms cubic-bezier(.3,1.3,.5,1), transform 260ms;
+  }
+  .ask-hint { min-height: calc(var(--cell) * 1.5); }
+
+  /* ---------- сама записка ---------- */
+  .letter { width: 100%; display: grid; justify-items: center; gap: 28px; }
+  .sheet {
+    width: min(640px, 100%);
+    padding-block: calc(var(--cell) * 2) calc(var(--cell) * 3);
+    padding-inline: calc(var(--cell) * 3.5) calc(var(--cell) * 1.5);
+    transform: rotate(-1.2deg);
+    animation: unfold 900ms cubic-bezier(.2,.8,.2,1) both;
+  }
+  /* красная линия полей */
+  .sheet::before {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    left: calc(var(--cell) * 2.5);
+    width: 2px;
+    background: var(--margin);
+  }
+  /* сгибы: записку складывали вчетверо, чтобы передать */
+  .sheet::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(90deg, transparent calc(50% - 6px), rgba(0,0,0,.05) 50%, rgba(255,255,255,.7) calc(50% + 1px), transparent calc(50% + 7px)),
+      linear-gradient(180deg, transparent calc(33.3% - 6px), rgba(0,0,0,.05) 33.3%, rgba(255,255,255,.7) calc(33.3% + 1px), transparent calc(33.3% + 7px)),
+      linear-gradient(180deg, transparent calc(66.6% - 6px), rgba(0,0,0,.05) 66.6%, rgba(255,255,255,.7) calc(66.6% + 1px), transparent calc(66.6% + 7px));
+  }
+
+  .note {
+    position: relative;
+    z-index: 1;
+    font-size: calc(var(--cell) * 1.25);
+    line-height: calc(var(--cell) * 2);
+    display: grid;
+    gap: var(--cell);
+  }
+  .note p { margin: 0; text-wrap: pretty; }
+  .date { text-align: center; font-size: calc(var(--cell) * 1.15); }
+  .greeting { font-size: calc(var(--cell) * 1.9); font-weight: 700; }
+
+  .margin-heart {
+    position: absolute;
+    left: calc(var(--cell) * 0.55);
+    width: calc(var(--cell) * 1.5);
+    color: var(--red);
+    z-index: 1;
+  }
+  .margin-heart.one { top: calc(var(--cell) * 6); transform: rotate(-12deg); }
+  .margin-heart.two { top: calc(var(--cell) * 22); transform: rotate(9deg); width: var(--cell); left: calc(var(--cell) * 0.8); }
+
+  .reply {
+    color: var(--red);
+    font-weight: 700;
+    font-size: calc(var(--cell) * 1.45);
+    transform: rotate(-2deg);
+    transform-origin: left center;
+  }
+  .note .tries { line-height: 1.3; }
+
+  .sign {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    font-size: calc(var(--cell) * 1.6);
+    font-weight: 700;
+  }
+  .doodle { width: calc(var(--cell) * 3); height: auto; overflow: visible; }
+  .doodle path {
+    fill: none;
+    stroke: var(--red);
+    stroke-width: 3.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 260;
+    stroke-dashoffset: 0;
+    animation: draw 1400ms 900ms ease-in-out both;
+  }
+  .doodle path + path { stroke-width: 1.8; opacity: .55; animation-delay: 1300ms; }
+  .ps b { font-weight: 700; }
+
+  .desk-hint {
+    color: var(--hint);
+    font-size: 20px;
+    text-align: center;
+    margin: 0;
+    max-width: 40ch;
+  }
+
+  /* сердечки после «Да» */
+  .burst {
+    position: fixed;
+    width: 26px;
+    height: 24px;
+    margin: -12px 0 0 -13px;
+    pointer-events: none;
+    z-index: 60;
+    color: var(--red);
+    animation: burst 1200ms cubic-bezier(.15,.7,.3,1) forwards;
+  }
+  .burst.pink { color: var(--pink); }
+
+  @keyframes drop {
+    from { transform: rotate(-6deg) translateY(-30px); opacity: 0; }
+    to   { transform: rotate(1.5deg); opacity: 1; }
+  }
+  @keyframes fly {
+    to { transform: rotate(14deg) translateY(-120vh); }
+  }
+  @keyframes unfold {
+    from { transform: rotate(-4deg) translateY(18px) scale(.97); opacity: .4; }
+    to   { transform: rotate(-1.2deg); opacity: 1; }
+  }
+  @keyframes draw { from { stroke-dashoffset: 260; } to { stroke-dashoffset: 0; } }
+  @keyframes burst {
+    0%   { transform: translate(0, 0) scale(.4) rotate(0); opacity: 1; }
+    100% { transform: translate(var(--dx), var(--dy)) scale(var(--s)) rotate(var(--r)); opacity: 0; }
+  }
+
+  @media (max-width: 560px) {
+    :root { --cell: 18px; }
+    body { padding-block: 40px 56px; }
+    .sheet {
+      padding-inline: calc(var(--cell) * 2.6) var(--cell);
+      transform: rotate(-.6deg);
+      animation-name: unfold-sm;
+    }
+    .sheet::before { left: calc(var(--cell) * 1.8); }
+    .margin-heart { left: calc(var(--cell) * 0.25); }
+    .margin-heart.two { left: calc(var(--cell) * 0.45); }
+  }
+  @keyframes unfold-sm {
+    from { transform: rotate(-3deg) translateY(14px) scale(.97); opacity: .4; }
+    to   { transform: rotate(-.6deg); opacity: 1; }
+  }
+</style>
+</head>
+<body>
+
+<section class="ask" id="ask">
+  <div class="card paper">
+    <div class="tape" aria-hidden="true"></div>
+    <p class="ask-to">Лиана,</p>
+    <p class="ask-lead">у меня к тебе один очень серьёзный вопрос</p>
+    <h1 class="ask-q">Ты меня любишь?</h1>
+    <div class="btns">
+      <button class="btn yes" id="yes" type="button">Да</button>
+      <button class="btn no" id="no" type="button">Нет</button>
+    </div>
+    <p class="pencil ask-hint" id="ask-hint" aria-live="polite">(подумай хорошо)</p>
+  </div>
+</section>
+
+<div class="letter" id="letter" hidden>
+  <main class="sheet paper" aria-label="Записка для Лианы">
+    <div class="tape" aria-hidden="true"></div>
+
+    <svg class="margin-heart one" viewBox="0 0 100 90" aria-hidden="true">
+      <path d="M50 82 C22 62 6 44 16 24 C26 6 46 12 50 30 C54 12 74 6 84 24 C94 44 78 62 50 82 Z" fill="currentColor"/>
+    </svg>
+    <svg class="margin-heart two" viewBox="0 0 100 90" aria-hidden="true">
+      <path d="M50 82 C22 62 6 44 16 24 C26 6 46 12 50 30 C54 12 74 6 84 24 C94 44 78 62 50 82 Z" fill="none" stroke="currentColor" stroke-width="9" stroke-linejoin="round"/>
+    </svg>
+
+    <div class="note">
+      <p class="date">Шестнадцатое октября</p>
+
+      <p class="greeting">Лиана,</p>
+
+      <p>пишу тебе прямо на паре, пока все делают вид, что слушают. Я тоже делаю вид. На самом деле я опять смотрю на тебя.</p>
+
+      <p>Раньше я не понимал, зачем писать записки, если можно просто написать в телеграм. А потом появилась ты, и оказалось, что некоторые слова хочется написать от руки. Чтобы ты могла их сохранить.</p>
+
+      <p>Мне нравится, как ты смеёшься, когда пытаешься сдержаться. Как ты сосредоточенно пишешь конспект. Как ищешь меня глазами, когда заходишь в аудиторию. Самый обычный учебный день становится хорошим просто потому, что ты сидишь рядом.</p>
+
+      <p>Спасибо, что ты есть. Спасибо, что ты моя.</p>
+
+      <p>Я тебя люблю. Сильнее, чем любой предмет в расписании, и это я ещё мягко сказал.</p>
+
+      <p class="reply">Ты нажала «Да». Я так и знал.</p>
+      <p class="pencil tries" id="tries">(а кнопку «Нет» ты даже не пыталась нажать, умница)</p>
+
+      <div class="sign">
+        Твой
+        <svg class="doodle" viewBox="0 0 100 90" aria-hidden="true">
+          <path d="M50 82 C22 62 6 44 16 24 C26 6 46 12 50 30 C54 12 74 6 84 24 C94 44 78 62 50 82"/>
+          <path d="M47 78 C20 58 8 40 19 22 C30 8 45 16 51 33 C56 16 76 9 86 27 C93 45 76 63 53 80"/>
+        </svg>
+      </div>
+
+      <p class="ps"><b>P.S.</b> Если дочитала, посмотри на меня. Я жду.</p>
+    </div>
+  </main>
+
+  <p class="desk-hint">сложи вчетверо и спрячь в пенал</p>
+</div>
+
+<script>
+  (function () {
+    var ask = document.getElementById('ask');
+    var letter = document.getElementById('letter');
+    var yes = document.getElementById('yes');
+    var no = document.getElementById('no');
+    var hint = document.getElementById('ask-hint');
+    var tries = document.getElementById('tries');
+
+    var labels = ['Нет', 'Точно?', 'Подумай ещё', 'Не-а', 'Мимо', 'Даже не пытайся', 'Кнопка сломалась', 'Ну пожалуйста', 'Нажми «Да»'];
+    var hints = {
+      1: '(эта кнопка какая-то пугливая)',
+      4: '(она от тебя убегает, заметила?)',
+      7: '(подсказка: правильный ответ большой и красный)',
+      12: '(кнопка «Нет» сегодня не работает. И завтра тоже)'
+    };
+    var count = 0;
+
+    function plural(n) {
+      var a = n % 10, b = n % 100;
+      if (a === 1 && b !== 11) return 'раз';
+      if (a >= 2 && a <= 4 && (b < 12 || b > 14)) return 'раза';
+      return 'раз';
+    }
+
+    // «Нет» убегает от курсора и от пальца
+    function dodge(e) {
+      if (e) e.preventDefault();
+      var r = no.getBoundingClientRect();
+      if (!no.classList.contains('loose')) {
+        no.style.left = r.left + 'px';
+        no.style.top = r.top + 'px';
+        no.classList.add('loose');
+        void no.offsetWidth;
+      }
+      count++;
+      no.textContent = labels[Math.min(count, labels.length - 1)];
+      if (hints[count]) hint.textContent = hints[count];
+      yes.style.setProperty('--grow', String(1 + Math.min(count, 10) * 0.07));
+
+      var pad = 16;
+      var w = no.offsetWidth, h = no.offsetHeight;
+      var vw = document.documentElement.clientWidth, vh = window.innerHeight;
+      var yr = yes.getBoundingClientRect();
+      var px = e && e.clientX != null ? e.clientX : r.left + r.width / 2;
+      var py = e && e.clientY != null ? e.clientY : r.top + r.height / 2;
+      var x = pad, y = pad;
+      for (var i = 0; i < 20; i++) {
+        x = pad + Math.random() * Math.max(vw - w - pad * 2, 0);
+        y = pad + Math.random() * Math.max(vh - h - pad * 2, 0);
+        var overYes = x < yr.right + 12 && x + w > yr.left - 12 && y < yr.bottom + 12 && y + h > yr.top - 12;
+        var near = Math.hypot(x + w / 2 - px, y + h / 2 - py) < 140;
+        if (!overYes && !near) break;
+      }
+      no.style.left = x + 'px';
+      no.style.top = y + 'px';
+      no.style.transform = 'rotate(' + (Math.random() * 20 - 10) + 'deg)';
+    }
+    no.addEventListener('pointerenter', dodge);
+    no.addEventListener('pointerdown', dodge);
+    no.addEventListener('click', dodge);
+
+    function burst(cx, cy) {
+      var heart = '<svg viewBox="0 0 100 90" width="100%" height="100%"><path d="M50 82 C22 62 6 44 16 24 C26 6 46 12 50 30 C54 12 74 6 84 24 C94 44 78 62 50 82 Z" fill="currentColor"/></svg>';
+      for (var i = 0; i < 18; i++) {
+        var s = document.createElement('span');
+        s.className = 'burst' + (i % 3 === 0 ? ' pink' : '');
+        s.innerHTML = heart;
+        var a = Math.random() * Math.PI * 2, d = 120 + Math.random() * 180;
+        s.style.left = cx + 'px';
+        s.style.top = cy + 'px';
+        s.style.setProperty('--dx', Math.cos(a) * d + 'px');
+        s.style.setProperty('--dy', Math.sin(a) * d - 60 + 'px');
+        s.style.setProperty('--s', String(0.8 + Math.random() * 0.9));
+        s.style.setProperty('--r', (Math.random() * 80 - 40) + 'deg');
+        document.body.appendChild(s);
+        setTimeout(function (el) { el.remove(); }, 1300, s);
+      }
+    }
+
+    function showLetter() {
+      ask.hidden = true;
+      no.hidden = true;
+      letter.hidden = false;
+      window.scrollTo(0, 0);
+      try { history.replaceState(null, '', '#zapiska'); } catch (err) {}
+    }
+
+    yes.addEventListener('click', function () {
+      if (count > 0) {
+        tries.textContent = '(кнопку «Нет» ты пыталась поймать ' + count + ' ' + plural(count) + '. Я всё видел)';
+      }
+      var r = yes.getBoundingClientRect();
+      burst(r.left + r.width / 2, r.top + r.height / 2);
+      no.hidden = true;
+      ask.classList.add('leaving');
+      setTimeout(showLetter, 560);
+    });
+
+    if (location.hash === '#zapiska') showLetter();
+  })();
+</script>
+</body>
+</html>
