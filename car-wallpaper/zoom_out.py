@@ -9,7 +9,8 @@ import numpy as np
 from PIL import Image, ImageFilter
 
 SRC, OUT_DIR = sys.argv[1], sys.argv[2]
-W, H = 1920, 720
+W, H = (int(v) for v in (sys.argv[3] if len(sys.argv) > 3 else "1920x720").split("x"))
+K = W / 1920  # blur/feather sizes scale with output size
 
 src = Image.open(SRC).convert("RGB")
 sw, sh = src.size
@@ -38,7 +39,7 @@ def build(zoom_out, top_share=0.7, name=""):
         canvas[:, side + fw:] = right
 
         base = Image.fromarray(canvas.clip(0, 255).astype(np.uint8))
-        radii = [0, 4, 10, 20, 35, 55]
+        radii = [0] + [round(r * K) for r in (4, 10, 20, 35, 55)]
         levels = np.stack([
             canvas if r == 0 else np.asarray(base.filter(ImageFilter.GaussianBlur(r))).astype(np.float32)
             for r in radii
@@ -48,7 +49,7 @@ def build(zoom_out, top_share=0.7, name=""):
         # ~80px inside the photo edge to the maximum at the screen edge
         x = np.arange(W, dtype=np.float32)
         dist_out = np.maximum(side - x, x - (side + fw - 1))  # >0 outside the photo
-        ramp_in = 80.0
+        ramp_in = 80.0 * K
         t = np.clip((dist_out + ramp_in) / (side + ramp_in), 0, 1)
         r_col = radii[-1] * t ** 0.8
         idx = np.interp(r_col, radii, np.arange(len(radii)))
@@ -73,8 +74,10 @@ def build(zoom_out, top_share=0.7, name=""):
 
 # what the unit does now: fill the width, crop top/bottom (for comparison only)
 now = build(1.0, top_share=0.5, name="_now_preview.jpg")
-a = build(1.25, name="camry_1920x720_chut.jpg")       # slightly zoomed out
-b = build(1.5, name="camry_1920x720_vsya.jpg")        # whole photo fits
+a = build(1.25, name=f"camry_otdaleno_chut_{W}x{H}.jpg")   # slightly zoomed out
+b = build(1.5, name=f"camry_otdaleno_silno_{W}x{H}.jpg")   # whole photo fits
+if W != 1920:
+    sys.exit()
 
 # side-by-side comparison sheet
 gap = 24
