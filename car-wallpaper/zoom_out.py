@@ -67,7 +67,9 @@ def build(zoom_out, top_share=0.7, name=""):
 
     img = Image.fromarray(out.clip(0, 255).round().astype(np.uint8))
     path = f"{OUT_DIR}/{name}"
-    img.save(path, quality=95, subsampling=0)
+    # same JPEG settings as the original photo: baseline, quality 95, 4:2:0, sRGB profile
+    img.save(path, "JPEG", quality=95, subsampling=2, progressive=False,
+             icc_profile=src.info.get("icc_profile"), dpi=(72, 72))
     print(path, img.size, f"photo {fw}x{fh}, sides {side}px")
     return img
 
