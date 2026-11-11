@@ -175,7 +175,7 @@ body.has-cursor .cursor-ring{opacity:1}
 .hero-name{font-size:clamp(76px,13.5vw,210px);line-height:.88;font-weight:800;letter-spacing:-.065em;margin:6px 0 0 -.04em;display:flex;padding-bottom:.08em;user-select:none}
 .ch{display:inline-block;--k:0;
   background:linear-gradient(100deg,var(--ink) 0%,var(--ink) 35%,var(--clay) 50%,var(--ink) 65%,var(--ink) 100%);
-  background-size:600% 100%;background-position:calc(var(--k)*20%) 0;-webkit-background-clip:text;background-clip:text;color:transparent;
+  background-size:600% 100%;background-position:calc(var(--k)*20% + var(--s,0%)) 0;-webkit-background-clip:text;background-clip:text;color:transparent;
   transform:translateY(105%) rotate(6deg);opacity:0;
   transition:transform 1.2s var(--ease) calc(var(--k)*70ms + .15s),opacity .8s calc(var(--k)*70ms + .15s)}
 body.ready .ch{transform:none;opacity:1}
@@ -212,7 +212,7 @@ body.ready .fade-up{opacity:1;transform:none}
   background:radial-gradient(circle at 30% 25%,rgba(255,255,255,.95) 0 6%,rgba(255,255,255,.25) 18%,rgba(255,255,255,.05) 45%,rgba(255,255,255,.18) 75%,rgba(255,255,255,.55) 100%);
   -webkit-backdrop-filter:blur(6px) saturate(200%);backdrop-filter:blur(6px) saturate(200%);
   box-shadow:inset -6px -10px 20px rgba(255,255,255,.35),inset 4px 6px 12px rgba(255,255,255,.6),0 20px 40px -15px rgba(90,55,25,.35);border:1px solid rgba(255,255,255,.6)}
-.scroll-hint{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;font-size:12px;color:var(--ink3);font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+.scroll-hint{position:absolute;left:50%;bottom:26px;translate:-50% 0;display:flex;flex-direction:column;align-items:center;gap:10px;font-size:12px;color:var(--ink3);font-weight:500;letter-spacing:.08em;text-transform:uppercase}
 .mouse{width:24px;height:38px;border-radius:14px;border:1.5px solid var(--ink3);position:relative}
 .mouse::after{content:"";position:absolute;left:50%;top:7px;width:3px;height:7px;margin-left:-1.5px;border-radius:3px;background:var(--ink3);animation:wheel 1.8s infinite}
 @keyframes wheel{0%{opacity:0;transform:translateY(-3px)}30%{opacity:1}100%{opacity:0;transform:translateY(10px)}}
@@ -904,7 +904,7 @@ body.has-cursor .bcur{opacity:calc(var(--blob)*.75)}
 /* Смена темы: новая тема расходится кругом от кнопки */
 html.vt-theme::view-transition-old(root),html.vt-theme::view-transition-new(root){animation:none;mix-blend-mode:normal}
 html.vt-theme::view-transition-new(root){z-index:2}
-html.vt-theme *,html.vt-theme *::before,html.vt-theme *::after{transition:none!important}
+html.vt-lock *,html.vt-lock *::before,html.vt-lock *::after{transition:none!important}
 
 /* Курсор с подписью на карточках проектов */
 .cursor-ring{display:grid;place-items:center}
@@ -954,15 +954,121 @@ html.vt-theme *,html.vt-theme *::before,html.vt-theme *::after{transition:none!i
   .loader-num{right:18px;bottom:18px}
 }
 @media (prefers-reduced-motion:reduce){
-  .sw > span,.foot-big .fl{transform:none!important;transition:none}
-  .mw{opacity:1}
+  /* спокойный режим: без полётов и параллакса, но с мягкими проявлениями */
+  .sw > span,.foot-big .fl{transform:none!important;opacity:0;transition:opacity .9s ease;transition-delay:calc(var(--w,var(--k,0))*45ms + .1s)}
+  .reveal.in .sw > span,body.ready .hero-lead .sw > span,.foot-big.in .fl{opacity:1}
   .hero-visual .phone,.hero-visual .chip,.hero-visual .orb{animation:none!important}
   .cell.reveal:not(.in),.feat.reveal:not(.in),.stat.reveal:not(.in),.wcard.reveal:not(.in){transform:none}
+}
+
+/* ============ V4: POLISH ============ */
+/* Типографика: ровные переносы, цифры не прыгают при счёте */
+.h2,.tagline,.hero-lead,.pv-h,.cap h3,.wbody h3,.cell h3{text-wrap:balance}
+.lead,.manifesto,.cap p,.feat p,.cell p,.wbody p,.pstep p,.steps p,.pv-card p,.pv-steps p,.stat .sl{text-wrap:pretty}
+.big,.ring-c b,.kv b,.total b,.mac b,.meal b,.pv-num b{font-variant-numeric:tabular-nums}
+
+/* Фокус с клавиатуры */
+:focus-visible{outline:2px solid var(--clay);outline-offset:3px}
+
+/* Полоса прокрутки в тон сайту */
+@supports selector(::-webkit-scrollbar){
+  html::-webkit-scrollbar,.pview::-webkit-scrollbar{width:11px}
+  html::-webkit-scrollbar-track,.pview::-webkit-scrollbar-track{background:transparent}
+  html::-webkit-scrollbar-thumb,.pview::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--ink) 24%,transparent);border-radius:99px;border:3px solid transparent;background-clip:padding-box}
+  html::-webkit-scrollbar-thumb:hover,.pview::-webkit-scrollbar-thumb:hover{background:color-mix(in srgb,var(--ink) 42%,transparent);background-clip:padding-box}
+}
+@supports not selector(::-webkit-scrollbar){
+  html,.pview{scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--ink) 24%,transparent) transparent}
+}
+
+/* Картинки проявляются, а не выскакивают */
+.screen img{opacity:0;transform:scale(1.07);transition:opacity .9s var(--ease),transform 1.6s var(--ease)}
+.screen img.ld{opacity:1;transform:none}
+
+/* Подсказка «Листай» исчезает, как только начали листать */
+.scroll-hint.gone{opacity:0!important;pointer-events:none}
+
+/* Детали раздела проявляются по очереди */
+.reveal .tags .tag{opacity:0;scale:.8;transition:opacity .6s var(--ease),scale .7s var(--spring),translate .45s var(--spring)}
+.reveal.in .tags .tag{opacity:1;scale:1;transition-delay:calc(var(--n)*65ms + .45s),calc(var(--n)*65ms + .45s),0s}
+.tags .tag:nth-child(1){--n:0}.tags .tag:nth-child(2){--n:1}.tags .tag:nth-child(3){--n:2}.tags .tag:nth-child(4){--n:3}.tags .tag:nth-child(5){--n:4}
+.reveal .steps li{opacity:0;translate:-22px 0;transition:opacity .8s var(--ease),translate 1s var(--ease)}
+.reveal.in .steps li{opacity:1;translate:0 0}
+.reveal.in .steps li:nth-child(1){transition-delay:.25s}.reveal.in .steps li:nth-child(2){transition-delay:.37s}.reveal.in .steps li:nth-child(3){transition-delay:.49s}
+.contact-card.reveal .cbtn{opacity:0;translate:0 26px;transition:opacity .7s var(--ease),translate .9s var(--ease),transform .5s var(--spring),scale .3s var(--ease)}
+.contact-card.reveal.in .cbtn{opacity:1;translate:0 0}
+.contact-card.reveal.in .cbtn:nth-child(1){transition-delay:.4s,.4s,0s,0s}
+.contact-card.reveal.in .cbtn:nth-child(2){transition-delay:.5s,.5s,0s,0s}
+.contact-card.reveal.in .cbtn:nth-child(3){transition-delay:.6s,.6s,0s,0s}
+.contact-card.reveal.done .cbtn{transition-delay:0s}
+
+/* STRAIN: подпись экрана «включается», когда экран в центре */
+.cap > *{transition:opacity .6s var(--ease),transform .8s var(--ease)}
+.slide:not(.active) .cap > *{opacity:.28;transform:translateY(10px)}
+.slide.active .cap h3{transition-delay:.06s}
+.slide.active .cap p{transition-delay:.12s}
+
+/* Карусель проектов */
+.arrow{transition:transform .45s var(--spring),opacity .35s,scale .3s var(--ease)}
+.arrow[disabled]{opacity:.32;pointer-events:none}
+.wlink{position:relative}
+.wlink::after{content:"";position:absolute;left:0;right:24px;bottom:-3px;height:1.5px;border-radius:2px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform .55s var(--ease)}
+
+/* Мобильное меню: пункты выезжают по очереди, кнопка превращается в крестик */
+.menu-btn path{transition:transform .5s var(--spring);transform-origin:12px 12px}
+.menu-btn.open .m1{transform:rotate(45deg) translateY(4px)}
+.menu-btn.open .m2{transform:rotate(-45deg) translateY(-4px)}
+.mnav a{opacity:0;translate:0 -8px;transition:opacity .4s var(--ease),translate .5s var(--ease)}
+.mnav.open a{opacity:1;translate:0 0}
+.mnav.open a:nth-child(1){transition-delay:.06s}.mnav.open a:nth-child(2){transition-delay:.1s}.mnav.open a:nth-child(3){transition-delay:.14s}.mnav.open a:nth-child(4){transition-delay:.18s}.mnav.open a:nth-child(5){transition-delay:.22s}
+
+/* Страница проекта: ссылка на следующий проект */
+.pv-next{display:flex;align-items:center;justify-content:space-between;gap:20px;width:100%;margin-top:26px;padding:26px 30px;border-radius:30px;text-align:left}
+.pv-next > *{position:relative;z-index:3}
+.pv-next small{display:block;font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3)}
+.pv-next b{display:block;font-size:clamp(28px,4vw,48px);letter-spacing:-.04em;line-height:1.05;margin-top:6px}
+.pv-next .na{width:56px;height:56px;border-radius:50%;background:var(--pill);color:var(--pill-ink);display:grid;place-items:center;flex:none;transition:transform .5s var(--spring)}
+.pv-next .na svg{width:22px;height:22px}
+
+/* Наведение и нажатие: всё отзывается */
+@media (hover:hover){
+  .btn{transition:transform .5s var(--spring),box-shadow .4s,scale .3s var(--ease)}
+  .cbtn{transition:transform .5s var(--spring),scale .3s var(--ease)}
+  .icon-btn{transition:background .3s,transform .4s var(--spring),scale .3s var(--ease)}
+  .totop{transition:scale .3s var(--ease)}
+  .btn:active,.cbtn:active,.arrow:active,.icon-btn:active,.totop:active,.pv-next:active{scale:.95}
+  .brand-mark{transition:transform .6s var(--spring)}
+  .brand:hover .brand-mark{transform:rotate(-10deg) scale(1.1)}
+  .feat-ic{transition:transform .6s var(--spring),background .4s,color .4s}
+  .feat:hover .feat-ic{transform:scale(1.12) rotate(-6deg);background:var(--strain);color:#fff}
+  .tag{transition:translate .45s var(--spring)}
+  .tag:hover{translate:0 -3px}
+  .cbtn .ci{transition:transform .6s var(--spring)}
+  .cbtn:hover .ci{transform:scale(1.12) rotate(-8deg)}
+  .totop svg{transition:translate .45s var(--spring)}
+  .totop:hover svg{translate:0 -3px}
+  .v-bf .bfly,.v-ig .appg,.v-site .mini-glass{transition:transform .8s var(--ease)}
+  .wcard:hover .v-bf .bfly{transform:scale(1.12) rotate(-6deg)}
+  .wcard:hover .v-ig .appg.ig{transform:translateX(12px) rotate(-6deg)}
+  .wcard:hover .v-ig .appg.tg{transform:translateX(-12px) rotate(6deg)}
+  .wcard:hover .v-site .mini-glass{transform:translateY(-8px) scale(1.04)}
+  .wcard:hover .wlink::after{transform:scaleX(1)}
+  .pv-next{transition:scale .3s var(--ease)}
+  .pv-next:hover .na{transform:translateX(6px) scale(1.06)}
+  .pstep:hover .pnum{transform:scale(1.12) rotate(-6deg)}
+}
+@media (max-width:640px){
+  .pv-next{padding:18px 20px;border-radius:24px;margin-top:14px}
+  .pv-next .na{width:46px;height:46px}
+}
+@media (prefers-reduced-motion:reduce){
+  .screen img{transform:none}
+  .slide:not(.active) .cap > *{transform:none}
 }
 </style>
 </head>
 <body>
-<noscript><style>.reveal,.fade-up,.ch{opacity:1!important;transform:none!important;filter:none!important}.reveal .title-xl,.reveal .h2{clip-path:none!important;transform:none!important}.loader{display:none}</style></noscript>
+<noscript><style>.reveal,.fade-up,.ch{opacity:1!important;transform:none!important;filter:none!important}.reveal .title-xl,.reveal .h2{clip-path:none!important;transform:none!important}.loader{display:none}.screen img,.sw > span,.mw,.foot-big .fl,.reveal .tags .tag,.reveal .steps li,.contact-card.reveal .cbtn,.cap > *{opacity:1!important;transform:none!important;scale:1!important;translate:0 0!important}</style></noscript>
 
 <!-- SVG defs -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -1031,8 +1137,8 @@ html.vt-theme *,html.vt-theme *::before,html.vt-theme *::after{transition:none!i
       <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"/></svg>
       <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.2M12 19.8V22M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M2 12h2.2M19.8 12H22M4.9 19.1l1.6-1.6M17.5 6.5l1.6-1.6"/></svg>
     </button>
-    <button class="icon-btn menu-btn" id="menuBtn" aria-label="Menu">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 8h16M4 16h16"/></svg>
+    <button class="icon-btn menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false" aria-controls="mnav">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path class="m1" d="M4 8h16"/><path class="m2" d="M4 16h16"/></svg>
     </button>
   </div>
 </header>
@@ -1544,7 +1650,7 @@ ru: {
   "pv.strain.android": `Нативное приложение с тем же расчётом программ, 120 Гц и обновлением прямо из приложения.`,
   "pv.strain.server": `Лента, профили, переписка с голосовыми, челленджи и рейтинг недели.`,
   "pv.strain.ai": `Распознавание еды по фото и тренер, который разбирает твою неделю.`,
-  "pv.cta": `Хочу такой же проект`, "pv.back": `Назад к проектам`, "pv.close": `Закрыть`,
+  "pv.cta": `Хочу такой же проект`, "pv.back": `Назад к проектам`, "pv.close": `Закрыть`, "pv.next": `Следующий проект`,
   "pv.bf.status": `Проект в разработке. Интерфейс в разделе Butterfly интерактивный — попробуй переключить цель.`,
   "pv.ig.s1t": `Клиент пишет в Директ`, "pv.ig.s1d": `Вопрос о товаре, цене или доставке — в Instagram магазина.`,
   "pv.ig.s2t": `Бот пересылает заявку`, "pv.ig.s2d": `Сообщение сразу приходит администратору в Telegram.`,
@@ -1625,7 +1731,7 @@ en: {
   "pv.strain.android": `A native app with the same program math, 120 Hz and in-app updates.`,
   "pv.strain.server": `Feed, profiles, chats with voice notes, challenges and a weekly leaderboard.`,
   "pv.strain.ai": `Food recognition from photos and a coach that reviews your week.`,
-  "pv.cta": `I want a project like this`, "pv.back": `Back to projects`, "pv.close": `Close`,
+  "pv.cta": `I want a project like this`, "pv.back": `Back to projects`, "pv.close": `Close`, "pv.next": `Next project`,
   "pv.bf.status": `In development. The interface in the Butterfly section is interactive — try switching the goal.`,
   "pv.ig.s1t": `A customer writes in DMs`, "pv.ig.s1d": `A question about a product, price or delivery — in the shop's Instagram.`,
   "pv.ig.s2t": `The bot forwards the lead`, "pv.ig.s2d": `The message lands in the admin's Telegram right away.`,
@@ -1680,7 +1786,7 @@ function applyLang(l){
 }
 $$('#langSeg button').forEach(b => b.addEventListener('click', () => {
   if (b.dataset.lang === lang) return;
-  if (document.startViewTransition && !reduce) document.startViewTransition(() => applyLang(b.dataset.lang));
+  if (document.startViewTransition) document.startViewTransition(() => applyLang(b.dataset.lang));
   else applyLang(b.dataset.lang);
 }));
 applyLang(lang);
@@ -1696,7 +1802,12 @@ function setTheme(th, save){
 setTheme(store.get('theme') || (sysDark.matches ? 'dark' : 'light'));
 $('#themeBtn').addEventListener('click', e => {
   const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
-  if (!document.startViewTransition || reduce) return setTheme(next, true);
+  if (!document.startViewTransition) return setTheme(next, true);
+  root.classList.add('vt-lock');
+  if (reduce) {
+    // спокойный режим: темы просто перетекают друг в друга
+    return document.startViewTransition(() => setTheme(next, true)).finished.finally(() => root.classList.remove('vt-lock'));
+  }
   // новая тема расходится кругом от кнопки
   const r = e.currentTarget.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2;
   const rad = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
@@ -1706,7 +1817,7 @@ $('#themeBtn').addEventListener('click', e => {
     { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${rad}px at ${x}px ${y}px)`] },
     { duration: 800, easing: 'cubic-bezier(.7,0,.2,1)', pseudoElement: '::view-transition-new(root)' }
   )).catch(() => {});
-  vt.finished.finally(() => root.classList.remove('vt-theme'));
+  vt.finished.finally(() => root.classList.remove('vt-theme', 'vt-lock'));
 });
 
 
@@ -1742,9 +1853,15 @@ setTimeout(start, 2600);
 /* ---------- CURSOR RING + HERO PARALLAX (one rAF loop) ---------- */
 const ring = $('#ring');
 let mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my, tpx = 0, tpy = 0, ppx = 0, ppy = 0;
+let shT = 0, sh = 0, shSet = 0;
 addEventListener('pointermove', e => {
   mx = e.clientX; my = e.clientY;
   tpx = mx / innerWidth - .5; tpy = my / innerHeight - .5;
+  if (fine && heroOn && !reduce) {
+    // блик на имени идёт за курсором
+    const r = hn.getBoundingClientRect();
+    shT = 60 - 120 * Math.min(1, Math.max(0, (mx - r.left) / r.width));
+  }
   if (fine && e.pointerType === 'mouse') document.body.classList.add('has-cursor');
 }, { passive: true });
 document.addEventListener('mouseleave', () => document.body.classList.remove('has-cursor'));
@@ -1765,6 +1882,8 @@ function loop(){
   ring.style.transform = `translate3d(${rx.toFixed(1)}px,${ry.toFixed(1)}px,0)`;
   bx += (mx - bx) * .045; by += (my - by) * .045;
   bcur.style.transform = `translate3d(${bx.toFixed(1)}px,${by.toFixed(1)}px,0)`;
+  sh += (shT - sh) * .07;
+  if (Math.abs(sh - shSet) > .08) { shSet = sh; hn.style.setProperty('--s', sh.toFixed(2) + '%'); }
   if (heroOn) {
     // курсор двигает слои, прокрутка разводит их по глубине
     const sc = reduce ? 0 : scrollY * .0024;
@@ -1851,7 +1970,7 @@ document.addEventListener('click', e => {
   const el = id === '#top' ? null : document.querySelector(id);
   if (id !== '#top' && !el) return;
   e.preventDefault();
-  if (lenis) lenis.scrollTo(el || 0, { offset: el ? -70 : 0 });
+  if (lenis) lenis.scrollTo(el || 0, { offset: el ? -70 : 0, duration: 1.5, easing: x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2 });
   else (el || document.body).scrollIntoView({ behavior: 'smooth' });
 });
 
@@ -1866,8 +1985,12 @@ $$('.reveal').forEach(el => io.observe(el));
 
 /* ---------- NAV: active link, menu ---------- */
 const nav = $('#nav'), mnav = $('#mnav');
-$('#menuBtn').addEventListener('click', () => mnav.classList.toggle('open'));
-$$('a', mnav).forEach(a => a.addEventListener('click', () => mnav.classList.remove('open')));
+const menuBtn = $('#menuBtn');
+const setMenu = on => { mnav.classList.toggle('open', on); menuBtn.classList.toggle('open', on); menuBtn.setAttribute('aria-expanded', on); };
+menuBtn.addEventListener('click', () => setMenu(!mnav.classList.contains('open')));
+$$('a', mnav).forEach(a => a.addEventListener('click', () => setMenu(false)));
+document.addEventListener('pointerdown', e => { if (mnav.classList.contains('open') && !e.target.closest('#mnav,#menuBtn')) setMenu(false); });
+addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
 const navLinks = $$('.links a'), linksEl = $('.links');
 /* жидкая капля под ссылками: едет за курсором и возвращается к активному разделу */
 const linkPill = document.createElement('span');
@@ -1921,6 +2044,7 @@ function updateCarousel(){
     const a = Math.min(Math.abs(ds[i]), 1.2);
     s.style.transform = `scale(${(1 - a * .1).toFixed(3)})`;
     s.style.opacity = (1 - Math.min(a, 1) * .5).toFixed(3);
+    s.classList.toggle('active', a < .5);
   });
 }
 function updateH(){
@@ -1938,6 +2062,7 @@ function updateH(){
     const a = Math.min(Math.abs(d), 1);
     phones[i].style.transform = `perspective(1200px) rotateY(${(d * -30).toFixed(2)}deg) scale(${(1 - a * .14).toFixed(3)})`;
     s.style.opacity = (1 - Math.min(a * .9, .65)).toFixed(3);
+    s.classList.toggle('active', a < .34);
   });
 }
 let carTick = false;
@@ -1954,13 +2079,14 @@ track.addEventListener('scroll', () => {
 
 /* ---------- SCROLL TICK ---------- */
 const prog = $('#progress'), pline = $('#pline'), procEl = $('#processEl'), psteps = $$('.pstep', procEl);
+const scrollHint = $('.scroll-hint'), contactWrap = $('#contact .wrap'), contactCard = $('.contact-card');
 /* «Обо мне»: слова загораются по мере прокрутки */
 const manifesto = $('#manifesto');
 let mWords = $$('.mw', manifesto), mLit = -1;
 function updateManifesto(){
   const r = manifesto.getBoundingClientRect();
   if (r.bottom < -300 || r.top > innerHeight + 300) return;
-  const p = reduce ? 1 : Math.min(1, Math.max(0, (innerHeight * .88 - r.top) / (r.height + innerHeight * .36)));
+  const p = Math.min(1, Math.max(0, (innerHeight * .88 - r.top) / (r.height + innerHeight * .36)));
   const n = Math.round(p * mWords.length);
   if (n === mLit) return;
   mWords.forEach((w, i) => w.classList.toggle('on', i < n));
@@ -1972,6 +2098,15 @@ function onScroll(){
   const h = document.documentElement.scrollHeight - innerHeight;
   prog.style.transform = `scaleX(${h > 0 ? scrollY / h : 0})`;
   nav.classList.toggle('scrolled', scrollY > 60);
+  scrollHint.classList.toggle('gone', scrollY > 40);
+  if (fine && !reduce) {
+    // карточка контактов «подъезжает» и вырастает по мере прокрутки
+    const cr = contactWrap.getBoundingClientRect();
+    if (cr.top < innerHeight + 200 && cr.bottom > -200) {
+      const k = Math.min(1, Math.max(0, (innerHeight - cr.top) / (innerHeight * .7)));
+      contactCard.style.scale = (.9 + .1 * (1 - Math.pow(1 - k, 3))).toFixed(4);
+    }
+  }
   if (!fine && heroOn && !reduce) layers.forEach(l => { l.el.style.transform = `translate3d(0,${(-scrollY * l.d * .0012).toFixed(2)}px,0)`; });
   if (fine && heroOn && !reduce) {
     // текст героя уходит медленнее страницы и растворяется
@@ -2028,7 +2163,7 @@ const counters = $$('[data-count]');
 const cntIO = new IntersectionObserver(es => es.forEach(en => {
   if (!en.isIntersecting) return;
   cntIO.unobserve(en.target);
-  animNum(en.target, +en.target.dataset.count, reduce ? 0 : 1700);
+  animNum(en.target, +en.target.dataset.count, 1700);
 }), { threshold: .6 });
 counters.forEach(el => cntIO.observe(el));
 langHooks.push(() => counters.forEach(el => { if (el.dataset.v) el.textContent = fmt(+el.dataset.v); }));
@@ -2049,7 +2184,7 @@ function typeCode(el){
     setTimeout(tick, 12 + Math.random() * 34);
   })();
 }
-if (!reduce) {
+{
   const codeIO = new IntersectionObserver(es => es.forEach(en => {
     if (en.isIntersecting) { codeIO.unobserve(en.target); typeCode(en.target); }
   }), { threshold: .7 });
@@ -2069,8 +2204,22 @@ new IntersectionObserver(es => {
 /* ---------- WORK CAROUSEL ---------- */
 const wt = $('#wtrack');
 const step = () => { const c = $('.wcard', wt); return c.offsetWidth + 20; };
-$('#wPrev').addEventListener('click', () => wt.scrollBy({ left: -step(), behavior: 'smooth' }));
-$('#wNext').addEventListener('click', () => wt.scrollBy({ left: step(), behavior: 'smooth' }));
+const wPrev = $('#wPrev'), wNext = $('#wNext');
+wPrev.addEventListener('click', () => wt.scrollBy({ left: -step(), behavior: 'smooth' }));
+wNext.addEventListener('click', () => wt.scrollBy({ left: step(), behavior: 'smooth' }));
+const syncArrows = () => {
+  const m = wt.scrollWidth - wt.clientWidth;
+  wPrev.disabled = wt.scrollLeft < 8; wNext.disabled = wt.scrollLeft > m - 8;
+};
+wt.addEventListener('scroll', syncArrows, { passive: true });
+addEventListener('resize', syncArrows);
+syncArrows();
+
+/* ---------- IMAGES FADE IN ONCE LOADED ---------- */
+const imgReady = img => img.classList.add('ld');
+document.addEventListener('load', e => { if (e.target.tagName === 'IMG') imgReady(e.target); }, true);
+document.addEventListener('error', e => { if (e.target.tagName === 'IMG') imgReady(e.target); }, true);
+$$('img').forEach(img => { if (img.complete) imgReady(img); });
 let down = false, sx = 0, sl = 0, moved = 0;
 wt.addEventListener('pointerdown', e => {
   if (e.pointerType !== 'mouse') return;
@@ -2100,27 +2249,70 @@ const insetOf = r => {
   const c = v => Math.max(0, v).toFixed(1);
   return `inset(${c(r.top)}px ${c(innerWidth - r.right)}px ${c(innerHeight - r.bottom)}px ${c(r.left)}px round 30px)`;
 };
+const pvCards = $$('.wcard[data-project]');
+let pvStage = null, pvSwitching = false;
+function fillProject(card){
+  const id = card.dataset.project;
+  pvCard = card;
+  pvIn.innerHTML = ''; pvIn.append($('#tpl-' + id).content.cloneNode(true));
+  // внизу — ссылка на следующий проект
+  const next = pvCards[(pvCards.indexOf(card) + 1) % pvCards.length], nh = $('h3', next);
+  const nb = document.createElement('button');
+  nb.type = 'button'; nb.className = 'pv-next glass pv-anim'; nb.dataset.pvNext = next.dataset.project;
+  nb.innerHTML = `<span><small data-i18n="pv.next"></small><b${nh.dataset.i18n ? ` data-i18n="${nh.dataset.i18n}"` : ''}>${nh.innerHTML}</b></span><span class="na"><svg><use href="#i-arrow"/></svg></span>`;
+  $('.pv-end', pvIn).after(nb);
+  $$('[data-i18n]', pvIn).forEach(el => { el.innerHTML = t(el.dataset.i18n); });
+  $$('.pv-anim', pvIn).forEach((el, i) => el.style.setProperty('--i', Math.min(i, 10)));
+  $$('img', pvIn).forEach(img => { if (img.complete) imgReady(img); });
+  pvStage = $('.pv-stage', pvIn);
+  pvClose.setAttribute('aria-label', t('pv.close'));
+  pview.className = 'pview open p-' + id; pview.scrollTop = 0;
+}
+/* обложка уезжает медленнее страницы */
+let pvTick = false;
+pview.addEventListener('scroll', () => {
+  if (pvTick || reduce || !pvStage) return;
+  pvTick = true;
+  requestAnimationFrame(() => { pvTick = false; if (pvStage) pvStage.style.translate = `0 ${(pview.scrollTop * .32).toFixed(1)}px`; });
+}, { passive: true });
+/* следующий проект: содержимое растворяется и собирается заново */
+function switchProject(card){
+  if (!card || pvSwitching || !pvOpen || pvCloseAnim) return;
+  pvSwitching = true;
+  const swap = () => {
+    fillProject(card);
+    wt.scrollLeft = Math.max(0, card.offsetLeft - parseFloat(getComputedStyle(wt).paddingLeft));
+    if (pvPushed) history.replaceState({ project: card.dataset.project }, '', '#p-' + card.dataset.project);
+    pvSwitching = false;
+    requestAnimationFrame(() => requestAnimationFrame(() => pview.classList.add('shown')));
+  };
+  pview.classList.remove('shown'); pview.classList.add('closing');
+  if (!pvIn.animate) return swap();
+  const out = pvIn.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 340, easing: 'ease-in', fill: 'forwards' });
+  out.onfinish = () => { swap(); out.cancel(); pvIn.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 520, easing: 'ease-out' }); };
+}
 function openProject(card, { push = true, animate = true } = {}){
   const id = card.dataset.project, tpl = $('#tpl-' + id);
   if (!tpl || pvOpen) return;
-  pvOpen = true; pvCard = card;
+  pvOpen = true;
   if (pvCloseAnim) { pvCloseAnim.cancel(); pvCloseAnim = null; }
-  pvIn.innerHTML = ''; pvIn.append(tpl.content.cloneNode(true));
-  $$('[data-i18n]', pvIn).forEach(el => { el.innerHTML = t(el.dataset.i18n); });
-  $$('.pv-anim', pvIn).forEach((el, i) => el.style.setProperty('--i', Math.min(i, 10)));
-  pvClose.setAttribute('aria-label', t('pv.close'));
-  pview.className = 'pview open p-' + id; pview.scrollTop = 0;
+  fillProject(card);
   pview.setAttribute('aria-hidden', 'false');
   lenis && lenis.stop(); root.classList.add('pv-lock');
   if (push) { history.pushState({ project: id }, '', '#p-' + id); pvPushed = true; }
-  if (reduce || !animate || !pview.animate) { pview.classList.add('shown'); return; }
+  if (!animate || !pview.animate) { pview.classList.add('shown'); return; }
+  if (reduce) {
+    // спокойный режим: страница просто проявляется
+    pview.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 320, easing: 'ease-out' });
+    pview.classList.add('shown'); return;
+  }
   pview.animate([{ clipPath: insetOf(card.getBoundingClientRect()) }, { clipPath: 'inset(0px 0px 0px 0px round 0px)' }], { duration: 950, easing: PV_EASE });
   pview.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 280, easing: 'ease-out' });
   requestAnimationFrame(() => requestAnimationFrame(() => pview.classList.add('shown')));
   setTimeout(() => { if (pvOpen && pvKbd) pvClose.focus({ preventScroll: true }); }, 800);
 }
 function finishClose(){
-  pvOpen = false; pvCloseAnim = null;
+  pvOpen = false; pvCloseAnim = null; pvStage = null; pvSwitching = false;
   pview.getAnimations().forEach(a => a.cancel());
   pview.className = 'pview'; pvIn.innerHTML = ''; pview.setAttribute('aria-hidden', 'true');
   root.classList.remove('pv-lock'); lenis && lenis.start();
@@ -2129,7 +2321,11 @@ function finishClose(){
 function closeProject(){
   if (!pvOpen || pvCloseAnim) return;
   pview.classList.remove('shown'); pview.classList.add('closing');
-  if (reduce || !pvCard || !pview.animate) return finishClose();
+  if (!pvCard || !pview.animate) return finishClose();
+  if (reduce) {
+    pvCloseAnim = pview.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 260, easing: 'ease-in', fill: 'forwards' });
+    pvCloseAnim.onfinish = finishClose; return;
+  }
   pvCloseAnim = pview.animate([{ clipPath: 'inset(0px 0px 0px 0px round 0px)' }, { clipPath: insetOf(pvCard.getBoundingClientRect()) }], { duration: 820, delay: 140, easing: PV_EASE, fill: 'forwards' });
   pview.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 300, delay: 660, easing: 'ease-in', fill: 'forwards' });
   pvCloseAnim.onfinish = finishClose;
@@ -2137,7 +2333,11 @@ function closeProject(){
 function requestClose(){ if (pvPushed && history.state && history.state.project) history.back(); else closeProject(); }
 $$('.wcard[data-project]').forEach(c => c.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); openProject(c); }));
 pvClose.addEventListener('click', requestClose);
-pvIn.addEventListener('click', e => { if (e.target.closest('[data-pv-close]')) requestClose(); });
+pvIn.addEventListener('click', e => {
+  if (e.target.closest('[data-pv-close]')) return requestClose();
+  const n = e.target.closest('[data-pv-next]');
+  if (n) switchProject(pvCards.find(c => c.dataset.project === n.dataset.pvNext));
+});
 addEventListener('keydown', e => { if (e.key === 'Escape' && pvOpen) requestClose(); });
 addEventListener('popstate', () => {
   const st = history.state && history.state.project;
