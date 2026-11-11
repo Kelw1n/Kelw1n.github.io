@@ -1030,6 +1030,43 @@ html.vt-lock *,html.vt-lock *::before,html.vt-lock *::after{transition:none!impo
 .pv-next .na{width:56px;height:56px;border-radius:50%;background:var(--pill);color:var(--pill-ink);display:grid;place-items:center;flex:none;transition:transform .5s var(--spring)}
 .pv-next .na svg{width:22px;height:22px}
 
+/* Проект 404 УПК: полночный фон, звёзды и QR-код */
+.v-upk{background:radial-gradient(circle at 72% 12%,#2B4172,#131D36 52%,#0C1222);display:grid;place-items:center}
+.v-upk .stars{position:absolute;inset:0;opacity:.85;animation:twinkle 3.6s ease-in-out infinite alternate;
+  background-image:radial-gradient(1.6px 1.6px at 12% 22%,#EDF0F4 50%,transparent 52%),radial-gradient(1.2px 1.2px at 28% 68%,#EDF0F4 50%,transparent 52%),radial-gradient(1.8px 1.8px at 46% 14%,#EDF0F4 50%,transparent 52%),radial-gradient(1.2px 1.2px at 63% 80%,#EDF0F4 50%,transparent 52%),radial-gradient(1.6px 1.6px at 84% 34%,#EDF0F4 50%,transparent 52%),radial-gradient(1.2px 1.2px at 92% 72%,#EDF0F4 50%,transparent 52%)}
+.v-upk .stars.s2{animation-delay:-1.8s;animation-duration:4.4s;
+  background-image:radial-gradient(1.2px 1.2px at 6% 58%,#B9C8E8 50%,transparent 52%),radial-gradient(1.6px 1.6px at 20% 88%,#B9C8E8 50%,transparent 52%),radial-gradient(1.2px 1.2px at 38% 40%,#B9C8E8 50%,transparent 52%),radial-gradient(1.6px 1.6px at 72% 52%,#B9C8E8 50%,transparent 52%),radial-gradient(1.2px 1.2px at 78% 10%,#B9C8E8 50%,transparent 52%),radial-gradient(1.8px 1.8px at 96% 16%,#B9C8E8 50%,transparent 52%)}
+@keyframes twinkle{to{opacity:.25}}
+.qr-wrap{position:relative;z-index:2;transition:transform .8s var(--ease)}
+.qr-tile{position:relative;width:150px;height:150px;border-radius:30px;padding:22px;background:#EDF0F4;color:#0C1222;overflow:hidden;
+  box-shadow:0 26px 50px -18px rgba(0,0,0,.75),0 0 0 8px rgba(237,240,244,.08)}
+.qr-tile svg{display:block;width:100%;height:100%}
+.qr-tile::after{content:"";position:absolute;left:0;right:0;top:-46px;height:46px;background:linear-gradient(180deg,rgba(106,134,190,0),rgba(106,134,190,.5) 85%,#6A86BE);animation:qrscan 2.8s ease-in-out infinite}
+@keyframes qrscan{0%{top:-46px}62%,100%{top:100%}}
+.qr-ok{position:absolute;right:-14px;bottom:-14px;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;color:#fff;
+  background:linear-gradient(150deg,#8FA8DC,#6A86BE 55%,#4C68A4);box-shadow:0 12px 22px -8px rgba(76,104,164,.9),inset 0 1.5px 0 rgba(255,255,255,.5);animation:qrok 2.8s var(--spring) infinite}
+.qr-ok svg{width:22px;height:22px}
+@keyframes qrok{0%,55%{transform:scale(0)}68%,92%{transform:scale(1)}100%{transform:scale(0)}}
+.upk-mark{position:absolute;left:18px;top:16px;z-index:2;display:flex;align-items:center;gap:6px;font-weight:800;font-size:17px;letter-spacing:-.03em;color:#EDF0F4}
+.upk-mark svg{width:15px;height:15px;color:#6A86BE}
+.title-xl.upk{background:linear-gradient(180deg,var(--ink) 30%,#6A86BE 140%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.p-upk .tagline em,.p-upk .pv-h em{color:#6A86BE}
+.p-upk .pv-num b{background:linear-gradient(180deg,var(--ink) 20%,#6A86BE 160%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.p-upk .pv-in{background-image:radial-gradient(48vmax circle at 105% 62%,rgba(106,134,190,.30),rgba(106,134,190,0) 62%),radial-gradient(44vmax circle at -5% 92%,rgba(188,214,236,.38),rgba(188,214,236,0) 62%)}
+.pv-cover.v-upk .qr-tile{width:clamp(170px,20vw,240px);height:clamp(170px,20vw,240px);border-radius:40px;padding:clamp(24px,3vw,34px)}
+.pv-cover.v-upk .qr-ok{width:62px;height:62px;right:-20px;bottom:-20px}
+.pv-cover.v-upk .qr-ok svg{width:28px;height:28px}
+.pv-cover.v-upk .upk-mark{left:max(24px,calc((100vw - 1200px)/2 + 24px));top:28px;font-size:22px}
+@media (max-width:640px){
+  .v-upk .qr-tile{width:124px;height:124px;border-radius:26px;padding:18px}
+  .pv-cover.v-upk .upk-mark{left:16px;top:20px}
+}
+@media (prefers-reduced-motion:reduce){
+  .v-upk .stars,.qr-tile::after{animation:none}
+  .qr-tile::after{display:none}
+  .qr-ok{animation:none}
+}
+
 /* Наведение и нажатие: всё отзывается */
 @media (hover:hover){
   .btn{transition:transform .5s var(--spring),box-shadow .4s,scale .3s var(--ease)}
@@ -1052,6 +1089,7 @@ html.vt-lock *,html.vt-lock *::before,html.vt-lock *::after{transition:none!impo
   .wcard:hover .v-ig .appg.ig{transform:translateX(12px) rotate(-6deg)}
   .wcard:hover .v-ig .appg.tg{transform:translateX(-12px) rotate(6deg)}
   .wcard:hover .v-site .mini-glass{transform:translateY(-8px) scale(1.04)}
+  .wcard:hover .v-upk .qr-wrap{transform:scale(1.07) rotate(-4deg)}
   .wcard:hover .wlink::after{transform:scaleX(1)}
   .pv-next{transition:scale .3s var(--ease)}
   .pv-next:hover .na{transform:translateX(6px) scale(1.06)}
@@ -1100,6 +1138,8 @@ html.vt-lock *,html.vt-lock *::before,html.vt-lock *::after{transition:none!impo
     <symbol id="f-apple" viewBox="0 0 64 64"><path d="M32 18c-6-4-18-3-20 9-2 14 8 30 15 30 3 0 4-2 5-2s2 2 5 2c7 0 17-16 15-30-2-12-14-13-20-9Z" fill="#E5483B"/><path d="M32 18c0-6 3-10 7-12" stroke="#6B4A2B" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M34 14c4-6 12-6 14-3-3 5-9 6-14 3Z" fill="#5FA34A"/><ellipse cx="22" cy="28" rx="3" ry="6" fill="#fff" opacity=".35"/></symbol>
     <symbol id="i-dumb" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6.5 7v10M17.5 7v10M3.5 9.5v5M20.5 9.5v5M6.5 12h11"/></g></symbol>
     <symbol id="i-cam" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4Z"/><circle cx="12" cy="13" r="3.5"/></g></symbol>
+    <symbol id="i-qr" viewBox="0 0 21 21"><path fill="currentColor" fill-rule="evenodd" d="M0 0h7v7h-7z M1 1v5h5v-5z M2 2h3v3h-3zM14 0h7v7h-7z M15 1v5h5v-5z M16 2h3v3h-3zM0 14h7v7h-7z M1 15v5h5v-5z M2 16h3v3h-3zM8 0h1v1h-1zM9 0h1v1h-1zM10 0h1v1h-1zM11 0h1v1h-1zM8 1h1v1h-1zM9 1h1v1h-1zM10 1h1v1h-1zM10 2h1v1h-1zM8 3h1v1h-1zM9 3h1v1h-1zM11 3h1v1h-1zM12 3h1v1h-1zM8 4h1v1h-1zM9 4h1v1h-1zM10 4h1v1h-1zM8 5h1v1h-1zM9 5h1v1h-1zM10 5h1v1h-1zM11 6h1v1h-1zM9 7h1v1h-1zM11 7h1v1h-1zM0 8h1v1h-1zM1 8h1v1h-1zM3 8h1v1h-1zM4 8h1v1h-1zM5 8h1v1h-1zM7 8h1v1h-1zM8 8h1v1h-1zM9 8h1v1h-1zM10 8h1v1h-1zM11 8h1v1h-1zM13 8h1v1h-1zM1 9h1v1h-1zM5 9h1v1h-1zM6 9h1v1h-1zM9 9h1v1h-1zM10 9h1v1h-1zM11 9h1v1h-1zM13 9h1v1h-1zM14 9h1v1h-1zM16 9h1v1h-1zM18 9h1v1h-1zM20 9h1v1h-1zM0 10h1v1h-1zM1 10h1v1h-1zM5 10h1v1h-1zM6 10h1v1h-1zM14 10h1v1h-1zM19 10h1v1h-1zM20 10h1v1h-1zM0 11h1v1h-1zM1 11h1v1h-1zM2 11h1v1h-1zM4 11h1v1h-1zM6 11h1v1h-1zM9 11h1v1h-1zM10 11h1v1h-1zM14 11h1v1h-1zM16 11h1v1h-1zM17 11h1v1h-1zM18 11h1v1h-1zM20 11h1v1h-1zM0 12h1v1h-1zM3 12h1v1h-1zM5 12h1v1h-1zM7 12h1v1h-1zM9 12h1v1h-1zM12 12h1v1h-1zM13 12h1v1h-1zM14 12h1v1h-1zM19 12h1v1h-1zM10 13h1v1h-1zM11 13h1v1h-1zM15 13h1v1h-1zM16 13h1v1h-1zM17 13h1v1h-1zM9 14h1v1h-1zM16 14h1v1h-1zM17 14h1v1h-1zM19 14h1v1h-1zM10 15h1v1h-1zM11 15h1v1h-1zM13 15h1v1h-1zM14 15h1v1h-1zM15 15h1v1h-1zM18 15h1v1h-1zM19 15h1v1h-1zM8 16h1v1h-1zM9 16h1v1h-1zM12 16h1v1h-1zM17 16h1v1h-1zM14 17h1v1h-1zM15 17h1v1h-1zM16 17h1v1h-1zM18 17h1v1h-1zM8 18h1v1h-1zM9 18h1v1h-1zM13 18h1v1h-1zM14 19h1v1h-1zM15 19h1v1h-1zM16 19h1v1h-1zM20 19h1v1h-1zM10 20h1v1h-1zM13 20h1v1h-1zM15 20h1v1h-1zM17 20h1v1h-1zM20 20h1v1h-1z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   </defs>
 </svg>
 
@@ -1204,7 +1244,7 @@ html.vt-lock *,html.vt-lock *::before,html.vt-lock *::after{transition:none!impo
     <p class="manifesto" id="manifesto" data-i18n="ab.text"></p>
     <div class="stats">
       <div class="stat glass reveal" data-tilt><b><span data-count="77000">0</span></b><span class="sl" data-i18n="ab.s1"></span></div>
-      <div class="stat glass reveal" data-tilt style="transition-delay:.08s"><b><span data-count="4">0</span></b><span class="sl" data-i18n="ab.s2"></span></div>
+      <div class="stat glass reveal" data-tilt style="transition-delay:.08s"><b><span data-count="5">0</span></b><span class="sl" data-i18n="ab.s2"></span></div>
       <div class="stat glass reveal" data-tilt style="transition-delay:.16s"><b><span data-count="2">0</span></b><span class="sl" data-i18n="ab.s3"></span></div>
       <div class="stat glass reveal" data-tilt style="transition-delay:.24s"><b><span data-count="24">0</span><i>/7</i></b><span class="sl" data-i18n="ab.s4"></span></div>
     </div>
@@ -1405,7 +1445,15 @@ html.vt-lock *,html.vt-lock *::before,html.vt-lock *::after{transition:none!impo
       <div class="wvis v-bf"><svg class="bfly" viewBox="0 0 64 64"><use href="#i-bfly"/></svg></div>
       <div class="wbody"><div class="wmeta" data-i18n="w2m"></div><h3>Butterfly</h3><p data-i18n="w2d"></p><span class="wlink"><span data-i18n="w.more"></span><svg><use href="#i-arrow"/></svg></span></div>
     </a>
-    <a class="wcard glass reveal" href="#p-ig" data-project="ig" style="transition-delay:.16s">
+    <a class="wcard glass reveal" href="#p-upk" data-project="upk" style="transition-delay:.16s">
+      <div class="wvis v-upk">
+        <div class="stars"></div><div class="stars s2"></div>
+        <span class="upk-mark"><svg><use href="#i-spark"/></svg>404</span>
+        <div class="qr-wrap"><div class="qr-tile"><svg><use href="#i-qr"/></svg></div><span class="qr-ok"><svg><use href="#i-check"/></svg></span></div>
+      </div>
+      <div class="wbody"><div class="wmeta" data-i18n="w5m"></div><h3 data-i18n="w5t"></h3><p data-i18n="w5d"></p><span class="wlink"><span data-i18n="w.more"></span><svg><use href="#i-arrow"/></svg></span></div>
+    </a>
+    <a class="wcard glass reveal" href="#p-ig" data-project="ig" style="transition-delay:.24s">
       <div class="wvis v-ig">
         <div class="appg ig"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></div>
         <div class="flow"><i></i><i></i><i></i></div>
@@ -1413,7 +1461,7 @@ html.vt-lock *,html.vt-lock *::before,html.vt-lock *::after{transition:none!impo
       </div>
       <div class="wbody"><div class="wmeta" data-i18n="w3m"></div><h3>Instagram → Telegram</h3><p data-i18n="w3d"></p><span class="wlink"><span data-i18n="w.more"></span><svg><use href="#i-arrow"/></svg></span></div>
     </a>
-    <a class="wcard glass reveal" href="#top" data-project="site" style="transition-delay:.24s">
+    <a class="wcard glass reveal" href="#top" data-project="site" style="transition-delay:.32s">
       <div class="wvis v-site"><span class="here" data-i18n="w.here"></span><div class="blobm bm1"></div><div class="blobm bm2"></div><div class="mini-glass glass"><b>Kelw1n</b><span></span><span></span></div></div>
       <div class="wbody"><div class="wmeta" data-i18n="w4m"></div><h3 data-i18n="w4t"></h3><p data-i18n="w4d"></p><span class="wlink"><span data-i18n="w.more"></span><svg><use href="#i-arrow"/></svg></span></div>
     </a>
@@ -1522,6 +1570,46 @@ html.vt-lock *,html.vt-lock *::before,html.vt-lock *::after{transition:none!impo
   </div>
 </template>
 
+<template id="tpl-upk">
+  <div class="pv-cover v-upk"><div class="pv-stage">
+    <div class="stars"></div><div class="stars s2"></div>
+    <span class="upk-mark"><svg><use href="#i-spark"/></svg>404</span>
+    <div class="qr-wrap"><div class="qr-tile"><svg><use href="#i-qr"/></svg></div><span class="qr-ok"><svg><use href="#i-check"/></svg></span></div>
+  </div></div>
+  <div class="wrap pv-body">
+    <span class="eyebrow pv-anim" data-i18n="w5m"></span>
+    <h2 class="title-xl upk pv-anim" data-i18n="w5t"></h2>
+    <p class="tagline pv-anim" data-i18n="upk.tag"></p>
+    <p class="lead pv-anim" data-i18n="pv.upk.desc"></p>
+    <div class="tags pv-anim"><span class="tag glass"><span>FastAPI</span></span><span class="tag glass"><span>PostgreSQL</span></span><span class="tag glass"><span>GigaChat</span></span><span class="tag glass"><span>JavaScript</span></span></div>
+    <div class="pv-nums">
+      <div class="pv-num glass pv-anim"><b>200+</b><span data-i18n="pv.upk.n1l"></span></div>
+      <div class="pv-num glass pv-anim"><b>4</b><span data-i18n="pv.upk.n2l"></span></div>
+      <div class="pv-num glass pv-anim"><b data-i18n="pv.upk.n3"></b><span data-i18n="pv.upk.n3l"></span></div>
+    </div>
+    <h3 class="pv-h pv-anim" data-i18n="pv.how"></h3>
+    <ol class="pv-steps">
+      <li class="glass pv-anim"><span class="sn">1</span><div><b data-i18n="pv.upk.s1t"></b><p data-i18n="pv.upk.s1d"></p></div></li>
+      <li class="glass pv-anim"><span class="sn">2</span><div><b data-i18n="pv.upk.s2t"></b><p data-i18n="pv.upk.s2d"></p></div></li>
+      <li class="glass pv-anim"><span class="sn">3</span><div><b data-i18n="pv.upk.s3t"></b><p data-i18n="pv.upk.s3d"></p></div></li>
+      <li class="glass pv-anim"><span class="sn">4</span><div><b data-i18n="pv.upk.s4t"></b><p data-i18n="pv.upk.s4d"></p></div></li>
+    </ol>
+    <h3 class="pv-h pv-anim" data-i18n="pv.under"></h3>
+    <div class="pv-grid">
+      <div class="pv-card glass pv-anim"><small data-i18n="pv.server"></small><b>FastAPI · PostgreSQL</b><p data-i18n="pv.upk.c1"></p></div>
+      <div class="pv-card glass pv-anim"><small>AI</small><b>GigaChat</b><p data-i18n="pv.upk.c2"></p></div>
+      <div class="pv-card glass pv-anim"><small data-i18n="pv.upk.c3s"></small><b data-i18n="pv.upk.c3b"></b><p data-i18n="pv.upk.c3"></p></div>
+      <div class="pv-card glass pv-anim"><small data-i18n="pv.upk.c4s"></small><b data-i18n="pv.upk.c4b"></b><p data-i18n="pv.upk.c4"></p></div>
+    </div>
+    <p class="pv-note pv-anim" data-i18n="pv.upk.status"></p>
+    <div class="pv-end pv-anim">
+      <a class="btn btn-dark" href="https://404upk.duckdns.org" target="_blank" rel="noopener"><span class="lbl"><span data-i18n="pv.upk.site"></span></span><svg><use href="#i-arrow"/></svg></a>
+      <a class="btn btn-glass glass" href="https://github.com/404-upk/404-upk" target="_blank" rel="noopener"><svg style="width:18px;height:18px;position:relative;z-index:3"><use href="#i-gh"/></svg><span class="lbl"><span data-i18n="pv.upk.code"></span></span></a>
+      <button class="btn btn-glass glass" type="button" data-pv-close><span class="lbl"><span data-i18n="pv.back"></span></span></button>
+    </div>
+  </div>
+</template>
+
 <template id="tpl-ig">
   <div class="pv-cover v-ig"><div class="pv-stage">
     <div class="appg ig"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></div>
@@ -1588,7 +1676,7 @@ ru: {
   "hero.cta1": `Смотреть проекты`, "hero.cta2": `Написать в Telegram`, "hero.scroll": `Листай`,
   "ab.label": `Обо мне`,
   "ab.text": `Я делаю продукты, которые ощущаются <em>живыми</em>. Беру идею и довожу её до запуска: дизайн, код, анимации и AI внутри — с вниманием к каждой <em>детали</em>.`,
-  "ab.s1": `строк кода в STRAIN`, "ab.s2": `проекта в портфолио`, "ab.s3": `платформы: iOS и Android`, "ab.s4": `боты на связи без выходных`,
+  "ab.s1": `строк кода в STRAIN`, "ab.s2": `проектов в портфолио`, "ab.s3": `платформы: iOS и Android`, "ab.s4": `боты на связи без выходных`,
   "cur.open": `Открыть`,
   "chip.pr": `Новый рекорд · 100 кг`, "chip.ai": `+397 ккал · завтрак`, "chip.bot": `Бот отвечает 24/7`,
   "strain.label": `Проект 01 · Фитнес`,
@@ -1633,6 +1721,20 @@ ru: {
   "w.label": `Портфолио`, "w.title": `Избранные <em>проекты</em>`, "w.more": `Подробнее`, "w.here": `Ты здесь`,
   "w1m": `Приложение · Фитнес`, "w1d": `Тренировки с прогрессией, ИИ-тренер, питание по фото и лента с друзьями.`,
   "w2m": `AI · Питание`, "w2d": `Счётчик калорий с AI-ассистентом и распознаванием еды по фото.`,
+  "w5m": `Команда 404 · Хакатон`, "w5t": `404 УПК`, "w5d": `Цифровой помощник колледжа: заявки по QR-коду, ИИ-помощник и панель сотрудников. Командный проект.`,
+  "upk.tag": `Отсканируй QR — и заявка <em>уже у того</em>, кто её решит.`,
+  "pv.upk.desc": `Цифровой помощник колледжа ДГУ. У каждого кабинета свой QR-код: студент описывает проблему обычными словами, ИИ-помощник отвечает по базе знаний или сам готовит заявку, а сотрудники ведут её по доске до решения. Без приложения и без регистрации.`,
+  "pv.upk.n1l": `автоматических тестов`, "pv.upk.n2l": `темы оформления`, "pv.upk.n3": `0,2 с`, "pv.upk.n3l": `до появления главного экрана — по замерам команды`,
+  "pv.upk.s1t": `QR-код в кабинете`, "pv.upk.s1d": `Сайт открывается в браузере, кабинет уже выбран.`,
+  "pv.upk.s2t": `ИИ-помощник`, "pv.upk.s2d": `Студент пишет обычными словами. На вопрос помощник отвечает по базе знаний, а для неисправности сам готовит черновик заявки.`,
+  "pv.upk.s3t": `Одно нажатие`, "pv.upk.s3d": `Форма уже заполнена. Если о проблеме уже сообщили, можно присоединиться к заявке, а не создавать дубль.`,
+  "pv.upk.s4t": `Статус`, "pv.upk.s4d": `Номер, код отслеживания и пять этапов от регистрации до решения.`,
+  "pv.upk.c1": `SQLAlchemy и три роли: администратор, сотрудник, исполнитель.`,
+  "pv.upk.c2": `Отвечает только по проверенной базе знаний. Если ИИ недоступен, помощник работает на встроенных правилах.`,
+  "pv.upk.c3s": `Интерфейс`, "pv.upk.c3b": `Чистый JavaScript`, "pv.upk.c3": `Без сборки и тяжёлых библиотек. Черновик переживает обрыв сети, а заявка уйдёт сама, когда связь вернётся.`,
+  "pv.upk.c4s": `Панель сотрудников`, "pv.upk.c4b": `Доска · Статистика · QR`, "pv.upk.c4": `Перетаскивание заявок между статусами, статистика по кабинетам, печать QR-кодов на A4 и выгрузка в Excel.`,
+  "pv.upk.status": `Демо-версия, подготовленная для хакатона. Командный проект — сделан вместе с командой 404.`,
+  "pv.upk.site": `Открыть сайт`, "pv.upk.code": `Код на GitHub`,
   "w3m": `Автоматизация · Бизнес`, "w3d": `Заявки из Директа магазина ведут прямо в Telegram администратора — ни один лид не теряется.`,
   "w4m": `Веб · Liquid Glass`, "w4t": `Этот сайт`, "w4d": `Дизайн, анимации и код — с нуля, без шаблонов.`,
   "p.label": `Процесс`, "p.title": `Как я <em>работаю</em>`,
@@ -1714,6 +1816,20 @@ en: {
   "w.label": `Portfolio`, "w.title": `Selected <em>work</em>`, "w.more": `Details`, "w.here": `You are here`,
   "w1m": `App · Fitness`, "w1d": `Workouts with progression, an AI coach, food from photos and a feed with friends.`,
   "w2m": `AI · Nutrition`, "w2d": `A calorie counter with an AI assistant and food recognition from photos.`,
+  "w5m": `Team 404 · Hackathon`, "w5t": `404 UPK`, "w5d": `A college's digital helper: requests via QR code, an AI assistant and a staff dashboard. A team project.`,
+  "upk.tag": `Scan the QR — and the request is <em>already with</em> whoever fixes it.`,
+  "pv.upk.desc": `A digital helper for the DGU college. Every room has its own QR code: a student describes the problem in plain words, the AI assistant answers from the knowledge base or drafts the request itself, and staff move it across a board until it's solved. No app and no sign-up.`,
+  "pv.upk.n1l": `automated tests`, "pv.upk.n2l": `colour themes`, "pv.upk.n3": `0.2 s`, "pv.upk.n3l": `until the main screen appears — by the team's measurements`,
+  "pv.upk.s1t": `A QR code in the room`, "pv.upk.s1d": `The site opens in the browser with the room already selected.`,
+  "pv.upk.s2t": `AI assistant`, "pv.upk.s2d": `The student writes in plain words. Questions get an answer from the knowledge base; for a fault, the assistant drafts the request itself.`,
+  "pv.upk.s3t": `One tap`, "pv.upk.s3d": `The form is already filled in. If the problem was already reported, you can join that request instead of creating a duplicate.`,
+  "pv.upk.s4t": `Status`, "pv.upk.s4d": `A number, a tracking code and five stages from registration to resolution.`,
+  "pv.upk.c1": `SQLAlchemy and three roles: administrator, staff member, assignee.`,
+  "pv.upk.c2": `Answers only from the verified knowledge base. If the AI is unavailable, the assistant falls back to built-in rules.`,
+  "pv.upk.c3s": `Frontend`, "pv.upk.c3b": `Vanilla JavaScript`, "pv.upk.c3": `No build step, no heavy libraries. A draft survives a dropped connection, and the request sends itself once the network is back.`,
+  "pv.upk.c4s": `Staff dashboard`, "pv.upk.c4b": `Board · Stats · QR`, "pv.upk.c4": `Drag requests between statuses, per-room statistics, A4 QR sheets for printing and Excel export.`,
+  "pv.upk.status": `A demo built for a hackathon. A team project — made together with Team 404.`,
+  "pv.upk.site": `Open the site`, "pv.upk.code": `Code on GitHub`,
   "w3m": `Automation · Business`, "w3d": `Leads from a shop's Instagram DMs go straight to the admin's Telegram — no lead gets lost.`,
   "w4m": `Web · Liquid Glass`, "w4t": `This website`, "w4d": `Design, motion and code — from scratch, no templates.`,
   "p.label": `Process`, "p.title": `How I <em>work</em>`,
